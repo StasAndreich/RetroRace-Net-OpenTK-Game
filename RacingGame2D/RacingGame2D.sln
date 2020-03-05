@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameLauncher", "GameLauncher\GameLauncher.csproj", "{573763DF-1697-4976-9365-9D0634DFF791}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameWindow", "GameWindow\GameWindow.csproj", "{FA03034B-DB21-4B54-95C1-0944546B7A4E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MainGameWindow", "GameWindow\MainGameWindow.csproj", "{FA03034B-DB21-4B54-95C1-0944546B7A4E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
