@@ -16,5 +16,10 @@ namespace GameLauncher
         {
             InitializeComponent();
         }
+
+        private void StartButton_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
