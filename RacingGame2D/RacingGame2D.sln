@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameLauncher", "GameLaunche
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MainGameWindow", "GameWindow\MainGameWindow.csproj", "{FA03034B-DB21-4B54-95C1-0944546B7A4E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RGE", "RGE\RGE.csproj", "{269B4ADB-155B-4588-A404-8F1B107550C9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{FA03034B-DB21-4B54-95C1-0944546B7A4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA03034B-DB21-4B54-95C1-0944546B7A4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA03034B-DB21-4B54-95C1-0944546B7A4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{269B4ADB-155B-4588-A404-8F1B107550C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{269B4ADB-155B-4588-A404-8F1B107550C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{269B4ADB-155B-4588-A404-8F1B107550C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{269B4ADB-155B-4588-A404-8F1B107550C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

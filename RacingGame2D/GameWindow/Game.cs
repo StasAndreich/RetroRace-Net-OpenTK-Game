@@ -21,6 +21,24 @@ namespace MainGameWindow
         }
 
 
+        protected override void OnLoad(EventArgs e)
+        {
+            GL.ClearColor(0.4f, 0.7f, 0.1f, 1f);
+
+            base.OnLoad(e);
+        }
+
+
+        protected override void OnRenderFrame(FrameEventArgs e)
+        {
+            GL.Clear(ClearBufferMask.ColorBufferBit);
+
+            Context.SwapBuffers();
+            
+            base.OnRenderFrame(e);
+        }
+
+
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             KeyboardState input = Keyboard.GetState();
@@ -34,6 +52,9 @@ namespace MainGameWindow
         }
 
 
-
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+        }
     }
 }

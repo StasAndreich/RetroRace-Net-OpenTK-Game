@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MainGameWindow
 {
-    class StartMainGameWindowConsole
+    class StartMainGameWindowDebugConsole
     {
         static void Main(string[] args)
         {
