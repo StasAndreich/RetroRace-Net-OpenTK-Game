@@ -4,17 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using RGEngine.BaseClasses;
 
-namespace RGEngine.BaseClasses
+
+namespace RGEngine.Physics
 {
     /// <summary>
-    /// Base class for all entities in RGEngine scenes.
+    /// A physics component for 2D sprites.
     /// </summary>
-    public class GameObject
+    public sealed class RigidBody2D : Component
     {
-        private List<Component> components;
-
-        public GameObject()
+        public RigidBody2D()
         {
 
         }

@@ -16,6 +16,10 @@ namespace RGEngine
     /// </summary>
     public class EngineCore : GameWindow
     {
+        public static int Width { get; set; }
+
+        public static int Height { get; set; }
+
         public EngineCore()
         {
 
@@ -48,6 +52,12 @@ namespace RGEngine
         protected override void OnResize(EventArgs e)
         {
             base.OnResize(e);
+        }
+
+
+        protected override void OnUnload(EventArgs e)
+        {
+            base.OnUnload(e);
         }
     }
 }

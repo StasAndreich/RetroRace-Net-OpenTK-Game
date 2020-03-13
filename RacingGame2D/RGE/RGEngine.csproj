@@ -44,18 +44,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseClasses\Component.cs" />
     <Compile Include="BaseClasses\GameObject.cs" />
     <Compile Include="EngineCore.cs" />
+    <Compile Include="Graphics\Sprite.cs" />
+    <Compile Include="Graphics\SpriteRenderer.cs" />
+    <Compile Include="Graphics\Texture2D.cs" />
+    <Compile Include="Input\InputController.cs" />
+    <Compile Include="Physics\RigidBody2D.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Graphics\" />
-    <Folder Include="Input\" />
-    <Folder Include="Physics\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
