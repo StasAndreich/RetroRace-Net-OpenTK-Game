@@ -28,26 +28,27 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.StartButton = new System.Windows.Forms.Button();
+            this.Start_Button = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // StartButton
+            // Start_Button
             // 
-            this.StartButton.Location = new System.Drawing.Point(350, 145);
-            this.StartButton.Name = "StartButton";
-            this.StartButton.Size = new System.Drawing.Size(75, 23);
-            this.StartButton.TabIndex = 0;
-            this.StartButton.Text = "Start";
-            this.StartButton.UseVisualStyleBackColor = true;
-            this.StartButton.Click += new System.EventHandler(this.StartButton_Click);
+            this.Start_Button.Location = new System.Drawing.Point(251, 183);
+            this.Start_Button.Name = "Start_Button";
+            this.Start_Button.Size = new System.Drawing.Size(75, 23);
+            this.Start_Button.TabIndex = 0;
+            this.Start_Button.Text = "Start";
+            this.Start_Button.UseVisualStyleBackColor = true;
+            this.Start_Button.Click += new System.EventHandler(this.StartButton_Click);
             // 
             // LaunchWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.StartButton);
+            this.ClientSize = new System.Drawing.Size(584, 311);
+            this.Controls.Add(this.Start_Button);
             this.Name = "LaunchWindow";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Racing Game Launcher";
             this.ResumeLayout(false);
 
@@ -55,7 +56,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Button StartButton;
+        private System.Windows.Forms.Button Start_Button;
     }
 }
 

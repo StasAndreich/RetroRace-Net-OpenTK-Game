@@ -16,9 +16,9 @@ namespace RGEngine
     /// </summary>
     public class EngineCore : GameWindow
     {
-        public static int Width { get; set; }
+        public static int GameWidth { get; set; }
 
-        public static int Height { get; set; }
+        public static int GameHeight { get; set; }
 
         public EngineCore()
         {
@@ -27,7 +27,8 @@ namespace RGEngine
 
         protected override void OnLoad(EventArgs e)
         {
-            
+            // custom clearcolor vector.
+            GL.ClearColor(0.3f, 0.2f, 0.6f, 1f);
 
             base.OnLoad(e);
         }
@@ -35,8 +36,9 @@ namespace RGEngine
 
         protected override void OnRenderFrame(FrameEventArgs e)
         {
-            
+            GL.Clear(ClearBufferMask.ColorBufferBit);
 
+            SwapBuffers();
             base.OnRenderFrame(e);
         }
 
@@ -51,6 +53,8 @@ namespace RGEngine
 
         protected override void OnResize(EventArgs e)
         {
+            GL.Viewport(0, 0, Width, Height);
+
             base.OnResize(e);
         }
 

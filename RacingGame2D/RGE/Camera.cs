@@ -4,13 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RGE.Graphics
+namespace RGEngine
 {
-    /// <summary>
-    /// Class for texture handling.
-    /// </summary>
-    public class Texture2D
+    class Camera
     {
-
     }
 }
