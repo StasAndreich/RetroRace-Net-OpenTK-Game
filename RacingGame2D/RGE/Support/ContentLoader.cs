@@ -1,6 +1,7 @@
 ﻿using RGEngine.Graphics;
 using System.Drawing;
 using OpenTK.Graphics.OpenGL;
+using System.IO;
 
 
 namespace RGEngine.Support
@@ -14,6 +15,12 @@ namespace RGEngine.Support
         /// <returns></returns>
         public static Texture2D LoadTexture(string texturePath)
         {
+            // Check if a file exists.
+            if (!File.Exists(texturePath))
+            {
+                throw new FileNotFoundException("That is unable to load a texture file.", texturePath);
+            }
+
             // Genereate a new texture type and
             // bind it to ID.
             int textureId = GL.GenTexture();
