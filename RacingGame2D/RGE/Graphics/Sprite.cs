@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RGE.Graphics
+namespace RGEngine.Graphics
 {
     /// <summary>
     /// Represents a Sprite object for use in 2D.

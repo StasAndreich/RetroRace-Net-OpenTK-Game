@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RGE.Graphics
+namespace RGEngine.Graphics
 {
     /// <summary>
     /// Renders a Sprite for 2D graphics.

@@ -94,6 +94,7 @@ namespace MainGameWindow
             // bind and draw in all the primitivw a custom texture
             GL.BindTexture(TextureTarget.Texture2D, texture);
 
+            // delimit the vertices of a primitive or a group of like primitives
             GL.Begin(PrimitiveType.Quads);
             
             //GL.Color3(Color.Red);
