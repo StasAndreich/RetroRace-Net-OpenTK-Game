@@ -37,7 +37,7 @@ namespace RGEngine.Graphics
         public Sprite(Texture2D texture)
         {
             this.Texture = texture;
-            this.Color = Color.White;
+            this.Color = Color.Red;
             this.Width = texture.Width;
             this.Height = texture.Height;
             // Sets a scale of a sprite to 1.
