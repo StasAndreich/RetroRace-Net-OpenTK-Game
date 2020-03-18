@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace RGEngine.Graphics
 {
     /// <summary>
-    /// Class for texture handling.
+    /// Describes a 2D texture.
     /// </summary>
     public class Texture2D
     {

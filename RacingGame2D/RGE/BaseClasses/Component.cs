@@ -17,6 +17,14 @@ namespace RGEngine.BaseClasses
         /// </summary>
         public readonly GameObject attachedTo;
 
+        /// <summary>
+        /// Switches ON and OFF the current component.
+        /// </summary>
+        public bool IsEnabled { get; set; }
 
+        //public Component GetComponent()
+        //{
+            
+        //}
     }
 }
