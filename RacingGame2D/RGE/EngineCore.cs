@@ -21,7 +21,7 @@ namespace RGEngine
         public EngineCore()
         {
             // may need to add smth like GameWidth = ClientSize.Width;
-            
+            GL.Enable(EnableCap.Texture2D);
         }
 
         Texture2D texture;
@@ -45,7 +45,7 @@ namespace RGEngine
 
             Camera.SetView(Width, Height);
 
-            SpriteRenderer.RenderSprite(sprite, new Vector2(0f, 0f));
+            SpriteRenderer.RenderSprite(sprite);
 
             SwapBuffers();
             base.OnRenderFrame(e);

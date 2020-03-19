@@ -18,7 +18,7 @@ namespace RGEngine.Graphics
         public static readonly Queue<Sprite> renderQueue;
 
         // Renders a single sprite object.
-        public static void RenderSprite(Sprite sprite, Vector2 position)
+        public static void RenderSprite(Sprite sprite)
         {
             // Define and init the 4 vertices of a rect sprite.
             var vertices = new Vector2[4]
@@ -35,7 +35,7 @@ namespace RGEngine.Graphics
             // Start rendering.
             GL.Begin(PrimitiveType.Quads);
             // Set basic color for rendering.
-            GL.Color3(sprite.Color);
+            //GL.Color3(sprite.Color);
 
             for (int i = 0; i < vertices.Length; i++)
             {
@@ -43,10 +43,10 @@ namespace RGEngine.Graphics
                 GL.TexCoord2(vertices[i]);
 
                 // Do Translation with vectors.
-                vertices[i].X *= sprite.Texture.Width;
-                vertices[i].Y *= sprite.Texture.Height;
-
-                vertices[i] += position;
+                vertices[i].X *= sprite.Width;
+                vertices[i].Y *= sprite.Height;
+                vertices[i] *= sprite.Scale;
+                vertices[i] += sprite.Position;
 
                 // Create a new Vertex based on a vector2.
                 GL.Vertex2(vertices[i]);

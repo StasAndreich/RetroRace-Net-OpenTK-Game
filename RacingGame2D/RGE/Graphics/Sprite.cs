@@ -33,6 +33,8 @@ namespace RGEngine.Graphics
 
         public float Rotation { get; set; }
 
+        //public Rectangle RectSpriteFrame { get; set; }
+
 
         public Sprite(Texture2D texture)
         {
@@ -42,6 +44,9 @@ namespace RGEngine.Graphics
             this.Height = texture.Height;
             // Sets a scale of a sprite to 1.
             this.Scale = Vector2.One;
+            // temp equation
+            // !!!
+            this.Position = new Vector2(50f, 50f);
         }
     }
 }

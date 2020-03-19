@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using OpenTK;
 
 
 namespace RGEngine.BaseClasses
@@ -13,6 +11,8 @@ namespace RGEngine.BaseClasses
     public class GameObject
     {
         private List<Component> components;
+
+        public Vector2 Position { get; }
 
         public GameObject()
         {
