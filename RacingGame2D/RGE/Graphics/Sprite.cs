@@ -29,7 +29,9 @@ namespace RGEngine.Graphics
 
         public Vector2 Scale { get; }
 
-        public Vector2 Position { get; }
+        // temporary adding a SET modifier
+        //
+        public Vector2 Position { get; set; }
 
         public float Rotation { get; set; }
 
@@ -39,14 +41,18 @@ namespace RGEngine.Graphics
         public Sprite(Texture2D texture)
         {
             this.Texture = texture;
-            this.Color = Color.Red;
+            //this.Color = Color.Red;
             this.Width = texture.Width;
             this.Height = texture.Height;
             // Sets a scale of a sprite to 1.
-            this.Scale = Vector2.One;
+            //this.Scale = Vector2.One;
+            this.Scale = new Vector2(0.5f, 0.5f);
+
             // temp equation
             // !!!
-            this.Position = new Vector2(50f, 50f);
+            // нужно ограничить размер нарисованного спрайта. или делать скейл
+            // + надо добавить возможность оффсета текстуры по спрайту.
+            this.Position = new Vector2(0f, 0f);
         }
     }
 }

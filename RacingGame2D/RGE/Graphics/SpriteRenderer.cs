@@ -37,6 +37,7 @@ namespace RGEngine.Graphics
             // Set basic color for rendering.
             //GL.Color3(sprite.Color);
 
+            // Process each texture vertex.
             for (int i = 0; i < vertices.Length; i++)
             {
                 // Set current texture coords.
@@ -56,9 +57,14 @@ namespace RGEngine.Graphics
         }
 
         // Renders a list of all the sprites from the scene.
-        public static void RenderSpritesCollection()
+        public static void RenderSpritesQueue()
         {
 
         }
+
+        //
+        //
+        //
+        // ADD a Dispose method ]!!![
     }
 }

@@ -28,12 +28,14 @@ namespace RGEngine
         
         public static void SetView(int gameWidth, int gameHeight)
         {
-            // may need to add GL.Viewport()
+            // If enabled and no fragment shader is active,
+            // two-dimensional texturing is performed.
+            GL.Viewport(0, 0, gameWidth, gameHeight);
             // Setup the OpenGL workflow to set the view.
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadIdentity();
 
-            // Put the view in the center of the window.
+            // Put the View in the center of the window.
             // Left, Rigth, Bottom, Top.
             GL.Ortho(-gameWidth / 2f, gameWidth / 2f, gameHeight / 2f, -gameHeight / 2f, 0f, 1f);
         }

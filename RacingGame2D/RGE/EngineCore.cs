@@ -1,9 +1,12 @@
 ﻿using System;
 using RGEngine.Graphics;
 using RGEngine.Support;
-
+using RGEngine.Input;
+using System.Drawing;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
+
+using OpenTK.Input;
 
 
 namespace RGEngine
@@ -24,13 +27,13 @@ namespace RGEngine
             GL.Enable(EnableCap.Texture2D);
         }
 
+        // temp
         Texture2D texture;
         Sprite sprite;
 
         protected override void OnLoad(EventArgs e)
-        {
-            // custom clearcolor vector.
-            GL.ClearColor(0.3f, 0.2f, 0.6f, 1f);
+        {            
+            GL.ClearColor(Color.Aqua);
 
             texture = ContentLoader.LoadTexture(@"C:\Users\smedy\source\repos\OOP_CourseProject_StasMedyancev_NET_WinForms_OpenGL\RacingGame2D\Racing\Contents\low-poly-texture.jpg");
             sprite = new Sprite(texture);
@@ -54,7 +57,15 @@ namespace RGEngine
 
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
-            
+            InputController.Update();
+            if (InputController.CurrentKeyboardState.IsKeyDown(Key.W))
+                sprite.Position += new Vector2(0f, -2f);
+            if (InputController.CurrentKeyboardState.IsKeyDown(Key.S))
+                sprite.Position += new Vector2(0f, 2f);
+            if (InputController.CurrentKeyboardState.IsKeyDown(Key.A))
+                sprite.Position += new Vector2(-2f, 0f);
+            if (InputController.CurrentKeyboardState.IsKeyDown(Key.D))
+                sprite.Position += new Vector2(2f, 0f);
 
             base.OnUpdateFrame(e);
         }
@@ -62,7 +73,7 @@ namespace RGEngine
 
         protected override void OnResize(EventArgs e)
         {
-            GL.Viewport(0, 0, Width, Height);
+            Camera.SetView(Width, Height);
 
             base.OnResize(e);
         }
