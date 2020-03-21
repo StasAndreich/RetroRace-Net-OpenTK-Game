@@ -44,7 +44,11 @@
     <Compile Include="Objects\Car.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Contents\Cars\lambo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RGE\RGEngine.csproj">
       <Project>{269b4adb-155b-4588-a404-8f1b107550c9}</Project>

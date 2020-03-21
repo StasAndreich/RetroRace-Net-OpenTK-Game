@@ -14,7 +14,8 @@ namespace RGEngine.Input
         {
             CurrentKeyboardState = Keyboard.GetState();
 
-
+            // need to prevent an update if the key has already been pressed.
+            // ???
 
             prevKeyboardState = CurrentKeyboardState;
         }

@@ -12,7 +12,7 @@ namespace RGEngine.BaseClasses
     {
         private List<Component> components;
 
-        public Vector2 Position { get; }
+        public Vector2 Position { get; set; }
 
         public GameObject()
         {

@@ -46,7 +46,7 @@ namespace RGEngine.Graphics
             this.Height = texture.Height;
             // Sets a scale of a sprite to 1.
             //this.Scale = Vector2.One;
-            this.Scale = new Vector2(0.5f, 0.5f);
+            this.Scale = new Vector2(0.2f, 0.2f);
 
             // temp equation
             // !!!

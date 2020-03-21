@@ -25,6 +25,8 @@ namespace RGEngine
         {
             // may need to add smth like GameWidth = ClientSize.Width;
             GL.Enable(EnableCap.Texture2D);
+            GL.Enable(EnableCap.Blend);
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
         }
 
         // temp
@@ -33,9 +35,9 @@ namespace RGEngine
 
         protected override void OnLoad(EventArgs e)
         {            
-            GL.ClearColor(Color.Aqua);
+            GL.ClearColor(Color.SandyBrown);
 
-            texture = ContentLoader.LoadTexture(@"C:\Users\smedy\source\repos\OOP_CourseProject_StasMedyancev_NET_WinForms_OpenGL\RacingGame2D\Racing\Contents\low-poly-texture.jpg");
+            texture = ContentLoader.LoadTexture(@"C:\Users\smedy\source\repos\OOP_CourseProject_StasMedyancev_NET_WinForms_OpenGL\RacingGame2D\Racing\Contents\Cars\lambo.png");
             sprite = new Sprite(texture);
 
             base.OnLoad(e);
@@ -59,13 +61,13 @@ namespace RGEngine
         {
             InputController.Update();
             if (InputController.CurrentKeyboardState.IsKeyDown(Key.W))
-                sprite.Position += new Vector2(0f, -2f);
+                sprite.Position += new Vector2(0f, -4f);
             if (InputController.CurrentKeyboardState.IsKeyDown(Key.S))
-                sprite.Position += new Vector2(0f, 2f);
+                sprite.Position += new Vector2(0f, 4f);
             if (InputController.CurrentKeyboardState.IsKeyDown(Key.A))
-                sprite.Position += new Vector2(-2f, 0f);
+                sprite.Position += new Vector2(-4f, 0f);
             if (InputController.CurrentKeyboardState.IsKeyDown(Key.D))
-                sprite.Position += new Vector2(2f, 0f);
+                sprite.Position += new Vector2(4f, 0f);
 
             base.OnUpdateFrame(e);
         }
