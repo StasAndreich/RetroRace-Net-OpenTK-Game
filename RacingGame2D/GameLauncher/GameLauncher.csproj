@@ -85,6 +85,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Racing\Racing.csproj">
+      <Project>{B0851F8F-8542-483E-8D8E-5C9028CDF451}</Project>
+      <Name>Racing</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RGE\RGEngine.csproj">
       <Project>{269b4adb-155b-4588-a404-8f1b107550c9}</Project>
       <Name>RGEngine</Name>

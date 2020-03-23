@@ -5,8 +5,9 @@ using RGEngine.Input;
 using System.Drawing;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
-
+using RGEngine.BaseClasses;
 using OpenTK.Input;
+using System.Collections.Generic;
 
 
 namespace RGEngine
@@ -17,10 +18,13 @@ namespace RGEngine
     /// </summary>
     public class EngineCore : GameWindow
     {
+        private static readonly List<GameObject> gameObjects = new List<GameObject>();
         /// <summary>
         /// Indicates how much time elapsed from the start of the game.
         /// </summary>
         private double totalTimeElapsed;
+
+        public static double deltaTimeFixedUpdate { get; set; }
 
         public static int GameWidth { get; set; }
 
@@ -29,9 +33,7 @@ namespace RGEngine
         public EngineCore()
         {
             // may need to add smth like GameWidth = ClientSize.Width;
-            GL.Enable(EnableCap.Texture2D);
-            GL.Enable(EnableCap.Blend);
-            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+            deltaTimeFixedUpdate = 0.001f;
         }
 
         // temp
@@ -66,6 +68,11 @@ namespace RGEngine
         {
             InputController.Update();
             
+            //foreach (var gameObject in gameObjects)
+            //{
+            //    // update with deltatime
+            //}
+
             if (InputController.CurrentKeyboardState.IsKeyDown(Key.W))
                 sprite.Position += new Vector2(0f, -4f);
             if (InputController.CurrentKeyboardState.IsKeyDown(Key.S))
@@ -90,6 +97,12 @@ namespace RGEngine
         protected override void OnUnload(EventArgs e)
         {
             base.OnUnload(e);
+        }
+
+
+        public static void AddGameObject(GameObject gameObject)
+        {
+            gameObjects.Add(gameObject);
         }
     }
 }

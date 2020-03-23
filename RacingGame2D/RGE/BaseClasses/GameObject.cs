@@ -15,26 +15,31 @@ namespace RGEngine.BaseClasses
 
         }
 
-        private List<Component> components;
+        ///// <summary>
+        ///// Stores a list of the components with Update()
+        ///// </summary>
+        //private List<Component> componentsWithUpd;
+
+        //private List<Component> componentsWithFixedUpd;
 
         public Vector2 Position { get; set; }
 
 
-        protected void AddComponent<TComponent>()
-        {
-
-        }
+        //protected T AddComponent<T>()
+        //{
+        //    return ;
+        //}
 
 
         /// <summary>
         /// Runs once per frame. Independent from Game Physics.
         /// Uses a variable time-step.
         /// </summary>
-        protected abstract void Update();
+        public virtual void Update() { }
         /// <summary>
         /// Updates everything that is need to be applied to a Rigidbody.
         /// Uses a fixed time-step.
         /// </summary>
-        protected abstract void FixedUpdate();
+        public virtual void FixedUpdate(double deltaTime) { }
     }
 }

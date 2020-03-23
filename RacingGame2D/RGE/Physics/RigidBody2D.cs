@@ -12,7 +12,7 @@ namespace RGEngine.Physics
         public RigidBody2D(GameObject gameObject)
             : base(gameObject)
         {
-
+            
         }
 
         /// <summary>
@@ -23,7 +23,13 @@ namespace RGEngine.Physics
         /// <summary>
         /// Current velocity of an object for X and Y.
         /// </summary>
-        public Vector2 velocity { get; set; }
+        public Vector2 Velocity { get; set; }
+
+
+        /// <summary>
+        /// Current acceleration of an object.
+        /// </summary>
+        public Vector2 Acceleration { get; set; }
 
 
         // ADD Drag Value

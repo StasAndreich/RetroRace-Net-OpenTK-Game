@@ -13,9 +13,26 @@ namespace RGEngine.Graphics
     public class SpriteRenderer : Component
     {
         /// <summary>
+        /// Enables blending textures with alpha channel.
+        /// </summary>
+        static SpriteRenderer()
+        {
+            GL.Enable(EnableCap.Texture2D);
+            GL.Enable(EnableCap.Blend);
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+        }
+
+        public SpriteRenderer(GameObject gameObject) :
+            base(gameObject)
+        {
+
+        }
+
+        /// <summary>
         /// Holds the queue of Sprite objects to render.
         /// </summary>
         public static readonly Queue<Sprite> renderQueue;
+
 
         // Renders a single sprite object.
         public static void RenderSprite(Sprite sprite)
@@ -35,6 +52,7 @@ namespace RGEngine.Graphics
             // Start rendering.
             GL.Begin(PrimitiveType.Quads);
             // Set basic color for rendering.
+            //
             //GL.Color3(sprite.Color);
 
             // Process each texture vertex.
@@ -61,6 +79,10 @@ namespace RGEngine.Graphics
         {
 
         }
+
+
+
+
 
         //
         //

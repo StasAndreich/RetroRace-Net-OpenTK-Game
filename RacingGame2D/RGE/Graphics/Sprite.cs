@@ -54,5 +54,15 @@ namespace RGEngine.Graphics
             // + надо добавить возможность оффсета текстуры по спрайту.
             this.Position = new Vector2(0f, 0f);
         }
+
+        public Sprite(Texture2D texture, GameObject attachedTo)
+        {
+            this.gameObject = attachedTo;
+            this.Texture = texture;
+            this.Width = texture.Width;
+            this.Height = texture.Height;
+            this.Scale = new Vector2(0.2f, 0.2f);
+            this.Position = gameObject.Position;
+        }
     }
 }
