@@ -17,7 +17,7 @@ namespace RGEngine.Input
             // need to prevent an update if the key has already been pressed.
             // ???
 
-            prevKeyboardState = CurrentKeyboardState;
+            //prevKeyboardState = CurrentKeyboardState;
         }
     }
 }

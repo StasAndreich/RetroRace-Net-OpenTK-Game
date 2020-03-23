@@ -17,6 +17,11 @@ namespace RGEngine
     /// </summary>
     public class EngineCore : GameWindow
     {
+        /// <summary>
+        /// Indicates how much time elapsed from the start of the game.
+        /// </summary>
+        private double totalTimeElapsed;
+
         public static int GameWidth { get; set; }
 
         public static int GameHeight { get; set; }
@@ -60,6 +65,7 @@ namespace RGEngine
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             InputController.Update();
+            
             if (InputController.CurrentKeyboardState.IsKeyDown(Key.W))
                 sprite.Position += new Vector2(0f, -4f);
             if (InputController.CurrentKeyboardState.IsKeyDown(Key.S))

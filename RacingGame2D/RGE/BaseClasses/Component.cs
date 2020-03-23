@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-
-namespace RGEngine.BaseClasses
+﻿namespace RGEngine.BaseClasses
 {
     /// <summary>
     /// Base class for everything attached to GameObjects.
@@ -21,6 +14,13 @@ namespace RGEngine.BaseClasses
         /// Switches ON and OFF the current component.
         /// </summary>
         public bool IsEnabled { get; set; }
+
+
+        public Component(GameObject gameObject)
+        {
+            this.attachedTo = gameObject;
+            IsEnabled = true;
+        }
 
         //public Component GetComponent()
         //{
