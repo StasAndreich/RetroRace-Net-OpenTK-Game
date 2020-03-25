@@ -17,19 +17,22 @@ namespace Racing.Objects
 
             var vehicleTexture = ContentLoader.LoadTexture(@"C:\Users\smedy\source\repos\OOP_CourseProject_StasMedyancev_NET_WinForms_OpenGL\RacingGame2D\Racing\Contents\Cars\lambo.png");
             var wheelTexture = ContentLoader.LoadTexture(@"");
-            sprite = new Sprite(texture, this);
-            rigidBody = new RigidBody2D(this);
+
+            //renderQueue = CreateSpriteBatch(textures.......);
+            //добавить в конструктор машинки
+            //и присвоить через GetComponent
+
 
             // Initial values.
-            carHeading = 0;
+            carDirectionAngle = 0;
             steeringAngle = 0;
 
             // Set the start position.
             base.Position = new Vector2(0f, 0f);
             this.frontWheelPosition = base.Position +
-                this.WheelBase / 2 * new Vector2((float)Math.Cos(carHeading), (float)Math.Sin(carHeading));
+                this.WheelBase / 2 * new Vector2((float)Math.Cos(carDirectionAngle), (float)Math.Sin(carDirectionAngle));
             this.backWheelPosition = base.Position +
-                this.WheelBase / 2 * new Vector2((float)Math.Cos(carHeading), (float)Math.Sin(carHeading));
+                this.WheelBase / 2 * new Vector2((float)Math.Cos(carDirectionAngle), (float)Math.Sin(carDirectionAngle));
 
 
             WheelBase = 5f;
@@ -46,7 +49,7 @@ namespace Racing.Objects
 
         protected float steeringAngle;
 
-        protected float carHeading;
+        protected float carDirectionAngle;
 
         protected Vector2 frontWheelPosition;
 
@@ -70,13 +73,13 @@ namespace Racing.Objects
 
             // Get changes over deltaTime.
             backWheelPosition += rigidBody.Velocity * (float)deltaTime *
-                new Vector2((float)Math.Cos(carHeading), (float)Math.Sin(carHeading));
+                new Vector2((float)Math.Cos(carDirectionAngle), (float)Math.Sin(carDirectionAngle));
             frontWheelPosition += rigidBody.Velocity * (float)deltaTime *
-                new Vector2((float)Math.Cos(carHeading + steeringAngle), (float)Math.Sin(carHeading + steeringAngle));
+                new Vector2((float)Math.Cos(carDirectionAngle + steeringAngle), (float)Math.Sin(carDirectionAngle + steeringAngle));
 
             // Update Car fields.
             base.Position = (frontWheelPosition + backWheelPosition) / 2;
-            carHeading = (float) Math.Atan2(frontWheelPosition.Y - backWheelPosition.Y,
+            carDirectionAngle = (float) Math.Atan2(frontWheelPosition.Y - backWheelPosition.Y,
                 frontWheelPosition.X - backWheelPosition.X);
         }
 

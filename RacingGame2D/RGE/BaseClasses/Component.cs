@@ -8,7 +8,7 @@
         /// <summary>
         /// The game object this component is attached to.
         /// </summary>
-        public readonly GameObject attachedTo;
+        internal readonly GameObject attachedTo;
 
         /// <summary>
         /// Switches ON and OFF the current component.
@@ -16,7 +16,7 @@
         public bool IsEnabled { get; set; }
 
 
-        public Component(GameObject gameObject)
+        internal Component(GameObject gameObject)
         {
             this.attachedTo = gameObject;
             IsEnabled = true;
@@ -26,6 +26,6 @@
         /// Method that allows to use the Component potential.
         /// </summary>
         /// <param name="deltaTime"></param>
-        public abstract void PerformComponent(double deltaTime);
+        internal abstract void PerformComponent(double deltaTime);
     }
 }

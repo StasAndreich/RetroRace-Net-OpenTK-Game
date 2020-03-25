@@ -3,13 +3,8 @@
 
 namespace RGEngine.Graphics
 {
-    public class SpriteBatch
+    public class SpriteBatch : IEnumerable<Sprite>
     {
-        public SpriteBatch()
-        {
-
-        }
-
         private List<Sprite> sprites = new List<Sprite>();
 
         public int Quantity => sprites.Count;
@@ -20,14 +15,33 @@ namespace RGEngine.Graphics
             set => sprites[index] = value;
         }
 
-        public void AddSprite()
-        {
 
+        public void AddSprite(Sprite sprite)
+        {
+            sprites.Add(sprite);
         }
 
         public void RemoveSprite()
         {
+            
+        }
 
+
+        internal static SpriteBatch CreateSpriteBatch(params Texture2D[] textures)
+        {
+            if (textures.Length == 0)
+                return null;
+
+            var batch = new SpriteBatch();
+
+            // после реализации Enumrator в Spritebatch
+            // попробовать заменить Фор на Форич
+            for (int i = 0; i < textures.Length; i++)
+            {
+                batch.AddSprite(new Sprite(textures[i]));
+            }
+
+            return batch;
         }
     }
 }

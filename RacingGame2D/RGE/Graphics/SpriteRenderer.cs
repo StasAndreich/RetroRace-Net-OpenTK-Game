@@ -23,20 +23,22 @@ namespace RGEngine.Graphics
             GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
         }
 
-        public SpriteRenderer(GameObject gameObject) :
+        internal SpriteRenderer(GameObject gameObject) :
             base(gameObject)
         {
-
+            //renderQueue = CreateSpriteBatch(textures.......);
+            //добавить в конструктор машинки
+            //и присвоить через GetComponent
         }
 
         /// <summary>
         /// Holds the queue of Sprite objects to render.
         /// </summary>
-        public static readonly SpriteBatch renderQueue;
+        public readonly SpriteBatch renderQueue;
 
 
         // Renders a single sprite object.
-        public static void RenderSprite(Sprite sprite)
+        internal static void RenderSprite(Sprite sprite)
         {
             // Define and init the 4 vertices of a rect sprite.
             var vertices = new Vector2[4]
@@ -82,15 +84,20 @@ namespace RGEngine.Graphics
         }
 
         // Renders a list of all the sprites from the scene.
-        public static void RenderSpritesQueue()
+        internal static void RenderSpritesQueue(SpriteBatch batch)
         {
-            foreach (var sprite in renderQueue[0])
+            for (int i = 0; i < batch.Quantity; i++)
             {
-                SpriteRenderer.RenderSprite(sprite);
+                SpriteRenderer.RenderSprite(batch[i]);
             }
         }
 
-        public override void PerformComponent(double deltaTime)
+        internal static void RenderEntireFrame()
+        {
+
+        }
+
+        internal override void PerformComponent(double deltaTime)
         {
             
         }
