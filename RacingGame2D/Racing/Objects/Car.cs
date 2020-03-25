@@ -10,16 +10,17 @@ namespace Racing.Objects
 {
     public abstract class Car : GameObject
     {
-        public Car()
+        public Car(string vehicleTexturePath, string )
         {
             //spriteRenderer = AddComponent<SpriteRenderer>();
             //rigidBody = AddComponent<RigidBody2D>();
 
-            var texture = ContentLoader.LoadTexture(@"C:\Users\smedy\source\repos\OOP_CourseProject_StasMedyancev_NET_WinForms_OpenGL\RacingGame2D\Racing\Contents\Cars\lambo.png");
+            var vehicleTexture = ContentLoader.LoadTexture(@"C:\Users\smedy\source\repos\OOP_CourseProject_StasMedyancev_NET_WinForms_OpenGL\RacingGame2D\Racing\Contents\Cars\lambo.png");
+            var wheelTexture = ContentLoader.LoadTexture(@"");
             sprite = new Sprite(texture, this);
+            rigidBody = new RigidBody2D(this);
 
             // Initial values.
-            // Car's wheels are meant to be straight at the moment.
             carHeading = 0;
             steeringAngle = 0;
 
@@ -36,6 +37,8 @@ namespace Racing.Objects
 
 
         protected float MaxSpeed { get; set; }
+
+        protected Vector2 MaxAcceleration { get; set; }
 
         protected float MaxSteeringAngle { get; set; }
 
@@ -55,29 +58,34 @@ namespace Racing.Objects
 
 
         // GameObject Components.
-        //
-        protected Sprite sprite;
         protected SpriteRenderer spriteRenderer;
-        protected RigidBody2D rigidBody;
+        protected RigidBody2D rigidBody2D;
 
 
         public override void FixedUpdate(double deltaTime)
         {
+            // Update velocity value inside.
+            rigidBody2D.CallComponent(deltaTime);
             // UPDATE car POSITION.
 
-            
-
             // Get changes over deltaTime.
-            // 5f HERE IS TEMP VELOCITY FROM THE RIGID BODY COMPONENT.
-            backWheelPosition += 5f * (float)deltaTime *
+            backWheelPosition += rigidBody.Velocity * (float)deltaTime *
                 new Vector2((float)Math.Cos(carHeading), (float)Math.Sin(carHeading));
-            frontWheelPosition += 5f * (float)deltaTime *
+            frontWheelPosition += rigidBody.Velocity * (float)deltaTime *
                 new Vector2((float)Math.Cos(carHeading + steeringAngle), (float)Math.Sin(carHeading + steeringAngle));
 
             // Update Car fields.
             base.Position = (frontWheelPosition + backWheelPosition) / 2;
             carHeading = (float) Math.Atan2(frontWheelPosition.Y - backWheelPosition.Y,
                 frontWheelPosition.X - backWheelPosition.X);
+        }
+
+
+        public override void Update()
+        {
+            sprite.Position = this.Position;
+
+            base.Update();
         }
     }
 }

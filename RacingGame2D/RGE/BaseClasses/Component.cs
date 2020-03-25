@@ -22,9 +22,10 @@
             IsEnabled = true;
         }
 
-        //public Component GetComponent()
-        //{
-            
-        //}
+        /// <summary>
+        /// Method that allows to use the Component potential.
+        /// </summary>
+        /// <param name="deltaTime"></param>
+        public abstract void PerformComponent(double deltaTime);
     }
 }

@@ -26,6 +26,10 @@ namespace RGEngine.Graphics
         /// </summary>
         public int Height { get; }
 
+        /// <summary>
+        /// A path to a texture.
+        /// </summary>
+        public string Path { get; }
 
         /// <summary>
         /// Initializes a new instance of a Texture2D.
@@ -33,11 +37,12 @@ namespace RGEngine.Graphics
         /// <param name="id"></param>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        public Texture2D(int id, int width, int height)
+        public Texture2D(int id, int width, int height, string path)
         {
             this.Id = id;
             this.Width = width;
             this.Height = height;
+            this.Path = path;
         }
     }
 }

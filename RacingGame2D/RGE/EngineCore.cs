@@ -36,16 +36,10 @@ namespace RGEngine
             deltaTimeFixedUpdate = 0.001f;
         }
 
-        // temp
-        Texture2D texture;
-        Sprite sprite;
 
         protected override void OnLoad(EventArgs e)
         {            
             GL.ClearColor(Color.SandyBrown);
-
-            texture = ContentLoader.LoadTexture(@"C:\Users\smedy\source\repos\OOP_CourseProject_StasMedyancev_NET_WinForms_OpenGL\RacingGame2D\Racing\Contents\Cars\lambo.png");
-            sprite = new Sprite(texture);
 
             base.OnLoad(e);
         }
@@ -57,8 +51,6 @@ namespace RGEngine
 
             Camera.SetView(Width, Height);
 
-            SpriteRenderer.RenderSprite(sprite);
-
             SwapBuffers();
             base.OnRenderFrame(e);
         }
@@ -67,20 +59,14 @@ namespace RGEngine
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             InputController.Update();
-            
+
             //foreach (var gameObject in gameObjects)
             //{
             //    // update with deltatime
             //}
 
-            if (InputController.CurrentKeyboardState.IsKeyDown(Key.W))
-                sprite.Position += new Vector2(0f, -4f);
-            if (InputController.CurrentKeyboardState.IsKeyDown(Key.S))
-                sprite.Position += new Vector2(0f, 4f);
-            if (InputController.CurrentKeyboardState.IsKeyDown(Key.A))
-                sprite.Position += new Vector2(-4f, 0f);
-            if (InputController.CurrentKeyboardState.IsKeyDown(Key.D))
-                sprite.Position += new Vector2(4f, 0f);
+            // Make a fixed update over a delta time.
+            gameObjects[0].FixedUpdate(deltaTimeFixedUpdate);
 
             base.OnUpdateFrame(e);
         }

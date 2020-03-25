@@ -53,7 +53,7 @@ namespace RGEngine.Support
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter,
                 (int)TextureMagFilter.Linear);
 
-            return new Texture2D(textureId, bitmap.Width, bitmap.Height);
+            return new Texture2D(textureId, bitmap.Width, bitmap.Height, texturePath);
         }
     }
 }

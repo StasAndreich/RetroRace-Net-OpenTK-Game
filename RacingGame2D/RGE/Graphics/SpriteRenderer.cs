@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using RGEngine.BaseClasses;
+using RGEngine.Graphics;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
@@ -31,7 +32,7 @@ namespace RGEngine.Graphics
         /// <summary>
         /// Holds the queue of Sprite objects to render.
         /// </summary>
-        public static readonly Queue<Sprite> renderQueue;
+        public static readonly SpriteBatch renderQueue;
 
 
         // Renders a single sprite object.
@@ -61,6 +62,12 @@ namespace RGEngine.Graphics
                 // Set current texture coords.
                 GL.TexCoord2(vertices[i]);
 
+                //
+                //  ADD TRANSFORM MATRIX FOR SPRITE ROTATION
+                //  AROUND A ROTATION POINT
+                //
+
+
                 // Do Translation with vectors.
                 vertices[i].X *= sprite.Width;
                 vertices[i].Y *= sprite.Height;
@@ -77,16 +84,15 @@ namespace RGEngine.Graphics
         // Renders a list of all the sprites from the scene.
         public static void RenderSpritesQueue()
         {
-
+            foreach (var sprite in renderQueue[0])
+            {
+                SpriteRenderer.RenderSprite(sprite);
+            }
         }
 
-
-
-
-
-        //
-        //
-        //
-        // ADD a Dispose method ]!!![
+        public override void PerformComponent(double deltaTime)
+        {
+            
+        }
     }
 }

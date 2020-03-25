@@ -29,8 +29,20 @@ namespace RGEngine.Physics
         /// <summary>
         /// Current acceleration of an object.
         /// </summary>
-        public Vector2 Acceleration { get; set; }
+        public Vector2 acceleration;
 
+
+        public override void CallComponent(double deltaTime)
+        {
+            // Calculate new value of an object Speed.
+            Velocity += acceleration * (float)deltaTime;
+        }
+
+
+        public override Component GetComponent()
+        {
+            return this;
+        }
 
         // ADD Drag Value
     }

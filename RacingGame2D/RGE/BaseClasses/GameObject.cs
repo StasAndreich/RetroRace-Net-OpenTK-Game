@@ -10,26 +10,31 @@ namespace RGEngine.BaseClasses
     /// </summary>
     public abstract class GameObject
     {
-        public GameObject()
+        public Vector2 Position { get; set; }
+
+        /// <summary>
+        /// Stores a list of the components for Update().
+        /// </summary>
+        private List<Component> componentsUpd;
+
+        /// <summary>
+        /// Stores a list of the components for FixedUpdate().
+        /// </summary>
+        private List<Component> componentsFixedUpd;
+
+        
+
+
+        public T AddComponent<T>() where T : Component, new()
+        {
+            return new T();
+        }   
+
+
+        public T GetComponent<T>()
         {
 
         }
-
-        ///// <summary>
-        ///// Stores a list of the components with Update()
-        ///// </summary>
-        //private List<Component> componentsWithUpd;
-
-        //private List<Component> componentsWithFixedUpd;
-
-        public Vector2 Position { get; set; }
-
-
-        //protected T AddComponent<T>()
-        //{
-        //    return ;
-        //}
-
 
         /// <summary>
         /// Runs once per frame. Independent from Game Physics.
