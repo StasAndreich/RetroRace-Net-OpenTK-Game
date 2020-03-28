@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using RGEngine.BaseClasses;
 using RGEngine.Graphics;
 using OpenTK;
@@ -25,11 +24,7 @@ namespace RGEngine.Graphics
 
         public SpriteRenderer(GameObject gameObject) :
             base(gameObject)
-        {
-            //renderQueue = CreateSpriteBatch(textures.......);
-            //добавить в конструктор машинки
-            //и присвоить через GetComponent
-        }
+        { }
 
         /// <summary>
         /// Holds the queue of Sprite objects to render.
@@ -94,6 +89,8 @@ namespace RGEngine.Graphics
 
         internal static void RenderEntireFrame(List<GameObject> gameObjects)
         {
+            GL.Clear(ClearBufferMask.ColorBufferBit);
+
             foreach (var gameObject in gameObjects)
             {
                 SpriteRenderer.RenderSpritesQueue(gameObject.GetComponent<SpriteRenderer>().RenderQueue);
@@ -102,7 +99,7 @@ namespace RGEngine.Graphics
 
         internal override void PerformComponent(double deltaTime)
         {
-            // DRAW ENTIRE FRAME
+            // sprite rotations according to a gameobject physics
         }
     }
 }

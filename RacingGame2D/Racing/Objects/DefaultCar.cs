@@ -13,24 +13,50 @@ namespace Racing.Objects
         {
 
 
-            
+
             // Default values.
-            MaxSpeed = 20f;
+            rigidBody2D.maxVelocity = 130f;
+            rigidBody2D.frictionCoefficient = 0.3f;
+
+
             MaxSteeringAngle = 30f;
             MaxFuelAmount = 50f;
-            MaxAcceleration = new Vector2(3f, 0f);
-            WheelBase = 5f;
+            MaxEngineForceAcceleration = 8f;
+            
         }
 
 
-        public override void FixedUpdate(double deltaTime)
+        public override void FixedUpdate(double fixedDeltaTime)
         {
             if (InputController.CurrentKeyboardState.IsKeyDown(Key.W))
-                rigidBody2D.acceleration.X = MaxAcceleration.X;
+            {
+                rigidBody2D.maxEngineForceAcceleration = MaxEngineForceAcceleration;
+            }
+            else if (InputController.CurrentKeyboardState.IsKeyDown(Key.S))
+            {
+                rigidBody2D.breakingForceCoefficient = 0.4f;
+            }
             else
-                rigidBody2D.acceleration.X = 0f;
+            {
+                rigidBody2D.maxEngineForceAcceleration = 0f;
+                rigidBody2D.breakingForceCoefficient = 0f;
+            }
 
-            base.FixedUpdate(deltaTime);
+
+            if (InputController.CurrentKeyboardState.IsKeyDown(Key.A))
+            {
+
+            }
+            else if (InputController.CurrentKeyboardState.IsKeyDown(Key.D))
+            {
+
+            }
+            else
+            {
+
+            }
+
+            base.FixedUpdate(fixedDeltaTime);
         }
     }
 }

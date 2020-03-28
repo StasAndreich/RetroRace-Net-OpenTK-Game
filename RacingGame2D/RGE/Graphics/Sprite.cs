@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using RGEngine.BaseClasses;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
@@ -9,7 +10,7 @@ namespace RGEngine.Graphics
     /// <summary>
     /// Represents a Sprite object for use in 2D.
     /// </summary>
-    public class Sprite
+    public class Sprite : IComparable<Sprite>
     {
         /// <summary>
         /// Stores a loaded 2D texture for sprite existence.
@@ -21,6 +22,8 @@ namespace RGEngine.Graphics
         public int Width { get; }
 
         public int Height { get; }
+
+        public int OrderInLayer { get; set; }
 
         public Vector2 Scale { get; }
 
@@ -34,8 +37,6 @@ namespace RGEngine.Graphics
 
         public Vector2 RotationPoint { get; }
 
-        //public Rectangle RectSpriteFrame { get; set; }
-
 
         public Sprite(Texture2D texture)
         {
@@ -44,6 +45,23 @@ namespace RGEngine.Graphics
             this.Height = texture.Height;
             this.Scale = new Vector2(0.2f, 0.2f);
             this.Offset = Vector2.Zero;
+            this.OrderInLayer = 0;
+        }
+
+
+        /// <summary>
+        /// Compares Sprites by Z-index.
+        /// </summary>
+        /// <param name="otherSprite"></param>
+        /// <returns></returns>
+        public int CompareTo(Sprite otherSprite)
+        {
+            if (this.OrderInLayer > otherSprite.OrderInLayer)
+                return 1;
+            else if (this.OrderInLayer < otherSprite.OrderInLayer)
+                return -1;
+
+            return 0;
         }
     }
 }

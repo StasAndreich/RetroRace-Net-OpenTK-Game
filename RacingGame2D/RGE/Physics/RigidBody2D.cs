@@ -12,34 +12,62 @@ namespace RGEngine.Physics
         public RigidBody2D(GameObject gameObject)
             : base(gameObject)
         {
-            this.mass = 1f;
-            this.Velocity = new Vector2(0f, 0f);
-            this.acceleration = new Vector2(0f, 0f);
+            this.frictionCoefficient = 0.3f;
         }
 
-        /// <summary>
-        /// The mass of an object.
-        /// </summary>
-        private float mass;
+
+        public float frictionCoefficient;
+
+        public float breakingForceCoefficient;
+
+        private static float gravityAccelerationConstant = 9.8f;
 
         /// <summary>
-        /// Current velocity of an object for X and Y.
+        /// Current velocity.
         /// </summary>
-        public Vector2 Velocity { get; set; }
+        public float velocity;
 
+        public float maxVelocity;
 
+        public float maxEngineForceAcceleration;
         /// <summary>
         /// Current acceleration of an object.
         /// </summary>
-        public Vector2 acceleration;
+        private float acceleration;
 
 
         internal override void PerformComponent(double deltaTime)
         {
-            //// Calculate new value of an object Speed.
-            //Velocity += acceleration * (float)deltaTime;
+            if (velocity > maxVelocity)
+                velocity = maxVelocity;
+            else
+            {
+
+            }
+
+            if (velocity > -0.01 && velocity < -0.01 && maxEngineForceAcceleration == 0f)
+            {
+                velocity = 0f;
+            }
+            else
+            {
+                    if (velocity == 0f)
+                        maxEngineForceAcceleration = -maxEngineForceAcceleration;
+
+                acceleration = maxEngineForceAcceleration - (frictionCoefficient + breakingForceCoefficient)
+                    * gravityAccelerationConstant;
+                velocity += acceleration * (float)deltaTime;
+            }
         }
 
         // ADD Drag Value
+    }
+
+
+    public enum DrivingModes
+    {
+        Reverse = -1,
+        Neutral = 0,
+        Drive = 1
     }
 }

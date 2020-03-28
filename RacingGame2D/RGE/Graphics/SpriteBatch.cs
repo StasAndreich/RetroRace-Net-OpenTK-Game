@@ -5,6 +5,9 @@ namespace RGEngine.Graphics
 {
     public class SpriteBatch //: IEnumerable<Sprite>
     {
+        /// <summary>
+        /// Stores all sprites for some gameObject sorted in Z-index.
+        /// </summary>
         private List<Sprite> sprites = new List<Sprite>();
 
         public int Quantity => sprites.Count;
@@ -19,6 +22,7 @@ namespace RGEngine.Graphics
         public void AddSprite(Sprite sprite)
         {
             sprites.Add(sprite);
+            sprites.Sort();
         }
 
         public void RemoveSprite()

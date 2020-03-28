@@ -6,7 +6,6 @@ using System.Drawing;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using RGEngine.BaseClasses;
-using OpenTK.Input;
 using System.Collections.Generic;
 
 
@@ -47,9 +46,9 @@ namespace RGEngine
 
         protected override void OnRenderFrame(FrameEventArgs e)
         {
-            GL.Clear(ClearBufferMask.ColorBufferBit);
-
             Camera.SetView(Width, Height);
+
+            SpriteRenderer.RenderEntireFrame(gameObjects);
 
             SwapBuffers();
             base.OnRenderFrame(e);
@@ -60,14 +59,26 @@ namespace RGEngine
         {
             InputController.Update();
 
-            //foreach (var gameObject in gameObjects)
-            //{
-            //    // update with deltatime
-            //}
+            foreach (var gameObject in gameObjects)
+            {
+                gameObject.PerformUpdate(e.Time);
+            }
 
-            // Make a fixed update over a delta time.
-            gameObjects[0].FixedUpdate(deltaTimeFixedUpdate);
-
+            totalTimeElapsed += e.Time;
+            /// Prevents redundant Updating of FixedUpdate() method.
+            /// *REASON: Rendering is slower than physics fixed updates.*
+            ///
+            /// Cheks if the time elapsed is bigger than deltaTimeFixedUpdate
+            /// than choose elapsed time from the last frame render for a FixedUpdate.
+            if (totalTimeElapsed >= deltaTimeFixedUpdate)
+            {
+                foreach (var gameObject in gameObjects)
+                {
+                    gameObject.PerformFixedUpdate(totalTimeElapsed);
+                }
+            }
+            totalTimeElapsed = 0f;
+            
             base.OnUpdateFrame(e);
         }
 
@@ -82,6 +93,7 @@ namespace RGEngine
 
         protected override void OnUnload(EventArgs e)
         {
+            // Add Removing gameObjects.
             base.OnUnload(e);
         }
 
