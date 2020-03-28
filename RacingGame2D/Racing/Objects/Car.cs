@@ -10,22 +10,14 @@ namespace Racing.Objects
 {
     public abstract class Car : GameObject
     {
-        public Car(string vehicleTexturePath, string )
+        public Car(string vehicleTexturePath, string wheelTexturePath)
         {
-            //spriteRenderer = AddComponent<SpriteRenderer>();
-            //rigidBody = AddComponent<RigidBody2D>();
-
-            var vehicleTexture = ContentLoader.LoadTexture(@"C:\Users\smedy\source\repos\OOP_CourseProject_StasMedyancev_NET_WinForms_OpenGL\RacingGame2D\Racing\Contents\Cars\lambo.png");
-            var wheelTexture = ContentLoader.LoadTexture(@"");
-
+            var vehicleTexture = ContentLoader.LoadTexture(vehicleTexturePath);
+            var wheelTexture = ContentLoader.LoadTexture(wheelTexturePath);
+            
             //renderQueue = CreateSpriteBatch(textures.......);
             //добавить в конструктор машинки
             //и присвоить через GetComponent
-
-
-            // Initial values.
-            carDirectionAngle = 0;
-            steeringAngle = 0;
 
             // Set the start position.
             base.Position = new Vector2(0f, 0f);
@@ -34,7 +26,9 @@ namespace Racing.Objects
             this.backWheelPosition = base.Position +
                 this.WheelBase / 2 * new Vector2((float)Math.Cos(carDirectionAngle), (float)Math.Sin(carDirectionAngle));
 
-
+            // Initial values.
+            carDirectionAngle = 0;
+            steeringAngle = 0;
             WheelBase = 5f;
         }
 
@@ -68,8 +62,7 @@ namespace Racing.Objects
         public override void FixedUpdate(double deltaTime)
         {
             // Update velocity value inside.
-            rigidBody2D.CallComponent(deltaTime);
-            // UPDATE car POSITION.
+            // MADE THIS WITHIN GETCOMPONENT
 
             // Get changes over deltaTime.
             backWheelPosition += rigidBody.Velocity * (float)deltaTime *
@@ -86,7 +79,6 @@ namespace Racing.Objects
 
         public override void Update()
         {
-            sprite.Position = this.Position;
 
             base.Update();
         }

@@ -28,4 +28,8 @@
         /// <param name="deltaTime"></param>
         internal abstract void PerformComponent(double deltaTime);
     }
+
+    // INTERFACE FLAGS
+    // For the type of update.
+    internal interface IFixedUpdatable { }
 }

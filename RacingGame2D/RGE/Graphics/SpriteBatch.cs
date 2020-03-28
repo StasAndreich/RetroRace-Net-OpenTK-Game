@@ -3,7 +3,7 @@
 
 namespace RGEngine.Graphics
 {
-    public class SpriteBatch : IEnumerable<Sprite>
+    public class SpriteBatch //: IEnumerable<Sprite>
     {
         private List<Sprite> sprites = new List<Sprite>();
 

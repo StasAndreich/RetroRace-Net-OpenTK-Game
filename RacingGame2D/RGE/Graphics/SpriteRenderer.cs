@@ -92,14 +92,19 @@ namespace RGEngine.Graphics
             }
         }
 
-        internal static void RenderEntireFrame()
+        internal static void RenderEntireFrame(List<GameObject> gameObjects)
         {
-
+            foreach (var gameObject in gameObjects)
+            {
+                gameObject.GetComponent<SpriteRenderer>();
+                //  WE NEED TO ADD HERE RENDER THE WHOLE SCENE
+                //  USING THE RENDER QUEUE. 
+            }
         }
 
         internal override void PerformComponent(double deltaTime)
         {
-            
+            // DRAW ENTIRE FRAME
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using RGEngine.Input;
+using RGEngine.Graphics;
 using OpenTK.Input;
 using OpenTK;
 
@@ -7,7 +8,8 @@ namespace Racing.Objects
 {
     public class DefaultCar : Car
     {
-        public DefaultCar()
+        public DefaultCar(string vehicleTexturePath, string wheelTexturePath)
+            : base(vehicleTexturePath, wheelTexturePath)
         {
 
 

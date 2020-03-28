@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Collections.Generic;
 using OpenTK;
 
@@ -15,25 +16,45 @@ namespace RGEngine.BaseClasses
         /// <summary>
         /// Stores a list of the components for Update().
         /// </summary>
-        private List<Component> componentsUpd;
+        private List<Component> components;
+
+        ///// <summary>
+        ///// Stores a list of the components for FixedUpdate().
+        ///// </summary>
+        //private List<Component> componentsFixedUpd;
+
 
         /// <summary>
-        /// Stores a list of the components for FixedUpdate().
+        /// Adds a Component attached to a GameObject.
         /// </summary>
-        private List<Component> componentsFixedUpd;
-
-        
-
-
-        public T AddComponent<T>() where T : Component, new()
+        /// <typeparam name="T"></typeparam>
+        public void AddComponent<T>() where T : Component
         {
-            return new T();
+            // Instantiate THIS class in Component constructor.
+            var tConstructor = typeof(T).GetConstructor(BindingFlags.Instance | BindingFlags.NonPublic,
+                null, new[] { typeof(GameObject) }, null);
+
+            var newComponent = (T)tConstructor.Invoke(new[] { this });
+
+            components.Add(newComponent);
         }   
 
 
-        public T GetComponent<T>()
+        /// <summary>
+        /// Returns a Component attached to a GameObject.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public T GetComponent<T>() where T : Component
         {
+            foreach (var component in components)
+            {
+                var @return = component as T;
+                if (@return != null && @return.GetType() != typeof(T))
+                    return @return;
+            }
 
+            return null;
         }
 
         /// <summary>

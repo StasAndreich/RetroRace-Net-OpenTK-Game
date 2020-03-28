@@ -7,12 +7,14 @@ namespace RGEngine.Physics
     /// <summary>
     /// A physics component for 2D sprites.
     /// </summary>
-    public sealed class RigidBody2D : Component
+    public sealed class RigidBody2D : Component, IFixedUpdatable
     {
         public RigidBody2D(GameObject gameObject)
             : base(gameObject)
         {
-            
+            this.mass = 1f;
+            this.Velocity = new Vector2(0f, 0f);
+            this.acceleration = new Vector2(0f, 0f);
         }
 
         /// <summary>
@@ -32,16 +34,10 @@ namespace RGEngine.Physics
         public Vector2 acceleration;
 
 
-        public override void CallComponent(double deltaTime)
+        internal override void PerformComponent(double deltaTime)
         {
-            // Calculate new value of an object Speed.
-            Velocity += acceleration * (float)deltaTime;
-        }
-
-
-        public override Component GetComponent()
-        {
-            return this;
+            //// Calculate new value of an object Speed.
+            //Velocity += acceleration * (float)deltaTime;
         }
 
         // ADD Drag Value
