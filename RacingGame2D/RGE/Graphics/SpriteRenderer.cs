@@ -23,7 +23,7 @@ namespace RGEngine.Graphics
             GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
         }
 
-        internal SpriteRenderer(GameObject gameObject) :
+        public SpriteRenderer(GameObject gameObject) :
             base(gameObject)
         {
             //renderQueue = CreateSpriteBatch(textures.......);
@@ -34,7 +34,7 @@ namespace RGEngine.Graphics
         /// <summary>
         /// Holds the queue of Sprite objects to render.
         /// </summary>
-        public readonly SpriteBatch renderQueue;
+        public SpriteBatch RenderQueue { get; set; }
 
 
         // Renders a single sprite object.
@@ -96,9 +96,7 @@ namespace RGEngine.Graphics
         {
             foreach (var gameObject in gameObjects)
             {
-                gameObject.GetComponent<SpriteRenderer>();
-                //  WE NEED TO ADD HERE RENDER THE WHOLE SCENE
-                //  USING THE RENDER QUEUE. 
+                SpriteRenderer.RenderSpritesQueue(gameObject.GetComponent<SpriteRenderer>().RenderQueue);
             }
         }
 

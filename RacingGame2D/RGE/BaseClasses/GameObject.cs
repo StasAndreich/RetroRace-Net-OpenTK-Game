@@ -16,7 +16,7 @@ namespace RGEngine.BaseClasses
         /// <summary>
         /// Stores a list of the components for Update().
         /// </summary>
-        private List<Component> components;
+        private List<Component> components = new List<Component>();
 
         ///// <summary>
         ///// Stores a list of the components for FixedUpdate().
@@ -28,15 +28,17 @@ namespace RGEngine.BaseClasses
         /// Adds a Component attached to a GameObject.
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        public void AddComponent<T>() where T : Component
+        public T AddComponent<T>() where T : Component
         {
             // Instantiate THIS class in Component constructor.
-            var tConstructor = typeof(T).GetConstructor(BindingFlags.Instance | BindingFlags.NonPublic,
+            var tConstructor = typeof(T).GetConstructor(BindingFlags.Instance | BindingFlags.Public,
                 null, new[] { typeof(GameObject) }, null);
 
             var newComponent = (T)tConstructor.Invoke(new[] { this });
 
             components.Add(newComponent);
+
+            return newComponent;
         }   
 
 

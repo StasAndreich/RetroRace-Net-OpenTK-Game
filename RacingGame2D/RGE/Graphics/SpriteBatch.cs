@@ -27,7 +27,7 @@ namespace RGEngine.Graphics
         }
 
 
-        internal static SpriteBatch CreateSpriteBatch(params Texture2D[] textures)
+        public static SpriteBatch CreateSpriteBatch(params Texture2D[] textures)
         {
             if (textures.Length == 0)
                 return null;

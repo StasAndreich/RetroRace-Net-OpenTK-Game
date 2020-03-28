@@ -10,14 +10,15 @@ namespace Racing.Objects
 {
     public abstract class Car : GameObject
     {
-        public Car(string vehicleTexturePath, string wheelTexturePath)
+        public Car(string vehicleTexturePath)
         {
             var vehicleTexture = ContentLoader.LoadTexture(vehicleTexturePath);
-            var wheelTexture = ContentLoader.LoadTexture(wheelTexturePath);
-            
-            //renderQueue = CreateSpriteBatch(textures.......);
-            //добавить в конструктор машинки
-            //и присвоить через GetComponent
+            //var wheelTexture = ContentLoader.LoadTexture(@"");
+
+            spriteRenderer = AddComponent<SpriteRenderer>();
+            rigidBody2D = AddComponent<RigidBody2D>();
+
+            spriteRenderer.RenderQueue = SpriteBatch.CreateSpriteBatch(vehicleTexture);
 
             // Set the start position.
             base.Position = new Vector2(0f, 0f);
@@ -29,7 +30,6 @@ namespace Racing.Objects
             // Initial values.
             carDirectionAngle = 0;
             steeringAngle = 0;
-            WheelBase = 5f;
         }
 
 
@@ -39,7 +39,7 @@ namespace Racing.Objects
 
         protected float MaxSteeringAngle { get; set; }
 
-        protected float WheelBase { get; }
+        protected float WheelBase { get; set; }
 
         protected float steeringAngle;
 
@@ -65,9 +65,9 @@ namespace Racing.Objects
             // MADE THIS WITHIN GETCOMPONENT
 
             // Get changes over deltaTime.
-            backWheelPosition += rigidBody.Velocity * (float)deltaTime *
+            backWheelPosition += rigidBody2D.Velocity * (float)deltaTime *
                 new Vector2((float)Math.Cos(carDirectionAngle), (float)Math.Sin(carDirectionAngle));
-            frontWheelPosition += rigidBody.Velocity * (float)deltaTime *
+            frontWheelPosition += rigidBody2D.Velocity * (float)deltaTime *
                 new Vector2((float)Math.Cos(carDirectionAngle + steeringAngle), (float)Math.Sin(carDirectionAngle + steeringAngle));
 
             // Update Car fields.

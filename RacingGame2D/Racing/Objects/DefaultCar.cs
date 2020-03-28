@@ -8,8 +8,8 @@ namespace Racing.Objects
 {
     public class DefaultCar : Car
     {
-        public DefaultCar(string vehicleTexturePath, string wheelTexturePath)
-            : base(vehicleTexturePath, wheelTexturePath)
+        public DefaultCar(string vehicleTexturePath)
+            : base(vehicleTexturePath)
         {
 
 
@@ -19,15 +19,16 @@ namespace Racing.Objects
             MaxSteeringAngle = 30f;
             MaxFuelAmount = 50f;
             MaxAcceleration = new Vector2(3f, 0f);
+            WheelBase = 5f;
         }
 
 
         public override void FixedUpdate(double deltaTime)
         {
             if (InputController.CurrentKeyboardState.IsKeyDown(Key.W))
-                rigidBody.acceleration.X = MaxAcceleration.X;
+                rigidBody2D.acceleration.X = MaxAcceleration.X;
             else
-                rigidBody.acceleration.X = 0f;
+                rigidBody2D.acceleration.X = 0f;
 
             base.FixedUpdate(deltaTime);
         }
