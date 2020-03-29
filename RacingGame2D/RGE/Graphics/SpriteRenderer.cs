@@ -100,6 +100,13 @@ namespace RGEngine.Graphics
         internal override void PerformComponent(double deltaTime)
         {
             // sprite rotations according to a gameobject physics
+            // sprite positions
+            //
+            // ADD Enumerator for FOREACH possible.
+            for (int i = 0; i < RenderQueue.Quantity; i++)
+            {
+                RenderQueue[i].Position = this.attachedTo.Position;
+            }
         }
     }
 }

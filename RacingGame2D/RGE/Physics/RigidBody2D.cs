@@ -38,29 +38,21 @@ namespace RGEngine.Physics
 
         internal override void PerformComponent(double deltaTime)
         {
-            if (velocity > maxVelocity)
-                velocity = maxVelocity;
-            else
-            {
+            //if (velocity > -0.01 && velocity < -0.01 && maxEngineForceAcceleration == 0f)
+            //{
+            //    velocity = 0f;
+            //}
+            //else
+            //{
+                    
+            //}
+            //if (velocity == 0f)
+            //    maxEngineForceAcceleration = -maxEngineForceAcceleration;
 
-            }
-
-            if (velocity > -0.01 && velocity < -0.01 && maxEngineForceAcceleration == 0f)
-            {
-                velocity = 0f;
-            }
-            else
-            {
-                    if (velocity == 0f)
-                        maxEngineForceAcceleration = -maxEngineForceAcceleration;
-
-                acceleration = maxEngineForceAcceleration - (frictionCoefficient + breakingForceCoefficient)
-                    * gravityAccelerationConstant;
-                velocity += acceleration * (float)deltaTime;
-            }
+            acceleration = maxEngineForceAcceleration - (frictionCoefficient + breakingForceCoefficient)
+                * gravityAccelerationConstant;
+            velocity += acceleration * (float)deltaTime;
         }
-
-        // ADD Drag Value
     }
 
 

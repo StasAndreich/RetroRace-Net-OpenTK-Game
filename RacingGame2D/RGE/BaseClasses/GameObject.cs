@@ -77,6 +77,7 @@ namespace RGEngine.BaseClasses
         /// </summary>
         /// <param name="deltaTime"></param>
         internal void PerformUpdate(double deltaTime)
+        
         {
             Update(deltaTime);
             foreach (var component in components)

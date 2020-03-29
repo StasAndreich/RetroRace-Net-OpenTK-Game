@@ -10,19 +10,13 @@ namespace Racing.Objects
     {
         public DefaultCar(string vehicleTexturePath)
             : base(vehicleTexturePath)
-        {
-
-
-
-            // Default values.
-            rigidBody2D.maxVelocity = 130f;
+        {           
             rigidBody2D.frictionCoefficient = 0.3f;
 
-
+            MaxVelocity = 130f;
             MaxSteeringAngle = 30f;
             MaxFuelAmount = 50f;
-            MaxEngineForceAcceleration = 8f;
-            
+            MaxEngineForceAcceleration = 60f;
         }
 
 
@@ -30,6 +24,10 @@ namespace Racing.Objects
         {
             if (InputController.CurrentKeyboardState.IsKeyDown(Key.W))
             {
+                if (rigidBody2D.velocity > MaxVelocity)
+                {
+                    rigidBody2D.velocity = MaxVelocity;
+                }
                 rigidBody2D.maxEngineForceAcceleration = MaxEngineForceAcceleration;
             }
             else if (InputController.CurrentKeyboardState.IsKeyDown(Key.S))

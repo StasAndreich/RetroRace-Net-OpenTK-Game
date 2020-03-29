@@ -27,8 +27,6 @@ namespace RGEngine.Graphics
 
         public Vector2 Scale { get; }
 
-        // temporary adding a SET modifier
-        //
         public Vector2 Position { get; set; }
 
         public Vector2 Offset { get; set; }
@@ -43,7 +41,7 @@ namespace RGEngine.Graphics
             this.Texture = texture;
             this.Width = texture.Width;
             this.Height = texture.Height;
-            this.Scale = new Vector2(0.2f, 0.2f);
+            this.Scale = new Vector2(0.3f, 0.3f);
             this.Offset = Vector2.Zero;
             this.OrderInLayer = 0;
         }

@@ -23,10 +23,9 @@ namespace Racing.Objects
             // Initial values.
             carDirectionAngle = 0;
             steeringAngle = 0;
-            MaxEngineForceAcceleration = 15f;
             WheelBase = 5f;
 
-            rigidBody2D.maxVelocity = 130f;
+            
             rigidBody2D.frictionCoefficient = 0.3f;
 
 

@@ -38,7 +38,7 @@ namespace RGEngine
 
         protected override void OnLoad(EventArgs e)
         {            
-            GL.ClearColor(Color.SandyBrown);
+            GL.ClearColor(Color.White);
 
             base.OnLoad(e);
         }
