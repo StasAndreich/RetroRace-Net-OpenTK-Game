@@ -18,11 +18,6 @@ namespace RGEngine.BaseClasses
         /// </summary>
         private List<Component> components = new List<Component>();
 
-        ///// <summary>
-        ///// Stores a list of the components for FixedUpdate().
-        ///// </summary>
-        //private List<Component> componentsFixedUpd;
-
 
         /// <summary>
         /// Adds a Component attached to a GameObject.

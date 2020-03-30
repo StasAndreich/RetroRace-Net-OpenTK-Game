@@ -106,6 +106,7 @@ namespace RGEngine.Graphics
             for (int i = 0; i < RenderQueue.Quantity; i++)
             {
                 RenderQueue[i].Position = this.attachedTo.Position;
+                //RenderQueue[i].Rotation = this.attachedTo.Direction;
             }
         }
     }

@@ -1,6 +1,8 @@
 ﻿using System;
 using OpenTK;
+using OpenTK.Input;
 using RGEngine.BaseClasses;
+using RGEngine.Input;
 using RGEngine.Graphics;
 using RGEngine.Physics;
 using RGEngine.Support;
@@ -12,50 +14,45 @@ namespace Racing.Objects
     {
         public Car(string vehicleTexturePath)
         {
-            var vehicleTexture = ContentLoader.LoadTexture(vehicleTexturePath);
-            //var wheelTexture = ContentLoader.LoadTexture(@"");
-
             spriteRenderer = AddComponent<SpriteRenderer>();
             rigidBody2D = AddComponent<RigidBody2D>();
 
+            var vehicleTexture = ContentLoader.LoadTexture(vehicleTexturePath);
+            //var wheelTexture = ContentLoader.LoadTexture(@"");
+
             spriteRenderer.RenderQueue = SpriteBatch.CreateSpriteBatch(vehicleTexture);
 
-            // Initial values.
             carDirectionAngle = 0;
             steeringAngle = 0;
-            WheelBase = 5f;
+            wheelBase = 5f;
 
-            
-            rigidBody2D.frictionCoefficient = 0.3f;
-
-
-            // Set the start position.
+            // Set a start position.
             base.Position = new Vector2(0f, 0f);
             this.frontWheelPosition = base.Position +
-                this.WheelBase / 2 * new Vector2((float)Math.Cos(carDirectionAngle), (float)Math.Sin(carDirectionAngle));
-            this.backWheelPosition = base.Position +
-                this.WheelBase / 2 * new Vector2((float)Math.Cos(carDirectionAngle), (float)Math.Sin(carDirectionAngle));
+                this.wheelBase / 2 * new Vector2((float)Math.Cos(carDirectionAngle), (float)Math.Sin(carDirectionAngle));
+            this.backWheelPosition = base.Position -
+                this.wheelBase / 2 * new Vector2((float)Math.Cos(carDirectionAngle), (float)Math.Sin(carDirectionAngle));
         }
 
+        protected float MaxEngineForce { get; set; }
+        protected float Mass { get; set; }
 
         protected float MaxVelocity { get; set; }
-
+        protected float MaxVelocityReverse { get; set; }
         protected float MaxEngineForceAcceleration { get; set; }
-
         protected float MaxSteeringAngle { get; set; }
 
-        protected float WheelBase { get; }
+        protected float wheelBase;
 
         protected float steeringAngle;
-
         protected float carDirectionAngle;
 
         protected Vector2 frontWheelPosition;
-
         protected Vector2 backWheelPosition;
 
-        protected float MaxFuelAmount { get; set; }
+        protected int drivingMode;
 
+        protected float MaxFuelAmount { get; set; }
         protected float FuelLevel { get; set; }
 
 
@@ -78,5 +75,36 @@ namespace Racing.Objects
             carDirectionAngle = (float) Math.Atan2(frontWheelPosition.Y - backWheelPosition.Y,
                 frontWheelPosition.X - backWheelPosition.X);
         }
+
+
+        protected virtual void UpdateGearboxState()
+        {
+            if (InputController.CurrentKeyboardState.IsKeyDown(Key.RShift))
+            {
+                drivingMode = (int)DrivingModes.Neutral;
+            }
+            else if (InputController.CurrentKeyboardState.IsKeyDown(Key.RControl))
+            {
+                drivingMode = (int)DrivingModes.Drive;
+            }
+            else if (InputController.CurrentKeyboardState.IsKeyDown(Key.Enter))
+            {
+                drivingMode = (int)DrivingModes.Reverse;
+            }
+        }
+    }
+
+
+    public enum DrivingModes
+    {
+        /// <summary>
+        /// Returns -1 cause all forces are in 'negative' direction.
+        /// </summary>
+        Reverse = -1,
+        Neutral = 0,
+        /// <summary>
+        /// Returns 1 cause all forces are in 'positive' direction.
+        /// </summary>
+        Drive = 1
     }
 }
