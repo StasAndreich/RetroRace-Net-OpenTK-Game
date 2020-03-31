@@ -12,7 +12,7 @@ namespace Racing.Objects
             : base(vehicleTexturePath)
         {
             rigidBody2D.mass = 1200f;
-            rigidBody2D.dragCoefficient = 500f;
+            rigidBody2D.dragCoefficient = 750f;
 
             MaxEngineForce = 400000f;
             MaxVelocity = 520f;
@@ -66,6 +66,7 @@ namespace Racing.Objects
                 else if (rigidBody2D.velocity > 0f)
                 {
                     rigidBody2D.breakingForce = 500000f;
+                    // make all the numbers  to a props of an object init in construct
                 }
                 else
                 {
@@ -79,20 +80,39 @@ namespace Racing.Objects
             }
 
 
-            
 
-            //if (InputController.CurrentKeyboardState.IsKeyDown(Key.A))
-            //{
+            if (this.steeringAngle > MaxSteeringAngle)
+                this.steeringAngle = MaxSteeringAngle;
+            if (this.steeringAngle < -MaxSteeringAngle)
+                    this.steeringAngle = -MaxSteeringAngle;
 
-            //}
-            //else if (InputController.CurrentKeyboardState.IsKeyDown(Key.D))
-            //{
 
-            //}
-            //else
-            //{
+            if (this.steeringAngle >= -1f && this.steeringAngle <= 1f)
+            {
+                this.steeringAngle = 0f;
+            }
 
-            //}
+
+
+            if (InputController.CurrentKeyboardState.IsKeyDown(Key.A))
+            {
+                base.steeringConstant = -80f;
+            }
+            else if (InputController.CurrentKeyboardState.IsKeyDown(Key.D))
+            {
+                base.steeringConstant = 80f;
+            }
+            else
+            {
+                if (this.steeringAngle == 0f)
+                    base.steeringConstant = 0f;
+                else if (this.steeringAngle > 0f)
+                    base.steeringConstant = -80f;
+                else
+                    base.steeringConstant = 80f;
+            }
+
+            UpdateCarSteering(fixedDeltaTime);
 
             base.FixedUpdate(fixedDeltaTime);
         }

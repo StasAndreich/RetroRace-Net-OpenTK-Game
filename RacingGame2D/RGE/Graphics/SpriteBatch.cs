@@ -47,5 +47,19 @@ namespace RGEngine.Graphics
 
             return batch;
         }
+
+        public static SpriteBatch CreateSpriteBatch(params Sprite[] sprites)
+        {
+            if (sprites.Length == 0)
+                return null;
+
+            var batch = new SpriteBatch();
+            for (int i = 0; i < sprites.Length; i++)
+            {
+                batch.AddSprite(sprites[i]);
+            }
+
+            return batch;
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using RGEngine.BaseClasses;
 using RGEngine.Graphics;
+using System;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
@@ -69,6 +70,12 @@ namespace RGEngine.Graphics
                 vertices[i].X *= sprite.Width;
                 vertices[i].Y *= sprite.Height;
                 vertices[i] *= sprite.Scale;
+
+                vertices[i].X = (float)(Math.Cos(MathHelper.DegreesToRadians(sprite.Rotation)) * vertices[i].X -
+                    Math.Sin(MathHelper.DegreesToRadians(sprite.Rotation)) * vertices[i].Y);
+                vertices[i].Y = (float)(Math.Sin(MathHelper.DegreesToRadians(sprite.Rotation)) * vertices[i].X +
+                    Math.Cos(MathHelper.DegreesToRadians(sprite.Rotation)) * vertices[i].Y);
+
                 vertices[i] += sprite.Position;
 
                 // Create a new Vertex based on a vector2.
@@ -106,7 +113,7 @@ namespace RGEngine.Graphics
             for (int i = 0; i < RenderQueue.Quantity; i++)
             {
                 RenderQueue[i].Position = this.attachedTo.Position;
-                //RenderQueue[i].Rotation = this.attachedTo.Direction;
+                
             }
         }
     }

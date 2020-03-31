@@ -20,11 +20,15 @@ namespace Racing.Objects
             var vehicleTexture = ContentLoader.LoadTexture(vehicleTexturePath);
             //var wheelTexture = ContentLoader.LoadTexture(@"");
 
-            spriteRenderer.RenderQueue = SpriteBatch.CreateSpriteBatch(vehicleTexture);
+            var vehicleSprite = new Sprite(vehicleTexture, new Vector2(0.3f, 0.3f),
+                new Vector2(0f, 0f), 1);
+            //var wheelSprite = new Sprite(wheelTexture, new Vector2(0.3f, 0.3f),
+            //    new Vector2(0f, 0f), 0);
 
-            carDirectionAngle = 0;
-            steeringAngle = 0;
-            wheelBase = 5f;
+            spriteRenderer.RenderQueue = SpriteBatch.CreateSpriteBatch(vehicleSprite);
+
+            MaxSteeringAngle = 30f;
+            wheelBase = 15f;
 
             // Set a start position.
             base.Position = new Vector2(0f, 0f);
@@ -33,6 +37,7 @@ namespace Racing.Objects
             this.backWheelPosition = base.Position -
                 this.wheelBase / 2 * new Vector2((float)Math.Cos(carDirectionAngle), (float)Math.Sin(carDirectionAngle));
         }
+
 
         protected float MaxEngineForce { get; set; }
         protected float Mass { get; set; }
@@ -46,6 +51,7 @@ namespace Racing.Objects
 
         protected float steeringAngle;
         protected float carDirectionAngle;
+        protected float steeringConstant;
 
         protected Vector2 frontWheelPosition;
         protected Vector2 backWheelPosition;
@@ -66,14 +72,23 @@ namespace Racing.Objects
             // UPDATE ANIMATION.
             // Get changes over deltaTime.
             backWheelPosition += rigidBody2D.velocity * (float)fixedDeltaTime *
-                new Vector2((float)Math.Cos(carDirectionAngle), (float)Math.Sin(carDirectionAngle));
+                new Vector2((float)Math.Cos(MathHelper.DegreesToRadians(carDirectionAngle)),
+                (float)Math.Sin(MathHelper.DegreesToRadians(carDirectionAngle)));
+
             frontWheelPosition += rigidBody2D.velocity * (float)fixedDeltaTime *
-                new Vector2((float)Math.Cos(carDirectionAngle + steeringAngle), (float)Math.Sin(carDirectionAngle + steeringAngle));
+                new Vector2((float)Math.Cos(MathHelper.DegreesToRadians(carDirectionAngle + steeringAngle)),
+                (float)Math.Sin(MathHelper.DegreesToRadians(carDirectionAngle + steeringAngle)));
 
             // Update Car fields.
             base.Position = (frontWheelPosition + backWheelPosition) / 2;
-            carDirectionAngle = (float) Math.Atan2(frontWheelPosition.Y - backWheelPosition.Y,
-                frontWheelPosition.X - backWheelPosition.X);
+            carDirectionAngle = MathHelper.RadiansToDegrees((float) Math.Atan2(frontWheelPosition.Y - backWheelPosition.Y,
+                frontWheelPosition.X - backWheelPosition.X));
+
+
+            for (int i = 0; i < spriteRenderer.RenderQueue.Quantity; i++)
+            {
+                spriteRenderer.RenderQueue[i].Rotation = carDirectionAngle;
+            }
         }
 
 
@@ -91,6 +106,11 @@ namespace Racing.Objects
             {
                 drivingMode = (int)DrivingModes.Reverse;
             }
+        }
+
+        protected virtual void UpdateCarSteering(double fixedDeltaTime)
+        {
+            steeringAngle += steeringConstant * (float)fixedDeltaTime;
         }
     }
 
