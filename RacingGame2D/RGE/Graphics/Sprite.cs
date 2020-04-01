@@ -16,23 +16,18 @@ namespace RGEngine.Graphics
         /// Stores a loaded 2D texture for sprite existence.
         /// </summary>
         public Texture2D Texture { get; set; }
-
         public Color Color { get; set; }
 
         public int Width { get; }
-
         public int Height { get; }
 
-        public int OrderInLayer { get; set; }
+        public int ZIndex { get; set; }
 
         public Vector2 Scale { get; }
-
         public Vector2 Position { get; set; }
-
         public Vector2 Offset { get; set; }
 
         public float Rotation { get; set; }
-
         public Vector2 RotationPoint { get; }
 
 
@@ -41,9 +36,21 @@ namespace RGEngine.Graphics
             this.Texture = texture;
             this.Width = texture.Width;
             this.Height = texture.Height;
+
             this.Scale = new Vector2(0.3f, 0.3f);
             this.Offset = Vector2.Zero;
-            this.OrderInLayer = 0;
+            this.ZIndex = 0;
+        }
+
+        public Sprite(Texture2D texture, Vector2 scale, Vector2 offset, int zIndex)
+        {
+            this.Texture = texture;
+            this.Width = texture.Width;
+            this.Height = texture.Height;
+
+            this.Scale = scale;
+            this.Offset = offset;
+            this.ZIndex = zIndex;
         }
 
 
@@ -54,9 +61,9 @@ namespace RGEngine.Graphics
         /// <returns></returns>
         public int CompareTo(Sprite otherSprite)
         {
-            if (this.OrderInLayer > otherSprite.OrderInLayer)
+            if (this.ZIndex > otherSprite.ZIndex)
                 return 1;
-            else if (this.OrderInLayer < otherSprite.OrderInLayer)
+            else if (this.ZIndex < otherSprite.ZIndex)
                 return -1;
 
             return 0;
