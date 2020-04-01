@@ -79,20 +79,20 @@ namespace Racing.Objects
             }
 
 
-            
 
-            //if (InputController.CurrentKeyboardState.IsKeyDown(Key.A))
-            //{
 
-            //}
-            //else if (InputController.CurrentKeyboardState.IsKeyDown(Key.D))
-            //{
+            if (InputController.CurrentKeyboardState.IsKeyDown(Key.A))
+            {
 
-            //}
-            //else
-            //{
+            }
+            else if (InputController.CurrentKeyboardState.IsKeyDown(Key.D))
+            {
 
-            //}
+            }
+            else
+            {
+
+            }
 
             base.FixedUpdate(fixedDeltaTime);
         }
