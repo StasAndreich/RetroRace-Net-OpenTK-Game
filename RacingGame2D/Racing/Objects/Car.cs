@@ -46,6 +46,8 @@ namespace Racing.Objects
         protected float MaxVelocityReverse { get; set; }
         protected float MaxEngineForceAcceleration { get; set; }
         protected float MaxSteeringAngle { get; set; }
+        protected float MaxSteeringSpeed { get; set; }
+        protected float MaxBreakingForce { get; set; }
 
         protected float wheelBase;
 
@@ -61,6 +63,9 @@ namespace Racing.Objects
         protected float MaxFuelAmount { get; set; }
         protected float FuelLevel { get; set; }
 
+        protected const float minVelocityConstraint = 2.5f;
+        protected const float minSteeringAngleConstraint = 1f;
+
 
         // GameObject Components.
         protected SpriteRenderer spriteRenderer;
@@ -69,12 +74,18 @@ namespace Racing.Objects
 
         public override void FixedUpdate(double fixedDeltaTime)
         {
-            // UPDATE ANIMATION.
-            // Get changes over deltaTime.
+            UpdateGearboxState();
+            TakeUserInput();
+
+            // Update Steering angle of front car wheels.
+            steeringAngle += steeringConstant * (float)fixedDeltaTime;
+
+            // Update Back wheels position.
             backWheelPosition += rigidBody2D.velocity * (float)fixedDeltaTime *
                 new Vector2((float)Math.Cos(MathHelper.DegreesToRadians(carDirectionAngle)),
                 (float)Math.Sin(MathHelper.DegreesToRadians(carDirectionAngle)));
-
+            
+            // Update Front wheels position.
             frontWheelPosition += rigidBody2D.velocity * (float)fixedDeltaTime *
                 new Vector2((float)Math.Cos(MathHelper.DegreesToRadians(carDirectionAngle + steeringAngle)),
                 (float)Math.Sin(MathHelper.DegreesToRadians(carDirectionAngle + steeringAngle)));
@@ -84,13 +95,87 @@ namespace Racing.Objects
             carDirectionAngle = MathHelper.RadiansToDegrees((float) Math.Atan2(frontWheelPosition.Y - backWheelPosition.Y,
                 frontWheelPosition.X - backWheelPosition.X));
 
-
+            // Update car sprites rotation.
             for (int i = 0; i < spriteRenderer.RenderQueue.Quantity; i++)
             {
                 spriteRenderer.RenderQueue[i].Rotation = carDirectionAngle;
             }
         }
 
+        protected virtual void TakeUserInput()
+        {
+            // Check for max and min velocity-values.
+            if (rigidBody2D.velocity > MaxVelocity)
+                rigidBody2D.velocity = MaxVelocity;
+            if (rigidBody2D.velocity < MaxVelocityReverse)
+                rigidBody2D.velocity = MaxVelocityReverse;
+
+            // Fixing a STOP-point.
+            if (rigidBody2D.velocity >= -minVelocityConstraint &&
+                rigidBody2D.velocity <= minVelocityConstraint)
+            {
+                rigidBody2D.velocity = 0f;
+            }
+
+            if (InputController.CurrentKeyboardState.IsKeyDown(Key.W))
+            {
+                if (rigidBody2D.velocity == 0f)
+                    rigidBody2D.engineForce = drivingMode * MaxEngineForce;
+
+                else if (rigidBody2D.velocity > 0f)
+                    rigidBody2D.engineForce = drivingMode * MaxEngineForce;
+
+                else
+                    rigidBody2D.engineForce = drivingMode * MaxEngineForce;
+            }
+            else if (InputController.CurrentKeyboardState.IsKeyDown(Key.S))
+            {
+                if (rigidBody2D.velocity == 0f)
+                    rigidBody2D.breakingForce = 0f;
+
+                else if (rigidBody2D.velocity > 0f)
+                    rigidBody2D.breakingForce = MaxBreakingForce;
+
+                else
+                    rigidBody2D.breakingForce = -MaxBreakingForce;
+            }
+            else
+            {
+                rigidBody2D.breakingForce = 0f;
+                rigidBody2D.engineForce = 0f;
+            }
+
+
+            // Update steering.
+            if (this.steeringAngle > MaxSteeringAngle)
+                this.steeringAngle = MaxSteeringAngle;
+            if (this.steeringAngle < -MaxSteeringAngle)
+                this.steeringAngle = -MaxSteeringAngle;
+
+            if (this.steeringAngle >= -minSteeringAngleConstraint &&
+                this.steeringAngle <= minSteeringAngleConstraint)
+            {
+                this.steeringAngle = 0f;
+            }
+
+            if (InputController.CurrentKeyboardState.IsKeyDown(Key.A))
+            {
+                this.steeringConstant = -MaxSteeringSpeed;
+            }
+            else if (InputController.CurrentKeyboardState.IsKeyDown(Key.D))
+            {
+                this.steeringConstant = MaxSteeringSpeed;
+            }
+            else
+            {
+                if (this.steeringAngle == 0f)
+                    this.steeringConstant = 0f;
+                else if (this.steeringAngle > 0f)
+                    this.steeringConstant = -MaxSteeringSpeed;
+                else
+                    this.steeringConstant = MaxSteeringSpeed;
+            }
+        }
 
         protected virtual void UpdateGearboxState()
         {
@@ -107,13 +192,7 @@ namespace Racing.Objects
                 drivingMode = (int)DrivingModes.Reverse;
             }
         }
-
-        protected virtual void UpdateCarSteering(double fixedDeltaTime)
-        {
-            steeringAngle += steeringConstant * (float)fixedDeltaTime;
-        }
     }
-
 
     public enum DrivingModes
     {

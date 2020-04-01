@@ -47,6 +47,7 @@
     <Compile Include="Objects\Car.cs" />
     <Compile Include="Objects\CarDecorator.cs" />
     <Compile Include="Objects\DefaultCar.cs" />
+    <Compile Include="Prizes\Prize.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

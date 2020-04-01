@@ -33,7 +33,7 @@
             // 
             // Start_Button
             // 
-            this.Start_Button.Location = new System.Drawing.Point(251, 183);
+            this.Start_Button.Location = new System.Drawing.Point(253, 202);
             this.Start_Button.Name = "Start_Button";
             this.Start_Button.Size = new System.Drawing.Size(75, 23);
             this.Start_Button.TabIndex = 0;
@@ -45,6 +45,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(27)))), ((int)(((byte)(27)))));
             this.ClientSize = new System.Drawing.Size(584, 311);
             this.Controls.Add(this.Start_Button);
             this.Name = "LaunchWindow";
