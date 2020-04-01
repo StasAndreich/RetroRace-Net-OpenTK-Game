@@ -18,7 +18,6 @@ namespace RGEngine.Graphics
             set => sprites[index] = value;
         }
 
-
         public void AddSprite(Sprite sprite)
         {
             sprites.Add(sprite);
@@ -29,7 +28,6 @@ namespace RGEngine.Graphics
         {
             
         }
-
 
         public static SpriteBatch CreateSpriteBatch(params Texture2D[] textures)
         {

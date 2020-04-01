@@ -1,5 +1,4 @@
-﻿using OpenTK;
-using RGEngine.BaseClasses;
+﻿using RGEngine.BaseClasses;
 
 
 namespace RGEngine.Physics

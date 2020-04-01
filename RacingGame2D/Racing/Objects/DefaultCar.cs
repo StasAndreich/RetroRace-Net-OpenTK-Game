@@ -11,15 +11,7 @@ namespace Racing.Objects
         public DefaultCar(string vehicleTexturePath)
             : base(vehicleTexturePath)
         {
-            rigidBody2D.mass = 1200f;
-            rigidBody2D.dragCoefficient = 750f;
 
-            MaxEngineForce = 400000f;
-            MaxVelocity = 520f;
-            MaxVelocityReverse = -250f;
-
-            MaxBreakingForce = 500000f;
-            MaxSteeringSpeed = 80f;
         }
 
 

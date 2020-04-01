@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Drawing;
-using RGEngine.BaseClasses;
 using OpenTK;
-using OpenTK.Graphics.OpenGL;
 
 
 namespace RGEngine.Graphics

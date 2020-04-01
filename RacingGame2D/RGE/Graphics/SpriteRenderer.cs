@@ -45,14 +45,21 @@ namespace RGEngine.Graphics
                 new Vector2(0f, 1f)
             };
 
-            // Use a texture stored in a Sprite obj.
-            GL.BindTexture(TextureTarget.Texture2D, sprite.Texture.Id);
+            GL.MatrixMode(MatrixMode.Modelview);
 
-            // Start rendering.
-            GL.Begin(PrimitiveType.Quads);
             // Set basic color for rendering.
             //
             //GL.Color3(sprite.Color);
+
+            var X = sprite.Position.X + (sprite.RotationPoint.X + sprite.Offset.X) * sprite.Scale.X;
+            var Y = sprite.Position.Y + (sprite.RotationPoint.Y + sprite.Offset.Y) * sprite.Scale.Y;
+
+            GL.Translate(X, Y, 0f);
+            GL.Rotate(sprite.Rotation, 0f, 0f, 1f);
+            GL.Translate(-X, -Y, 0f);
+
+            GL.BindTexture(TextureTarget.Texture2D, sprite.Texture.Id);
+            GL.Begin(PrimitiveType.Quads);
 
             // Process each texture vertex.
             for (int i = 0; i < vertices.Length; i++)
@@ -60,25 +67,15 @@ namespace RGEngine.Graphics
                 // Set current texture coords.
                 GL.TexCoord2(vertices[i]);
 
-                //
-                //  ADD TRANSFORM MATRIX FOR SPRITE ROTATION
-                //  AROUND A ROTATION POINT
-                //
-
-
-                // Do Translation with vectors.
-                vertices[i].X *= sprite.Width;
-                vertices[i].Y *= sprite.Height;
+                // 'Normalize' position.
+                vertices[i].X = sprite.Width * (vertices[i].X - 0.5f);
+                vertices[i].Y = sprite.Height * (vertices[i].Y - 0.5f);
                 vertices[i] *= sprite.Scale;
 
-                vertices[i].X = (float)(Math.Cos(MathHelper.DegreesToRadians(sprite.Rotation)) * vertices[i].X -
-                    Math.Sin(MathHelper.DegreesToRadians(sprite.Rotation)) * vertices[i].Y);
-                vertices[i].Y = (float)(Math.Sin(MathHelper.DegreesToRadians(sprite.Rotation)) * vertices[i].X +
-                    Math.Cos(MathHelper.DegreesToRadians(sprite.Rotation)) * vertices[i].Y);
 
-                vertices[i] += sprite.Position;
+                // Translation of vertex.
+                vertices[i] += sprite.Position + sprite.Offset;
 
-                // Create a new Vertex based on a vector2.
                 GL.Vertex2(vertices[i]);
             }
             // End rendering.
@@ -112,8 +109,8 @@ namespace RGEngine.Graphics
             // ADD Enumerator for FOREACH possible.
             for (int i = 0; i < RenderQueue.Quantity; i++)
             {
-                RenderQueue[i].Position = this.attachedTo.Position;
-                
+                RenderQueue[i].Position = base.attachedTo.Position;
+
             }
         }
     }
