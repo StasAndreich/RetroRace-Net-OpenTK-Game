@@ -54,6 +54,7 @@
     <Content Include="Contents\Cars\lambo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Contents\Cars\wheel.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RGE\RGEngine.csproj">

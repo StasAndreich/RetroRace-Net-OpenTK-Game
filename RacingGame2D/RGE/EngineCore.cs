@@ -39,15 +39,13 @@ namespace RGEngine
         protected override void OnLoad(EventArgs e)
         {            
             GL.ClearColor(Color.White);
-
+            Camera.SetView(Width, Height);
             base.OnLoad(e);
         }
 
 
         protected override void OnRenderFrame(FrameEventArgs e)
         {
-            Camera.SetView(Width, Height);
-
             SpriteRenderer.RenderEntireFrame(gameObjects);
 
             SwapBuffers();

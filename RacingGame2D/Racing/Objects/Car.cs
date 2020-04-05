@@ -18,26 +18,30 @@ namespace Racing.Objects
             rigidBody2D = AddComponent<RigidBody2D>();
 
             var vehicleTexture = ContentLoader.LoadTexture(vehicleTexturePath);
-            //var wheelTexture = ContentLoader.LoadTexture(@"");
+            var wheelTexture = ContentLoader.LoadTexture(@"C:\Users\smedy\source\repos\OOP_CourseProject_StasMedyancev_NET_WinForms_OpenGL\RacingGame2D\Racing\Contents\Cars\wheel.png");
 
             var vehicleSprite = new Sprite(vehicleTexture, new Vector2(0.3f, 0.3f),
-                new Vector2(0f, 0f), 1);
-            //var wheelSprite = new Sprite(wheelTexture, new Vector2(0.3f, 0.3f),
-            //    new Vector2(0f, 0f), 0);
+                new Vector2(60f, 0f), 1);
+            var wheelSpriteLeft = new Sprite(wheelTexture, new Vector2(0.45f, 0.45f),
+                new Vector2(60f, 80f), 0);
+            var wheelSpriteRight = new Sprite(wheelTexture, new Vector2(0.45f, 0.45f),
+                new Vector2(60f, -80f), 0);
 
-            spriteRenderer.RenderQueue = SpriteBatch.CreateSpriteBatch(vehicleSprite);
+            spriteRenderer.RenderQueue = SpriteBatch.CreateSpriteBatch(vehicleSprite,
+                                                                        wheelSpriteLeft,
+                                                                        wheelSpriteRight);
 
 
             // Set defaults for a default car.
             MaxEngineForce = 400000f;
-            MaxVelocity = 520f;
+            MaxVelocity = 420f;
             MaxVelocityReverse = -250f;
-            MaxSteeringAngle = 30f;
-            MaxSteeringSpeed = 80f;
+            MaxSteeringAngle = 20f;
+            MaxSteeringSpeed = 25f;
             MaxBreakingForce = 500000f;
 
             // Set default wheelBase value and start car position.
-            wheelBase = 45f;
+            wheelBase = 80f;
             SetStartCarPosition(new Vector2(0f, 0f), wheelBase);
 
             // Set default RigidBody parameters for a basic Car object.
@@ -69,55 +73,63 @@ namespace Racing.Objects
         protected float MaxFuelAmount { get; set; }
         protected float FuelLevel { get; set; }
 
-        protected const float minVelocityConstraint = 2.5f;
-        protected const float minSteeringAngleConstraint = 1f;
+        protected const float minVelocityConstraint = 4f;
+        protected const float minSteeringAngleConstraint = 3f;
 
         // GameObject Components.
         protected SpriteRenderer spriteRenderer;
         protected RigidBody2D rigidBody2D;
 
+        private float prevCarDirectionAngle;
+        private float deltaAngle;
+       
 
         public override void FixedUpdate(double fixedDeltaTime)
         {
-            UpdateGearboxState();
-            TakeUserInput();
+            UpdateGearboxState(Key.Q, Key.E);
+            TakeUserInput(Key.W, Key.S, Key.A, Key.D);
 
             // Update Steering angle of front car wheels.
             steeringAngle += steeringSpeed * (float)fixedDeltaTime;
 
-            //// Update Back wheels position.
-            //backWheelPosition += rigidBody2D.velocity * (float)fixedDeltaTime *
-            //    new Vector2((float)Math.Cos(MathHelper.DegreesToRadians(carDirectionAngle)),
-            //    (float)Math.Sin(MathHelper.DegreesToRadians(carDirectionAngle)));
-
-            //// Update Front wheels position.
-            //frontWheelPosition += rigidBody2D.velocity * (float)fixedDeltaTime *
-            //    new Vector2((float)Math.Cos(MathHelper.DegreesToRadians(carDirectionAngle + steeringAngle)),
-            //    (float)Math.Sin(MathHelper.DegreesToRadians(carDirectionAngle + steeringAngle)));
-
-            // Update Back wheels position.
+            
             backWheelPosition += rigidBody2D.velocity * (float)fixedDeltaTime *
                 new Vector2((float)Math.Cos(carDirectionAngle),
                 (float)Math.Sin(carDirectionAngle));
 
-            // Update Front wheels position.
             frontWheelPosition += rigidBody2D.velocity * (float)fixedDeltaTime *
-                new Vector2((float)Math.Cos(carDirectionAngle + steeringAngle),
+                new Vector2((float)Math.Cos(carDirectionAngle + MathHelper.DegreesToRadians(steeringAngle)),
                 (float)Math.Sin(carDirectionAngle + MathHelper.DegreesToRadians(steeringAngle)));
 
-            // Update Car fields.
             base.Position = (frontWheelPosition + backWheelPosition) / 2;
             carDirectionAngle = (float) Math.Atan2(frontWheelPosition.Y - backWheelPosition.Y,
                 frontWheelPosition.X - backWheelPosition.X);
 
-            // Update car sprites rotation.
-            for (int i = 0; i < spriteRenderer.RenderQueue.Quantity; i++)
+            if (carDirectionAngle > Math.PI/2)
             {
-                spriteRenderer.RenderQueue[i].Rotation = carDirectionAngle;
+                carDirectionAngle -= (int)(carDirectionAngle / (2 * Math.PI)) * (float)(2 * Math.PI);
             }
+            if (carDirectionAngle < - Math.PI/2)
+            {
+                carDirectionAngle += (int)(carDirectionAngle / (2 * Math.PI)) * (float)(2 * Math.PI);
+            }
+            
+            float dir;
+            if (steeringAngle == 0f)
+                dir = 0f;
+            else
+                dir = carDirectionAngle;
+
+            prevCarDirectionAngle = carDirectionAngle;
+
+            //if (this.rigidBody2D.velocity == 0f)
+            //    this.carDirectionAngle = 0f;
+            spriteRenderer.RenderQueue[2].Rotation = MathHelper.RadiansToDegrees(dir);
+            spriteRenderer.RenderQueue[0].Rotation = MathHelper.RadiansToDegrees(dir) + steeringAngle;
+            spriteRenderer.RenderQueue[1].Rotation = MathHelper.RadiansToDegrees(dir) + steeringAngle;
         }
 
-        protected virtual void TakeUserInput()
+        protected virtual void TakeUserInput(Key gas, Key brake, Key left, Key right)
         {
             // Check for max and min velocity-values.
             if (rigidBody2D.velocity > MaxVelocity)
@@ -132,7 +144,7 @@ namespace Racing.Objects
                 rigidBody2D.velocity = 0f;
             }
 
-            if (InputController.CurrentKeyboardState.IsKeyDown(Key.W))
+            if (InputController.CurrentKeyboardState.IsKeyDown(gas))
             {
                 if (rigidBody2D.velocity == 0f)
                     rigidBody2D.engineForce = drivingMode * MaxEngineForce;
@@ -143,7 +155,7 @@ namespace Racing.Objects
                 else
                     rigidBody2D.engineForce = drivingMode * MaxEngineForce;
             }
-            else if (InputController.CurrentKeyboardState.IsKeyDown(Key.S))
+            else if (InputController.CurrentKeyboardState.IsKeyDown(brake))
             {
                 if (rigidBody2D.velocity == 0f)
                     rigidBody2D.breakingForce = 0f;
@@ -162,22 +174,22 @@ namespace Racing.Objects
 
 
             // Update steering.
-            if (this.steeringAngle > MaxSteeringAngle)
+            if (this.steeringAngle >= MaxSteeringAngle)
                 this.steeringAngle = MaxSteeringAngle;
-            if (this.steeringAngle < -MaxSteeringAngle)
+            if (this.steeringAngle <= -MaxSteeringAngle)
                 this.steeringAngle = -MaxSteeringAngle;
 
             if (this.steeringAngle >= -minSteeringAngleConstraint &&
-                this.steeringAngle <= minSteeringAngleConstraint)
+                this.steeringAngle < minSteeringAngleConstraint)
             {
                 this.steeringAngle = 0f;
             }
 
-            if (InputController.CurrentKeyboardState.IsKeyDown(Key.A))
+            if (InputController.CurrentKeyboardState.IsKeyDown(left))
             {
                 this.steeringSpeed = -MaxSteeringSpeed;
             }
-            else if (InputController.CurrentKeyboardState.IsKeyDown(Key.D))
+            else if (InputController.CurrentKeyboardState.IsKeyDown(right))
             {
                 this.steeringSpeed = MaxSteeringSpeed;
             }
@@ -192,17 +204,13 @@ namespace Racing.Objects
             }
         }
 
-        protected virtual void UpdateGearboxState()
+        protected virtual void UpdateGearboxState(Key reverse, Key drive)
         {
-            if (InputController.CurrentKeyboardState.IsKeyDown(Key.RShift))
-            {
-                drivingMode = (int)DrivingModes.Neutral;
-            }
-            else if (InputController.CurrentKeyboardState.IsKeyDown(Key.RControl))
+            if (InputController.CurrentKeyboardState.IsKeyDown(drive))
             {
                 drivingMode = (int)DrivingModes.Drive;
             }
-            else if (InputController.CurrentKeyboardState.IsKeyDown(Key.Enter))
+            else if (InputController.CurrentKeyboardState.IsKeyDown(reverse))
             {
                 drivingMode = (int)DrivingModes.Reverse;
             }

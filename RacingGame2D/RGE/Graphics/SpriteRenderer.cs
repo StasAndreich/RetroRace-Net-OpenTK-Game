@@ -47,12 +47,8 @@ namespace RGEngine.Graphics
 
             GL.MatrixMode(MatrixMode.Modelview);
 
-            // Set basic color for rendering.
-            //
-            //GL.Color3(sprite.Color);
-
-            var X = sprite.Position.X + (sprite.RotationPoint.X + sprite.Offset.X) * sprite.Scale.X;
-            var Y = sprite.Position.Y + (sprite.RotationPoint.Y + sprite.Offset.Y) * sprite.Scale.Y;
+            var X = sprite.Position.X + (sprite.Offset.X) * sprite.Scale.X;
+            var Y = sprite.Position.Y + (sprite.Offset.Y) * sprite.Scale.Y;
 
             GL.Translate(X, Y, 0f);
             GL.Rotate(sprite.Rotation, 0f, 0f, 1f);
@@ -71,14 +67,11 @@ namespace RGEngine.Graphics
                 vertices[i].X = sprite.Width * (vertices[i].X - 0.5f);
                 vertices[i].Y = sprite.Height * (vertices[i].Y - 0.5f);
                 vertices[i] *= sprite.Scale;
-
-
                 // Translation of vertex.
-                vertices[i] += sprite.Position + sprite.Offset;
+                vertices[i] += sprite.Position + sprite.Offset * sprite.Scale;
 
                 GL.Vertex2(vertices[i]);
             }
-            // End rendering.
             GL.End();
         }
 
@@ -103,14 +96,10 @@ namespace RGEngine.Graphics
 
         internal override void PerformComponent(double deltaTime)
         {
-            // sprite rotations according to a gameobject physics
-            // sprite positions
-            //
             // ADD Enumerator for FOREACH possible.
             for (int i = 0; i < RenderQueue.Quantity; i++)
             {
                 RenderQueue[i].Position = base.attachedTo.Position;
-
             }
         }
     }
