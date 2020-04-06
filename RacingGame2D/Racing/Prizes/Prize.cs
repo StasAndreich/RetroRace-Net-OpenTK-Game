@@ -1,6 +1,6 @@
 ﻿namespace Racing.Prizes
 {
-    public class Prize
+    public abstract class Prize
     {
 
     }

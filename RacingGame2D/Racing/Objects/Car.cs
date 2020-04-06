@@ -116,17 +116,25 @@ namespace Racing.Objects
             
             float dir;
             if (steeringAngle == 0f)
+            {
                 dir = 0f;
+                prevCarDirectionAngle = carDirectionAngle;
+            }
             else
-                dir = carDirectionAngle;
+            {
+                if (Math.Abs(carDirectionAngle) > Math.Abs(prevCarDirectionAngle))
+                    dir = carDirectionAngle;
+                else
+                    dir = prevCarDirectionAngle;
+            }
 
-            prevCarDirectionAngle = carDirectionAngle;
+            //prevCarDirectionAngle = carDirectionAngle;
 
             //if (this.rigidBody2D.velocity == 0f)
             //    this.carDirectionAngle = 0f;
             spriteRenderer.RenderQueue[2].Rotation = MathHelper.RadiansToDegrees(dir);
-            spriteRenderer.RenderQueue[0].Rotation = MathHelper.RadiansToDegrees(dir) + steeringAngle;
-            spriteRenderer.RenderQueue[1].Rotation = MathHelper.RadiansToDegrees(dir) + steeringAngle;
+            //spriteRenderer.RenderQueue[0].Rotation = MathHelper.RadiansToDegrees(dir) + steeringAngle;
+            //spriteRenderer.RenderQueue[1].Rotation = MathHelper.RadiansToDegrees(dir) + steeringAngle;
         }
 
         protected virtual void TakeUserInput(Key gas, Key brake, Key left, Key right)
