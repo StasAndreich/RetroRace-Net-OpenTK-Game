@@ -13,6 +13,8 @@ namespace RGEngine.Physics
         {
         }
 
+        public ColliderBatch colliders;
+
         public float velocity;
         
         public float mass;

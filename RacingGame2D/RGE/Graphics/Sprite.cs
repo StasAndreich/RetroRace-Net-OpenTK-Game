@@ -8,7 +8,7 @@ namespace RGEngine.Graphics
     /// <summary>
     /// Represents a Sprite object for use in 2D.
     /// </summary>
-    public class Sprite : IComparable<Sprite>
+    public class Sprite : IComparable<Sprite>//, IDisposable
     {
         /// <summary>
         /// Stores a loaded 2D texture for sprite existence.
@@ -66,5 +66,31 @@ namespace RGEngine.Graphics
 
             return 0;
         }
+
+
+        //private bool isDisposed = false;
+        //public void Dispose()
+        //{
+        //    Dispose(true);
+        //    GC.SuppressFinalize(this);
+        //}
+
+        //public void Dispose(bool disposing)
+        //{
+        //    if (!isDisposed)
+        //    {
+        //        if (disposing)
+        //        {
+        //            Texture.Dispose();
+        //        }
+
+        //        isDisposed = true;
+        //    }
+        //}
+
+        //~Sprite()
+        //{
+        //    Dispose(false);
+        //}
     }
 }

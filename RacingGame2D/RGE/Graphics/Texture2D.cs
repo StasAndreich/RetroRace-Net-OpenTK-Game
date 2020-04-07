@@ -9,7 +9,7 @@ namespace RGEngine.Graphics
     /// <summary>
     /// Describes a 2D texture.
     /// </summary>
-    public class Texture2D
+    public class Texture2D// : IDisposable
     {
         /// <summary>
         /// Specifies a texture identifier.
@@ -44,5 +44,23 @@ namespace RGEngine.Graphics
             this.Height = height;
             this.Path = path;
         }
+
+        //bool isDisposed = false;
+        //public void Dispose()
+        //{
+        //    Dispose(true);
+        //    GC.SuppressFinalize(this);
+        //}
+
+        //public void Dispose(bool disposing)
+        //{
+        //    if (!isDisposed)
+        //    {
+        //        if (disposing)
+        //        {
+
+        //        }
+        //    }
+        //}
     }
 }

@@ -2,6 +2,7 @@
 using RGEngine.Graphics;
 using RGEngine.Support;
 using RGEngine.Input;
+using RGEngine.Physics;
 using System.Drawing;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
@@ -22,11 +23,9 @@ namespace RGEngine
         /// Indicates how much time elapsed from the start of the game.
         /// </summary>
         private double totalTimeElapsed;
-
         public static double deltaTimeFixedUpdate { get; set; }
 
         public static int GameWidth { get; set; }
-
         public static int GameHeight { get; set; }
 
         public EngineCore()
@@ -47,6 +46,7 @@ namespace RGEngine
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             SpriteRenderer.RenderEntireFrame(gameObjects);
+            Collider.allColliders[0].Draw();
 
             SwapBuffers();
             base.OnRenderFrame(e);

@@ -54,7 +54,8 @@
     <Compile Include="Graphics\SpriteRenderer.cs" />
     <Compile Include="Graphics\Texture2D.cs" />
     <Compile Include="Input\InputController.cs" />
-    <Compile Include="Physics\BoundingBox.cs" />
+    <Compile Include="Physics\BoundingPoly.cs" />
+    <Compile Include="Physics\BoxCollider.cs" />
     <Compile Include="Physics\Collider.cs" />
     <Compile Include="Physics\ColliderBatch.cs" />
     <Compile Include="Physics\RigidBody2D.cs" />
