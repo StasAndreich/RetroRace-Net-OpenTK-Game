@@ -11,15 +11,26 @@ namespace RGEngine.Physics
         protected RigidBody2D rigidBody;
         protected BoundingPoly boundingPoly;
 
-        internal static readonly List<Collider> allColliders = new List<Collider>();
+        internal static readonly List<Collider> sceneColliders = new List<Collider>();
 
         public Collider(int width, int height)
         {
-            boundingPoly = new BoundingPoly(rigidBody.attachedTo.Position, width, height);
-            allColliders.Add(this);
+            // Position of a bounding poly is set to default (0; 0).
+            this.boundingPoly = new BoundingPoly(new OpenTK.Vector2(0f, 0f), width, height);
+            sceneColliders.Add(this);
         }
         public bool IsTriggered { get; set; }
 
+
+        /// <summary>
+        /// Assignes this collider to rigidbody owner.
+        /// </summary>
+        /// <param name="rigidBody"></param>
+        internal void RegisterToComponent(RigidBody2D rigidBody)
+        {
+            this.rigidBody = rigidBody;
+            this.boundingPoly.Position = rigidBody.attachedTo.Position;
+        }
 
         internal abstract void Draw();
     }

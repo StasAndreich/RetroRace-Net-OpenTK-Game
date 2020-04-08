@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace RGEngine.Physics
 {
-    public class ColliderBatch
+    public class ColliderBatch : IEnumerable<Collider>
     {
         private List<Collider> colliders = new List<Collider>();
 
@@ -35,6 +36,16 @@ namespace RGEngine.Physics
             }
 
             return batch;
+        }
+
+        public IEnumerator<Collider> GetEnumerator()
+        {
+            return ((IEnumerable<Collider>)colliders).GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return ((IEnumerable<Collider>)colliders).GetEnumerator();
         }
     }
 }

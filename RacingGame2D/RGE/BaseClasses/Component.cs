@@ -27,6 +27,8 @@
         /// </summary>
         /// <param name="deltaTime"></param>
         internal abstract void PerformComponent(double deltaTime);
+
+        internal virtual void InitializeComponent() { }
     }
 
     // INTERFACE FLAGS

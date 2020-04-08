@@ -18,6 +18,14 @@ namespace RGEngine.BaseClasses
         /// </summary>
         private List<Component> components = new List<Component>();
 
+        /// <summary>
+        /// Fully initializes game object.
+        /// </summary>
+        internal void InitializeObject()
+        {
+            foreach (var component in components)
+                component.InitializeComponent();
+        }
 
         /// <summary>
         /// Adds a Component attached to a GameObject.

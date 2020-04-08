@@ -16,10 +16,10 @@ namespace GameLauncher
 
         private void StartButton_Click(object sender, EventArgs e)
         {
-            using (var racingGame = new EngineCore())
+            using (var racingGame = new EngineCore(true))
             {
                 EngineCore.AddGameObject(new DefaultCar(@"C:\Users\smedy\source\repos\OOP_CourseProject_StasMedyancev_NET_WinForms_OpenGL\RacingGame2D\Racing\Contents\Cars\lambo.png"));
-                EngineCore.AddGameObject(new );
+                //EngineCore.AddGameObject(new );
 
                 racingGame.Run();
             }

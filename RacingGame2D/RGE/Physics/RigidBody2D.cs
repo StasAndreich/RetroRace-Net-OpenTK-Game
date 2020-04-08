@@ -13,7 +13,7 @@ namespace RGEngine.Physics
         {
         }
 
-        public ColliderBatch colliders;
+        public ColliderBatch colliders = new ColliderBatch();
 
         public float velocity;
         
@@ -30,6 +30,15 @@ namespace RGEngine.Physics
             float acceleration = attachedForce / mass;
               
             velocity += acceleration * (float)deltaTime;
+        }
+
+        /// <summary>
+        /// Fully initializes a component.
+        /// </summary>
+        internal override void InitializeComponent()
+        {
+            foreach (var collider in colliders)
+                collider.RegisterToComponent(this);
         }
     }
 }

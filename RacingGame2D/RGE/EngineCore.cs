@@ -19,11 +19,10 @@ namespace RGEngine
     public class EngineCore : GameWindow
     {
         private static readonly List<GameObject> gameObjects = new List<GameObject>();
-        /// <summary>
-        /// Indicates how much time elapsed from the start of the game.
-        /// </summary>
         private double totalTimeElapsed;
-        public static double deltaTimeFixedUpdate { get; set; }
+
+        public static double deltaTimeFixedUpdate;
+        private bool EnableColliderDrawing { get; }
 
         public static int GameWidth { get; set; }
         public static int GameHeight { get; set; }
@@ -34,6 +33,11 @@ namespace RGEngine
             deltaTimeFixedUpdate = 0.001f;
         }
 
+        public EngineCore(bool enableCollidersDrawing)
+            : this()
+        {
+            this.EnableColliderDrawing = enableCollidersDrawing;
+        }
 
         protected override void OnLoad(EventArgs e)
         {            
@@ -46,7 +50,10 @@ namespace RGEngine
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             SpriteRenderer.RenderEntireFrame(gameObjects);
-            Collider.allColliders[0].Draw();
+
+            if (EnableColliderDrawing)
+                for (int i = 0; i < Collider.sceneColliders.Count; i++)
+                    Collider.sceneColliders[i].Draw();
 
             SwapBuffers();
             base.OnRenderFrame(e);
@@ -99,6 +106,7 @@ namespace RGEngine
         public static void AddGameObject(GameObject gameObject)
         {
             gameObjects.Add(gameObject);
+            gameObject.InitializeObject();
         }
     }
 }

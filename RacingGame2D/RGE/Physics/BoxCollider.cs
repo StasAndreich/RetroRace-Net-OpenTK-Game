@@ -8,10 +8,13 @@ namespace RGEngine.Physics
 {
     public class BoxCollider : Collider
     {
-        public BoxCollider(int width, int height) : base(width, height)
+        public BoxCollider(int width, int height)
+            : base(width, height)
         {
 
         }
+
+        
 
         /// <summary>
         /// Returns a vector of normal to some side of a polygon.
