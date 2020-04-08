@@ -31,7 +31,7 @@ namespace Racing.Objects
                                                                         wheelSpriteLeft,
                                                                         wheelSpriteRight);
 
-            rigidBody2D.colliders = ColliderBatch.CreateColliderBatch(new BoxCollider(180, 300));
+            rigidBody2D.colliders = ColliderBatch.CreateColliderBatch(new BoxCollider(135, 55));
 
             // Set defaults for a default car.
             MaxEngineForce = 400000f;

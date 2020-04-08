@@ -96,10 +96,9 @@ namespace RGEngine.Graphics
 
         internal override void PerformComponent(double deltaTime)
         {
-            // ADD Enumerator for FOREACH possible.
-            for (int i = 0; i < RenderQueue.Quantity; i++)
+            foreach (var sprite in RenderQueue)
             {
-                RenderQueue[i].Position = base.attachedTo.Position;
+                sprite.Position = base.attachedTo.Position;
             }
         }
     }

@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 
 
 namespace RGEngine.Graphics
 {
-    public class SpriteBatch //: IEnumerable<Sprite>
+    public class SpriteBatch : IEnumerable<Sprite>
     {
         /// <summary>
         /// Stores all sprites for some gameObject sorted in Z-index.
@@ -26,7 +27,7 @@ namespace RGEngine.Graphics
 
         public void RemoveSprite()
         {
-            
+            // ???
         }
 
         public static SpriteBatch CreateSpriteBatch(params Texture2D[] textures)
@@ -58,6 +59,16 @@ namespace RGEngine.Graphics
             }
 
             return batch;
+        }
+
+        public IEnumerator<Sprite> GetEnumerator()
+        {
+            return ((IEnumerable<Sprite>)sprites).GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return ((IEnumerable<Sprite>)sprites).GetEnumerator();
         }
     }
 }
