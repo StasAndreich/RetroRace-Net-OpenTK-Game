@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Racing.Prizes
 {
-    public class FuelPrize : Prize
+    public class FuelPrizeGenerator : PrizeGenerator
     {
     }
 }

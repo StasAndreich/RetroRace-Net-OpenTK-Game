@@ -48,10 +48,13 @@
     <Compile Include="Objects\CarDecorator.cs" />
     <Compile Include="Objects\DefaultCar.cs" />
     <Compile Include="Prizes\BoostPrize.cs" />
+    <Compile Include="Prizes\BoostPrizeGenerator.cs" />
     <Compile Include="Prizes\FuelPrize.cs" />
+    <Compile Include="Prizes\FuelPrizeGenerator.cs" />
     <Compile Include="Prizes\Prize.cs" />
     <Compile Include="Prizes\PrizeGenerator.cs" />
     <Compile Include="Prizes\SlowdownPrize.cs" />
+    <Compile Include="Prizes\SlowdownPrizeGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

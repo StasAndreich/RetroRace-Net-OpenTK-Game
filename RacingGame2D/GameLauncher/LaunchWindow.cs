@@ -20,6 +20,7 @@ namespace GameLauncher
             {
                 EngineCore.AddGameObject(new DefaultCar(@"C:\Users\smedy\source\repos\OOP_CourseProject_StasMedyancev_NET_WinForms_OpenGL\RacingGame2D\Racing\Contents\Cars\lambo.png"));
                 //EngineCore.AddGameObject(new );
+                
 
                 racingGame.Run();
             }

@@ -17,11 +17,12 @@ namespace Racing.Prizes
             var prizeSprite = new Sprite(prizeTexture, new Vector2(0.2f, 0.2f),
                 new Vector2(0f, 0f), 0);
             spriteRenderer.RenderQueue = SpriteBatch.CreateSpriteBatch(prizeSprite);
-            colliders = ColliderBatch.CreateColliderBatch(new BoxCollider(50, 50));
+            rigidBody.colliders = ColliderBatch.CreateColliderBatch(new BoxCollider(50, 50));
+
             Position = new Vector2(100f, 150f);
         }
 
         protected SpriteRenderer spriteRenderer;
-        protected ColliderBatch colliders;
+        protected RigidBody2D rigidBody;
     }
 }
