@@ -26,7 +26,7 @@ namespace RGEngine.Graphics
         public Vector2 Offset { get; set; }
 
         public float Rotation { get; set; }
-        public Vector2 RotationPoint { get; }
+        public Vector2 PointOfRotation { get; set; }
 
 
         public Sprite(Texture2D texture)

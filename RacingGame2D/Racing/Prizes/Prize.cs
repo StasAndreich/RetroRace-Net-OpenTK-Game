@@ -12,6 +12,7 @@ namespace Racing.Prizes
         public Prize(string prizeTexturePath)
         {
             spriteRenderer = AddComponent<SpriteRenderer>();
+            rigidBody = AddComponent<RigidBody2D>();
 
             var prizeTexture = ContentLoader.LoadTexture(prizeTexturePath);
             var prizeSprite = new Sprite(prizeTexture, new Vector2(0.2f, 0.2f),
@@ -19,7 +20,7 @@ namespace Racing.Prizes
             spriteRenderer.RenderQueue = SpriteBatch.CreateSpriteBatch(prizeSprite);
             rigidBody.colliders = ColliderBatch.CreateColliderBatch(new BoxCollider(50, 50));
 
-            Position = new Vector2(100f, 150f);
+            Position = new Vector2(100f, -150f);
         }
 
         protected SpriteRenderer spriteRenderer;

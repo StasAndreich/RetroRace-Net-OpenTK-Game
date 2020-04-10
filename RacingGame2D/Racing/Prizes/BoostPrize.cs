@@ -9,5 +9,10 @@ namespace Racing.Prizes
 {
     public class BoostPrize : Prize
     {
+        public BoostPrize()
+            : base(@"")
+        {
+
+        }
     }
 }

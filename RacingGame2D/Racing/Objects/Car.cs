@@ -20,39 +20,42 @@ namespace Racing.Objects
             var vehicleTexture = ContentLoader.LoadTexture(vehicleTexturePath);
             var wheelTexture = ContentLoader.LoadTexture(@"C:\Users\smedy\source\repos\OOP_CourseProject_StasMedyancev_NET_WinForms_OpenGL\RacingGame2D\Racing\Contents\Cars\wheel.png");
 
+            // Set defaults for a default car.
+            MaxEngineForce = 430000f;
+            MaxVelocity = 400f;
+            MaxVelocityReverse = -250f;
+            MaxSteeringAngle = 30f;
+            MaxSteeringSpeed = 220f;
+            MaxBreakingForce = 500000f;
+
+            // Set default wheelBase value and start car position.
+            wheelBase = 170f;
+            SetStartCarPosition(new Vector2(0f, 0f), wheelBase);
+
+            // Set default RigidBody parameters for a basic Car object.
+            rigidBody2D.mass = 1200f;
+            rigidBody2D.dragCoefficient = 750f;
+
+
             var vehicleSprite = new Sprite(vehicleTexture, new Vector2(0.3f, 0.3f),
-                new Vector2(60f, 0f), 1);
-            var wheelSpriteLeft = new Sprite(wheelTexture, new Vector2(0.45f, 0.45f),
-                new Vector2(60f, 80f), 0);
-            var wheelSpriteRight = new Sprite(wheelTexture, new Vector2(0.45f, 0.45f),
-                new Vector2(60f, -80f), 0);
+                new Vector2(0f, 0f), 2);
+            var wheelSpriteLeft = new Sprite(wheelTexture, new Vector2(0.4f, 0.4f),
+                new Vector2(wheelBase / 2f, -59f), 0);
+            var wheelSpriteRight = new Sprite(wheelTexture, new Vector2(0.4f, 0.4f),
+                new Vector2(wheelBase / 2f, 59f), 1);
+
+            wheelSpriteLeft.PointOfRotation = this.Position;
+            wheelSpriteRight.PointOfRotation = this.Position;
 
             spriteRenderer.RenderQueue = SpriteBatch.CreateSpriteBatch(vehicleSprite,
                                                                         wheelSpriteLeft,
                                                                         wheelSpriteRight);
 
             rigidBody2D.colliders = ColliderBatch.CreateColliderBatch(new BoxCollider(135, 55));
-
-            // Set defaults for a default car.
-            MaxEngineForce = 400000f;
-            MaxVelocity = 420f;
-            MaxVelocityReverse = -250f;
-            MaxSteeringAngle = 20f;
-            MaxSteeringSpeed = 25f;
-            MaxBreakingForce = 500000f;
-
-            // Set default wheelBase value and start car position.
-            wheelBase = 80f;
-            SetStartCarPosition(new Vector2(0f, 0f), wheelBase);
-
-            // Set default RigidBody parameters for a basic Car object.
-            rigidBody2D.mass = 1200f;
-            rigidBody2D.dragCoefficient = 750f;
         }
 
 
         protected float MaxEngineForce { get; set; }
-        protected float Mass { get; set; }
 
         protected float MaxVelocity { get; set; }
         protected float MaxVelocityReverse { get; set; }
@@ -74,7 +77,7 @@ namespace Racing.Objects
         protected float MaxFuelAmount { get; set; }
         protected float FuelLevel { get; set; }
 
-        protected const float minVelocityConstraint = 4f;
+        protected const float minVelocityConstraint = 6f;
         protected const float minSteeringAngleConstraint = 3f;
 
         // GameObject Components.
@@ -82,18 +85,24 @@ namespace Racing.Objects
         protected RigidBody2D rigidBody2D;
 
         private float prevCarDirectionAngle;
-        private float deltaAngle;
-       
+        
 
         public override void FixedUpdate(double fixedDeltaTime)
         {
-            UpdateGearboxState(Key.Q, Key.E);
-            TakeUserInput(Key.W, Key.S, Key.A, Key.D);
-
             // Update Steering angle of front car wheels.
             steeringAngle += steeringSpeed * (float)fixedDeltaTime;
+            // Update steering.
+            if (this.steeringAngle >= MaxSteeringAngle)
+                this.steeringAngle = MaxSteeringAngle;
+            if (this.steeringAngle <= -MaxSteeringAngle)
+                this.steeringAngle = -MaxSteeringAngle;
 
-            
+            if (this.steeringAngle >= -minSteeringAngleConstraint &&
+                this.steeringAngle < minSteeringAngleConstraint)
+            {
+                this.steeringAngle = 0f;
+            }
+
             backWheelPosition += rigidBody2D.velocity * (float)fixedDeltaTime *
                 new Vector2((float)Math.Cos(carDirectionAngle),
                 (float)Math.Sin(carDirectionAngle));
@@ -106,36 +115,40 @@ namespace Racing.Objects
             carDirectionAngle = (float) Math.Atan2(frontWheelPosition.Y - backWheelPosition.Y,
                 frontWheelPosition.X - backWheelPosition.X);
 
-            if (carDirectionAngle > Math.PI/2)
-            {
-                carDirectionAngle -= (int)(carDirectionAngle / (2 * Math.PI)) * (float)(2 * Math.PI);
-            }
-            if (carDirectionAngle < - Math.PI/2)
-            {
-                carDirectionAngle += (int)(carDirectionAngle / (2 * Math.PI)) * (float)(2 * Math.PI);
-            }
+            //if (carDirectionAngle > 0 && carDirectionAngle < Math.PI)
+            //{
+            //    carDirectionAngle = carDirectionAngle - ((int)(carDirectionAngle / (Math.PI)) * (float)(Math.PI));
+            //}
+            //if (carDirectionAngle < 0 && carDirectionAngle < -Math.PI)
+            //{
+            //    carDirectionAngle = carDirectionAngle + ((int)(carDirectionAngle / (Math.PI)) * (float)(Math.PI));
+            //}
             
             float dir;
             if (steeringAngle == 0f)
             {
-                dir = 0f;
+                dir = carDirectionAngle;
                 prevCarDirectionAngle = carDirectionAngle;
             }
             else
             {
-                if (Math.Abs(carDirectionAngle) > Math.Abs(prevCarDirectionAngle))
+                if (Math.Abs(carDirectionAngle - prevCarDirectionAngle) > 0)
                     dir = carDirectionAngle;
                 else
                     dir = prevCarDirectionAngle;
             }
 
-            //prevCarDirectionAngle = carDirectionAngle;
 
-            //if (this.rigidBody2D.velocity == 0f)
-            //    this.carDirectionAngle = 0f;
             spriteRenderer.RenderQueue[2].Rotation = MathHelper.RadiansToDegrees(dir);
-            //spriteRenderer.RenderQueue[0].Rotation = MathHelper.RadiansToDegrees(dir) + steeringAngle;
-            //spriteRenderer.RenderQueue[1].Rotation = MathHelper.RadiansToDegrees(dir) + steeringAngle;
+            //spriteRenderer.RenderQueue[0].PointOfRotation = this.backWheelPosition;
+            spriteRenderer.RenderQueue[0].Rotation = steeringAngle;
+            //spriteRenderer.RenderQueue[1].PointOfRotation = this.backWheelPosition;
+            spriteRenderer.RenderQueue[1].Rotation = steeringAngle;
+
+            foreach (var collider in rigidBody2D.colliders)
+            {
+                collider.Update(MathHelper.RadiansToDegrees(dir));
+            }
         }
 
         protected virtual void TakeUserInput(Key gas, Key brake, Key left, Key right)

@@ -32,6 +32,12 @@ namespace RGEngine.Physics
             this.boundingPoly.Position = rigidBody.attachedTo.Position;
         }
 
+        public void Update(float angleInDegrees)
+        {
+            boundingPoly.Position = rigidBody.attachedTo.Position;
+            boundingPoly.Rotate(angleInDegrees);
+        }
+
         internal abstract void Draw();
     }
 }

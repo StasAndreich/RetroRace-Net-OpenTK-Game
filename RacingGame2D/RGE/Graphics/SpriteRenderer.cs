@@ -46,13 +46,15 @@ namespace RGEngine.Graphics
             };
 
             GL.MatrixMode(MatrixMode.Modelview);
+            GL.PushMatrix();
 
-            var X = sprite.Position.X + (sprite.Offset.X) * sprite.Scale.X;
-            var Y = sprite.Position.Y + (sprite.Offset.Y) * sprite.Scale.Y;
+            var X = sprite.Position.X + sprite.PointOfRotation.X + sprite.Offset.X * sprite.Scale.X;
+            var Y = sprite.Position.Y + sprite.PointOfRotation.Y + sprite.Offset.Y * sprite.Scale.Y;
 
             GL.Translate(X, Y, 0f);
-            GL.Rotate(sprite.Rotation, 0f, 0f, 1f);
+            GL.Rotate(sprite.Rotation, 0.0f, 0f, 1f);
             GL.Translate(-X, -Y, 0f);
+            
 
             GL.BindTexture(TextureTarget.Texture2D, sprite.Texture.Id);
             GL.Begin(PrimitiveType.Quads);
@@ -73,6 +75,7 @@ namespace RGEngine.Graphics
                 GL.Vertex2(vertices[i]);
             }
             GL.End();
+            GL.PopMatrix();
         }
 
         // Renders a list of all the sprites from the scene.

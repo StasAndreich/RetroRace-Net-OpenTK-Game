@@ -63,12 +63,13 @@ namespace RGEngine.Physics
         {
             GL.Disable(EnableCap.Blend);
             GL.MatrixMode(MatrixMode.Modelview);
+            GL.PushMatrix();
 
             GL.Begin(PrimitiveType.LineLoop);
             if (IsTriggered)
                 GL.Color3(Color.Red);
             else
-                GL.Color3(Color.LightGreen);
+                //GL.Color3(Color.LightGreen);
 
             for (int i = 0; i < boundingPoly.Count; i++)
             {
@@ -76,6 +77,7 @@ namespace RGEngine.Physics
             }
 
             GL.End();
+            GL.PopMatrix();
             GL.Enable(EnableCap.Blend);
         }
     }

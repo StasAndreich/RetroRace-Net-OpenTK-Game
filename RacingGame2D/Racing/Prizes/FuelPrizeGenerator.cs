@@ -8,5 +8,9 @@ namespace Racing.Prizes
 {
     public class FuelPrizeGenerator : PrizeGenerator
     {
+        public override Prize GeneratePrize()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

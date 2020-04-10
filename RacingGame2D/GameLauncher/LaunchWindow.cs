@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using Racing.Objects;
+using Racing.Prizes;
 using RGEngine;
 
 
@@ -19,9 +20,9 @@ namespace GameLauncher
             using (var racingGame = new EngineCore(true))
             {
                 EngineCore.AddGameObject(new DefaultCar(@"C:\Users\smedy\source\repos\OOP_CourseProject_StasMedyancev_NET_WinForms_OpenGL\RacingGame2D\Racing\Contents\Cars\lambo.png"));
-                //EngineCore.AddGameObject(new );
-                
+                EngineCore.AddGameObject(new FuelPrize());
 
+                racingGame.WindowState = OpenTK.WindowState.Maximized;
                 racingGame.Run();
             }
         }
