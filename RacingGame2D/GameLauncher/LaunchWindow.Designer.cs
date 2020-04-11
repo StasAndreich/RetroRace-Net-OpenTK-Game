@@ -51,6 +51,7 @@
             this.Name = "LaunchWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Racing Game Launcher";
+            this.Load += new System.EventHandler(this.LaunchWindow_Load);
             this.ResumeLayout(false);
 
         }

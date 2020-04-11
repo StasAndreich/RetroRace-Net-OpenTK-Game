@@ -24,7 +24,7 @@ namespace Racing.Objects
             MaxEngineForce = 430000f;
             MaxVelocity = 400f;
             MaxVelocityReverse = -250f;
-            MaxSteeringAngle = 30f;
+            MaxSteeringAngle = 20f;
             MaxSteeringSpeed = 220f;
             MaxBreakingForce = 500000f;
 
@@ -37,11 +37,11 @@ namespace Racing.Objects
             rigidBody2D.dragCoefficient = 750f;
 
 
-            var vehicleSprite = new Sprite(vehicleTexture, new Vector2(0.3f, 0.3f),
+            var vehicleSprite = new Sprite(vehicleTexture, new Vector2(0.2f, 0.2f),
                 new Vector2(0f, 0f), 2);
-            var wheelSpriteLeft = new Sprite(wheelTexture, new Vector2(0.4f, 0.4f),
+            var wheelSpriteLeft = new Sprite(wheelTexture, new Vector2(0.25f, 0.25f),
                 new Vector2(wheelBase / 2f, -59f), 0);
-            var wheelSpriteRight = new Sprite(wheelTexture, new Vector2(0.4f, 0.4f),
+            var wheelSpriteRight = new Sprite(wheelTexture, new Vector2(0.25f, 0.25f),
                 new Vector2(wheelBase / 2f, 59f), 1);
 
             wheelSpriteLeft.PointOfRotation = this.Position;
@@ -115,15 +115,15 @@ namespace Racing.Objects
             carDirectionAngle = (float) Math.Atan2(frontWheelPosition.Y - backWheelPosition.Y,
                 frontWheelPosition.X - backWheelPosition.X);
 
-            //if (carDirectionAngle > 0 && carDirectionAngle < Math.PI)
-            //{
-            //    carDirectionAngle = carDirectionAngle - ((int)(carDirectionAngle / (Math.PI)) * (float)(Math.PI));
-            //}
-            //if (carDirectionAngle < 0 && carDirectionAngle < -Math.PI)
-            //{
-            //    carDirectionAngle = carDirectionAngle + ((int)(carDirectionAngle / (Math.PI)) * (float)(Math.PI));
-            //}
-            
+            if (carDirectionAngle > 0 && carDirectionAngle < Math.PI)
+            {
+                carDirectionAngle = carDirectionAngle - ((int)(carDirectionAngle / (Math.PI)) * (float)(Math.PI));
+            }
+            if (carDirectionAngle < 0 && carDirectionAngle < -Math.PI)
+            {
+                carDirectionAngle = carDirectionAngle + ((int)(carDirectionAngle / (Math.PI)) * (float)(Math.PI));
+            }
+
             float dir;
             if (steeringAngle == 0f)
             {
