@@ -11,6 +11,7 @@ namespace RGEngine.Physics
         protected RigidBody2D rigidBody;
         protected BoundingPoly boundingPoly;
 
+        internal AABB aabbSurrounding;
         internal static readonly List<Collider> sceneColliders = new List<Collider>();
 
         public Collider(int width, int height)
@@ -35,9 +36,26 @@ namespace RGEngine.Physics
         public void Update(float angleInDegrees)
         {
             boundingPoly.Position = rigidBody.attachedTo.Position;
-            boundingPoly.Rotate(angleInDegrees);
+            Rotate(angleInDegrees);
         }
 
+        internal abstract void DetectCollision(Collider other);
+
+        internal abstract void ResolveCollision(Collider other);
+
         internal abstract void Draw();
+
+        protected abstract void Rotate(float angleInDegrees);
+    }
+
+
+    public class CollisionEventArgs : EventArgs
+    {
+        public readonly Collider other;
+
+        public CollisionEventArgs(Collider other)
+        {
+            this.other = other;
+        }
     }
 }

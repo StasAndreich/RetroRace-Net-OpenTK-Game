@@ -25,7 +25,9 @@ namespace RGEngine.Graphics
 
         public SpriteRenderer(GameObject gameObject) :
             base(gameObject)
-        { }
+        {
+            RenderQueue = new SpriteBatch();
+        }
 
         /// <summary>
         /// Holds the queue of Sprite objects to render.
@@ -53,8 +55,7 @@ namespace RGEngine.Graphics
 
             GL.Translate(X, Y, 0f);
             GL.Rotate(sprite.Rotation, 0.0f, 0f, 1f);
-            GL.Translate(-X, -Y, 0f);
-            
+            GL.Translate(-X, -Y, 0f);          
 
             GL.BindTexture(TextureTarget.Texture2D, sprite.Texture.Id);
             GL.Begin(PrimitiveType.Quads);

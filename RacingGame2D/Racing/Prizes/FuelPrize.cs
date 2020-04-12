@@ -11,7 +11,13 @@ namespace Racing.Prizes
         public FuelPrize()
             : base(@"C:\Users\smedy\Source\Repos\OOP_CourseProject_StasMedyancev_NET_WinForms_OpenGL\RacingGame2D\Racing\Contents\low-poly-texture.jpg")
         {
+            base.rigidBody.OnTriggered += FuelPrize_OnTriggered;
+        }
 
+        private void FuelPrize_OnTriggered(object sender, EventArgs e)
+        {
+            // apply decorator
+            // remove prize from scene
         }
     }
 }

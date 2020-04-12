@@ -27,7 +27,7 @@ namespace RGEngine.Physics
         public Vector2 this[int index]
         {
             get => rectVertices[index];
-            private set => rectVertices[index] = value;
+            set => rectVertices[index] = value;
         }
 
 
@@ -41,29 +41,29 @@ namespace RGEngine.Physics
         }
 
 
-        public void Rotate(float angleInDegrees)
-        {
-            var X = this.Position.X;
-            var Y = this.Position.Y;
+        //public void Rotate(float angleInDegrees)
+        //{
+        //    var X = this.Position.X;
+        //    var Y = this.Position.Y;
 
-            Translate(X, Y);
+        //    Translate(X, Y);
 
-            var rotation = MathHelper.DegreesToRadians(angleInDegrees);
-            for (int i = 0; i < rectVertices.Length; i++)
-            {
-                rectVertices[i].X += (int)(Math.Cos(rotation) * rectVertices[i].X -
-                    Math.Sin(rotation) * rectVertices[i].Y);
-                rectVertices[i].Y += (int)(Math.Sin(rotation) * rectVertices[i].X +
-                    Math.Cos(rotation) * rectVertices[i].Y);
-            }
+        //    var rotation = MathHelper.DegreesToRadians(angleInDegrees);
+        //    for (int i = 0; i < rectVertices.Length; i++)
+        //    {
+        //        rectVertices[i].X += (int)(Math.Cos(rotation) * rectVertices[i].X -
+        //            Math.Sin(rotation) * rectVertices[i].Y);
+        //        rectVertices[i].Y += (int)(Math.Sin(rotation) * rectVertices[i].X +
+        //            Math.Cos(rotation) * rectVertices[i].Y);
+        //    }
 
-            Translate(-X, -Y);
-        }
+        //    Translate(-X, -Y);
+        //}
 
-        public void Translate(float xTranslate, float yTranslate)
-        {
-            this.Position += new Vector2(xTranslate, yTranslate);
-        }
+        //public void Translate(float xTranslate, float yTranslate)
+        //{
+        //    this.Position += new Vector2(xTranslate, yTranslate);
+        //}
 
         private Vector2[] GetRectVertices(int width, int height)
         {

@@ -3,6 +3,7 @@ using RGEngine.Physics;
 using RGEngine.BaseClasses;
 using RGEngine.Support;
 using OpenTK;
+using System;
 
 
 namespace Racing.Prizes
@@ -13,17 +14,16 @@ namespace Racing.Prizes
         {
             spriteRenderer = AddComponent<SpriteRenderer>();
             rigidBody = AddComponent<RigidBody2D>();
+            animator = AddComponent<Animator>();
 
-            var prizeTexture = ContentLoader.LoadTexture(prizeTexturePath);
-            var prizeSprite = new Sprite(prizeTexture, new Vector2(0.2f, 0.2f),
-                new Vector2(0f, 0f), 0);
-            spriteRenderer.RenderQueue = SpriteBatch.CreateSpriteBatch(prizeSprite);
             rigidBody.colliders = ColliderBatch.CreateColliderBatch(new BoxCollider(50, 50));
+            animator.FramesGrid = SpriteBatch.CreateSpriteBatch(ContentLoader.LoadTexture(prizeTexturePath));
 
             Position = new Vector2(100f, -150f);
         }
 
         protected SpriteRenderer spriteRenderer;
         protected RigidBody2D rigidBody;
+        protected Animator animator;
     }
 }

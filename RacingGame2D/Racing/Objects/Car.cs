@@ -19,14 +19,14 @@ namespace Racing.Objects
 
             // Set defaults for a default car.
             MaxEngineForce = 430000f;
-            MaxVelocity = 400f;
+            MaxVelocity = 480f;
             MaxVelocityReverse = -250f;
-            MaxSteeringAngle = 15f;
+            MaxSteeringAngle = 25f;
             MaxBreakingForce = 500000f;
 
             // Set default wheelBase value and start car position.
-            wheelBase = 100f;
-            SetStartCarPosition(new Vector2(0f, 0f), wheelBase);
+            wheelBase = 80f;
+            SetStartCarPosition(new Vector2(0f, 0f));
 
             // Set default RigidBody parameters for a basic Car object.
             rigidBody2D.mass = 1200f;
@@ -66,27 +66,39 @@ namespace Racing.Objects
 
         protected float steeringAngle;
         protected float carDirectionAngle;
-        protected float rotation;
 
-        protected Vector2 carDirection;
         protected Vector2 frontWheel;
         protected Vector2 backWheel;
 
         protected int drivingMode;
 
-        protected float MaxFuelAmount { get; set; }
-        protected float FuelLevel { get; set; }
+        protected float MaxFuelLevel { get; set; }
+
+        private float fuelLevel;
+        protected float FuelLevel
+        {
+            get => this.fuelLevel;
+            set
+            {
+                if (this.fuelLevel + value > MaxFuelLevel)
+                    this.fuelLevel = MaxFuelLevel;
+                else if (this.fuelLevel + value < 0)
+                    this.fuelLevel = 0;
+                else
+                    this.fuelLevel += value;
+            }
+        }
 
         protected const float velocityConstraint = 6f;
 
 
         public override void FixedUpdate(double fixedDeltaTime)
         {
+            //var rot = carDirectionAngle;
             var steer = MathHelper.DegreesToRadians(steeringAngle);
-            
-            backWheel.X += rigidBody2D.velocity * (float)fixedDeltaTime *
-                (float)Math.Cos(-carDirectionAngle);
 
+            backWheel.X += rigidBody2D.velocity * (float)fixedDeltaTime *
+                (float)Math.Cos(carDirectionAngle);
             backWheel.Y += rigidBody2D.velocity * (float)fixedDeltaTime *
                 (float)Math.Sin(carDirectionAngle);
 
@@ -98,13 +110,14 @@ namespace Racing.Objects
             var calc = Math.Sqrt(B * B + C) - B;
 
             frontWheel.X += (float)calc *
-                (float)Math.Cos(-(carDirectionAngle + steer));
+                (float)Math.Cos(carDirectionAngle + steer);
             frontWheel.Y += (float)calc *
                 (float)Math.Sin(carDirectionAngle + steer);
 
             base.Position = (frontWheel + backWheel) / 2;
             carDirectionAngle = (float)Math.Atan2(frontWheel.Y - backWheel.Y,
                 frontWheel.X - backWheel.X);
+            //rot = MathHelper.RadiansToDegrees(carDirectionAngle) + MathHelper.RadiansToDegrees(carDirectionAngle) * 0.1f;
 
             spriteRenderer.RenderQueue[0].Position = frontWheel;
             spriteRenderer.RenderQueue[1].Position = backWheel;
@@ -177,13 +190,13 @@ namespace Racing.Objects
             }
         }
 
-        protected virtual void SetStartCarPosition(Vector2 startPosition, float wheelBaseLength)
+        protected virtual void SetStartCarPosition(Vector2 startPosition)
         {
             base.Position = startPosition;
             this.frontWheel = base.Position +
-                wheelBaseLength / 2 * new Vector2((float)Math.Cos(carDirectionAngle), (float)Math.Sin(carDirectionAngle));
+                this.wheelBase / 2 * new Vector2((float)Math.Cos(carDirectionAngle), (float)Math.Sin(carDirectionAngle));
             this.backWheel = base.Position -
-                wheelBaseLength / 2 * new Vector2((float)Math.Cos(carDirectionAngle), (float)Math.Sin(carDirectionAngle));
+                this.wheelBase / 2 * new Vector2((float)Math.Cos(carDirectionAngle), (float)Math.Sin(carDirectionAngle));
         }
     }
 

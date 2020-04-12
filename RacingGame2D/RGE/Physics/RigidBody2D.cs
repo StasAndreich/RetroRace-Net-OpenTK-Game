@@ -1,5 +1,5 @@
 ﻿using RGEngine.BaseClasses;
-using OpenTK;
+using System;
 
 
 namespace RGEngine.Physics
@@ -16,6 +16,8 @@ namespace RGEngine.Physics
 
         public ColliderBatch colliders = new ColliderBatch();
 
+        public event EventHandler<CollisionEventArgs> OnTriggered;
+
         public float velocity;
         
         public float mass;
@@ -31,6 +33,28 @@ namespace RGEngine.Physics
             float acceleration = attachedForce / mass;
 
             velocity += acceleration * (float)deltaTime;
+
+            // Process collisions.
+            // Pick each collider for this object.
+            foreach (var thisCollider in this.colliders)
+            {
+                // Pick another collider in the whole scene.
+                foreach (var otherCollider in Collider.sceneColliders)
+                {
+                    if (!ReferenceEquals(thisCollider, otherCollider))
+                    {
+                        thisCollider.DetectCollision(otherCollider);
+                        thisCollider.ResolveCollision(otherCollider);
+                    }
+                }
+            }
+        }
+
+        internal void IsTriggeredNotify(Collider other)
+        {
+            // THIS object invokes the event and
+            // pass the OTHER object of collision as args.
+            OnTriggered?.Invoke(this, new CollisionEventArgs(other));
         }
 
         /// <summary>

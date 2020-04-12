@@ -10,7 +10,7 @@ namespace Racing.Prizes
     {
         public override Prize GeneratePrize()
         {
-            throw new NotImplementedException();
+            return new BoostPrize();
         }
     }
 }

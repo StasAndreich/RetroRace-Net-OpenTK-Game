@@ -49,11 +49,13 @@
     <Compile Include="BaseClasses\GameObject.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="EngineCore.cs" />
+    <Compile Include="Graphics\Animator.cs" />
     <Compile Include="Graphics\SpriteBatch.cs" />
     <Compile Include="Graphics\Sprite.cs" />
     <Compile Include="Graphics\SpriteRenderer.cs" />
     <Compile Include="Graphics\Texture2D.cs" />
     <Compile Include="Input\InputController.cs" />
+    <Compile Include="Physics\AABB.cs" />
     <Compile Include="Physics\BoundingPoly.cs" />
     <Compile Include="Physics\BoxCollider.cs" />
     <Compile Include="Physics\Collider.cs" />

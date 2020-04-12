@@ -5,7 +5,7 @@
     //    protected Car basicCar;
 
     //    public CarDecorator(Car basicCar)
-    //        : base()
+    //        : base(basicCar)
     //    {
     //        this.basicCar = basicCar;
     //    }

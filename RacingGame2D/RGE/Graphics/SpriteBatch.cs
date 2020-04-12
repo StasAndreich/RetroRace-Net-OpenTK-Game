@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 
@@ -25,9 +26,15 @@ namespace RGEngine.Graphics
             sprites.Sort();
         }
 
-        public void RemoveSprite()
+        public void RemoveSprite(string name)
         {
-            // ???
+            foreach (var sprite in sprites)
+            {
+                if (sprite.Texture.Path == name)
+                {
+                    sprites.Remove(sprite);
+                }
+            }
         }
 
         public static SpriteBatch CreateSpriteBatch(params Texture2D[] textures)
@@ -37,8 +44,6 @@ namespace RGEngine.Graphics
 
             var batch = new SpriteBatch();
 
-            // после реализации Enumrator в Spritebatch
-            // попробовать заменить Фор на Форич
             for (int i = 0; i < textures.Length; i++)
             {
                 batch.AddSprite(new Sprite(textures[i]));
@@ -70,5 +75,7 @@ namespace RGEngine.Graphics
         {
             return ((IEnumerable<Sprite>)sprites).GetEnumerator();
         }
+
+        public event EventHandler OnBatchUpdate;
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using RGEngine.Graphics;
-using RGEngine.Support;
 using RGEngine.Input;
 using RGEngine.Physics;
 using System.Drawing;
