@@ -18,7 +18,7 @@ namespace Racing.Objects
         public override void FixedUpdate(double fixedDeltaTime)
         {
             UpdateGearboxState(Key.Q, Key.E);
-            TakeUserInput(Key.W, Key.S, Key.A, Key.D);
+            GetUserInput(Key.W, Key.S, Key.A, Key.D);
 
             base.FixedUpdate(fixedDeltaTime);
         }

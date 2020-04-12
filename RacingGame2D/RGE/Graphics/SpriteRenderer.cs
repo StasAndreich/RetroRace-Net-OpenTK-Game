@@ -99,10 +99,10 @@ namespace RGEngine.Graphics
 
         internal override void PerformComponent(double deltaTime)
         {
-            foreach (var sprite in RenderQueue)
-            {
-                sprite.Position = base.attachedTo.Position;
-            }
+            //foreach (var sprite in RenderQueue)
+            //{
+            //    sprite.Position = base.attachedTo.Position;
+            //}
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using RGEngine.BaseClasses;
+using OpenTK;
 
 
 namespace RGEngine.Physics
@@ -18,17 +19,17 @@ namespace RGEngine.Physics
         public float velocity;
         
         public float mass;
-        public float dragCoefficient;
+        public float frictionConst;
         public float engineForce;
         public float breakingForce;
 
 
         internal override void PerformComponent(double deltaTime)
         {
-            float dragForce = dragCoefficient * velocity;
-            float attachedForce = engineForce - breakingForce - dragForce;
+            var frictionForce = frictionConst * velocity;
+            var attachedForce = engineForce - breakingForce - frictionForce;
             float acceleration = attachedForce / mass;
-              
+
             velocity += acceleration * (float)deltaTime;
         }
 
