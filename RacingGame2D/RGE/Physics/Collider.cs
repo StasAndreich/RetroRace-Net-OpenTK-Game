@@ -36,7 +36,7 @@ namespace RGEngine.Physics
         public void Update(float angleInDegrees)
         {
             boundingPoly.Position = rigidBody.attachedTo.Position;
-            Rotate(angleInDegrees);
+            boundingPoly.Rotate(angleInDegrees);
         }
 
         internal abstract bool DetectCollision(Collider other);

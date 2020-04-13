@@ -43,8 +43,11 @@ namespace RGEngine.Physics
                 {
                     if (!ReferenceEquals(thisCollider, otherCollider))
                     {
-                        thisCollider.DetectCollision(otherCollider);
-                        thisCollider.ResolveCollision(otherCollider);
+                        // ???
+                        // if game obj is static non movable
+                        // exclude resolving
+                        if (thisCollider.DetectCollision(otherCollider))
+                            thisCollider.ResolveCollision(otherCollider);
                     }
                 }
             }

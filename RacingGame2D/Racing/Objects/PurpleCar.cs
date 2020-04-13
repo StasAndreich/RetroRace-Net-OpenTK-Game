@@ -11,7 +11,7 @@ namespace Racing.Objects
         public PurpleCar()
             : base(@"C:\Users\smedy\source\repos\OOP_CourseProject_StasMedyancev_NET_WinForms_OpenGL\RacingGame2D\Racing\Contents\Cars\lambo.png")
         {
-            SetStartCarPosition(new Vector2(200f, 150f));
+            SetStartCarPosition(new Vector2(300f, 0f));
         }
 
 

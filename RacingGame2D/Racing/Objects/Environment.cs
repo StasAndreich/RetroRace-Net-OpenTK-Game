@@ -21,5 +21,6 @@ namespace Racing.Objects
         }
 
         private SpriteRenderer spriteRenderer;
+        private Animator animator;
     }
 }

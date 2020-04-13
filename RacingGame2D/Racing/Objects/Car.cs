@@ -94,7 +94,6 @@ namespace Racing.Objects
 
         public override void FixedUpdate(double fixedDeltaTime)
         {
-            //var rot = carDirectionAngle;
             var steer = MathHelper.DegreesToRadians(steeringAngle);
 
             backWheel.X += rigidBody2D.velocity * (float)fixedDeltaTime *
@@ -117,17 +116,16 @@ namespace Racing.Objects
             base.Position = (frontWheel + backWheel) / 2;
             carDirectionAngle = (float)Math.Atan2(frontWheel.Y - backWheel.Y,
                 frontWheel.X - backWheel.X);
-            //rot = MathHelper.RadiansToDegrees(carDirectionAngle) + MathHelper.RadiansToDegrees(carDirectionAngle) * 0.1f;
 
             spriteRenderer.RenderQueue[0].Position = frontWheel;
             spriteRenderer.RenderQueue[1].Position = backWheel;
             spriteRenderer.RenderQueue[2].Rotation = MathHelper.RadiansToDegrees(carDirectionAngle);
             spriteRenderer.RenderQueue[2].Position = this.Position;
 
-            //foreach (var collider in rigidBody2D.colliders)
-            //{
-            //    collider.Update(MathHelper.RadiansToDegrees(carDirectionAngle));
-            //}
+            foreach (var collider in rigidBody2D.colliders)
+            {
+                collider.Update(MathHelper.RadiansToDegrees(carDirectionAngle));
+            }
         }
 
         protected virtual void GetUserInput(Key gas, Key brake, Key left, Key right)

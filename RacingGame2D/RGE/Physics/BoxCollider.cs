@@ -8,6 +8,19 @@ namespace RGEngine.Physics
 {
     public class BoxCollider : Collider
     {
+        /// <summary>
+        /// Define possible resolving distances for the case of collision.
+        /// </summary>
+        private float resolvingDistanceA = 0;
+        private float resolvingDistanceB = 0;
+
+        /// <summary>
+        /// Define possible resolving vectors for the case of collision.
+        /// </summary>
+        private Vector2 resolvingDirecionA = Vector2.Zero;
+        private Vector2 resolvingDirecionB = Vector2.Zero;
+
+
         public BoxCollider(int width, int height)
             : base(width, height)
         {
@@ -85,8 +98,9 @@ namespace RGEngine.Physics
         /// and plane of separating axis.
         /// </summary>
         /// <param name="other"></param>
+        /// <param name="resolvingDirection"></param>
         /// <returns></returns>
-        internal float FindLargestCollisionDistance(BoxCollider other)
+        internal float FindLargestCollisionDistance(BoxCollider other, out Vector2 resolvingDirection)
         {
             var largestDistance = float.MinValue;
             // Associated index of a side face.
@@ -107,8 +121,8 @@ namespace RGEngine.Physics
                 }
             }
 
-            // ???
-            // Add resolution distance.
+            // Get vector2 for collision resolution.
+            resolvingDirection = GetSideNormal(index);
 
             return largestDistance;
         }
@@ -128,29 +142,62 @@ namespace RGEngine.Physics
                     // If distance is positive, axis found (no collision).
                     // If distance is negative, axis not found (collision occured).
 
-                    var a = FindLargestCollisionDistance(boxCollider);
+                    var a = FindLargestCollisionDistance(boxCollider, out var dirA);
                     if (a > 0f)
                         return false;
 
-                    var b = FindLargestCollisionDistance(boxCollider);
+                    var b = FindLargestCollisionDistance(boxCollider, out var dirB);
                     if (b > 0f)
                         return false;
+
+                    this.resolvingDistanceA = a;
+                    this.resolvingDistanceB = b;
+                    this.resolvingDirecionA = dirA;
+                    this.resolvingDirecionB = dirB;
+
+                    rigidBody.IsTriggeredNotify(boxCollider);
+                    boxCollider.rigidBody.IsTriggeredNotify(this);
 
                     return true;
                 }
                 else
                     throw new ApplicationException("Incorrect collider type.");
             }
-            // If no collision detected.
-            IsTriggered = false;
+            //// If no collision detected.
+            //IsTriggered = false;
+
+            // Reset resolving params if no collision occured.
+            this.resolvingDistanceA = 0;
+            this.resolvingDistanceB = 0;
+            this.resolvingDirecionA = Vector2.Zero;
+            this.resolvingDirecionB = Vector2.Zero;
 
             return false;
         }
 
-
+        /// <summary>
+        /// Resolves collisions if there is some.
+        /// </summary>
+        /// <param name="other"></param>
         internal override void ResolveCollision(Collider other)
         {
-            //throw new NotImplementedException();
+            rigidBody.attachedTo.Position += -this.resolvingDirecionB
+                * Math.Max(this.resolvingDistanceA, this.resolvingDistanceB);
+
+            //if (resolvingDirecionA.X != 0 && resolvingDirecionB.Y != 0)
+            //    rigidBody.velocity = 0f;
+
+
+            var boxCollider = other as BoxCollider;
+            if (boxCollider != null)
+            {
+                boxCollider.rigidBody.attachedTo.Position += -this.resolvingDirecionA
+                    * Math.Max(this.resolvingDistanceA, this.resolvingDistanceB);
+
+                //if (resolvingDirecionB.X != 0 && resolvingDirecionB.Y != 0)
+                //    boxCollider.rigidBody.velocity = 0f;
+            }
+                
         }
 
         /// <summary>
