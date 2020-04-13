@@ -37,7 +37,7 @@ namespace RGEngine.Graphics
         internal override void PerformComponent(double deltaTime)
         {
             var delay = 1f / fps;
-            if (ienumerator != null)
+            if (ienumerator != null)    
             {
                 base.attachedTo.GetComponent<SpriteRenderer>().RenderQueue.RemoveSprite(ienumerator.Current.Texture.Path);
                 frameLiveTime += deltaTime;

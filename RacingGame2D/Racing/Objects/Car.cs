@@ -124,10 +124,10 @@ namespace Racing.Objects
             spriteRenderer.RenderQueue[2].Rotation = MathHelper.RadiansToDegrees(carDirectionAngle);
             spriteRenderer.RenderQueue[2].Position = this.Position;
 
-            foreach (var collider in rigidBody2D.colliders)
-            {
-                collider.Update(MathHelper.RadiansToDegrees(carDirectionAngle));
-            }
+            //foreach (var collider in rigidBody2D.colliders)
+            //{
+            //    collider.Update(MathHelper.RadiansToDegrees(carDirectionAngle));
+            //}
         }
 
         protected virtual void GetUserInput(Key gas, Key brake, Key left, Key right)

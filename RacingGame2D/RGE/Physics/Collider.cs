@@ -39,7 +39,7 @@ namespace RGEngine.Physics
             Rotate(angleInDegrees);
         }
 
-        internal abstract void DetectCollision(Collider other);
+        internal abstract bool DetectCollision(Collider other);
 
         internal abstract void ResolveCollision(Collider other);
 

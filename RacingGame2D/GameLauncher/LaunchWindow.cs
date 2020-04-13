@@ -14,8 +14,12 @@ namespace GameLauncher
             InitializeComponent();
         }
 
+        private void LaunchWindow_Load(object sender, EventArgs e)
+        {
 
-        private void StartButton_Click(object sender, EventArgs e)
+        }
+
+        private void label_Start_Click(object sender, EventArgs e)
         {
             using (var racingGame = new EngineCore(true))
             {
@@ -29,9 +33,14 @@ namespace GameLauncher
             }
         }
 
-        private void LaunchWindow_Load(object sender, EventArgs e)
+        private void label_Start_OnMouseEnter(object sender, EventArgs e)
         {
+            label_Start.ForeColor = System.Drawing.Color.LightBlue;
+        }
 
+        private void label_Start_OnMouseLeave(object sender, EventArgs e)
+        {
+            label_Start.ForeColor = System.Drawing.Color.White;
         }
     }
 }

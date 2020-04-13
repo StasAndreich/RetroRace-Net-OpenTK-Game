@@ -80,19 +80,77 @@ namespace RGEngine.Physics
             return bestPoint;
         }
 
+        /// <summary>
+        /// Finds largest distance between support point
+        /// and plane of separating axis.
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        internal float FindLargestCollisionDistance(BoxCollider other)
+        {
+            var largestDistance = float.MinValue;
+            // Associated index of a side face.
+            var index = -1;
 
-        internal override void DetectCollision(Collider other)
+            for (int i = 0; i < boundingPoly.Count; i++)
+            {
+                // Get a normal to a bounding poly side.
+                var sideNormal = GetSideNormal(i);
+                // Get support point in the opposite direction of side normal.
+                var supportPoint = GetSupportPoint(-sideNormal);
+                float distance = Vector2.Dot(sideNormal, supportPoint - boundingPoly[i] - rigidBody.attachedTo.Position);
+
+                if (distance > largestDistance)
+                {
+                    largestDistance = distance;
+                    index = i;
+                }
+            }
+
+            // ???
+            // Add resolution distance.
+
+            return largestDistance;
+        }
+
+        /// <summary>
+        /// Tests the overlap between box colliders.
+        /// </summary>
+        /// <param name="other"></param>
+        internal override bool DetectCollision(Collider other)
         {
             if (aabbSurrounding.AABBvsAABB(other.aabbSurrounding))
             {
-                if (other  )
+                var boxCollider = other as BoxCollider;
+                if (boxCollider != null)
+                {
+                    // Find separating axis.
+                    // If distance is positive, axis found (no collision).
+                    // If distance is negative, axis not found (collision occured).
+
+                    var a = FindLargestCollisionDistance(boxCollider);
+                    if (a > 0f)
+                        return false;
+
+                    var b = FindLargestCollisionDistance(boxCollider);
+                    if (b > 0f)
+                        return false;
+
+                    return true;
+                }
+                else
+                    throw new ApplicationException("Incorrect collider type.");
             }
+            // If no collision detected.
+            IsTriggered = false;
+
+            return false;
         }
 
 
         internal override void ResolveCollision(Collider other)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         /// <summary>
@@ -128,9 +186,11 @@ namespace RGEngine.Physics
         {
             for (int i = 0; i < boundingPoly.Count; i++)
             {
+                var angleInRads = MathHelper.DegreesToRadians(angleInDegrees);
+
                 var tmp = boundingPoly[i];
-                tmp.X = (float)(boundingPoly[i].X * Math.Cos(MathHelper.DegreesToRadians(angle)) - points[i].Y * Math.Sin(MathHelper.DegreesToRadians(angle)));
-                tmp.Y = (float)(boundingPoly[i].X * Math.Sin(MathHelper.DegreesToRadians(angle)) + points[i].Y * Math.Cos(MathHelper.DegreesToRadians(angle)));
+                tmp.X = (float)(boundingPoly[i].X * Math.Cos(angleInRads) - boundingPoly[i].Y * Math.Sin(angleInRads));
+                tmp.Y = (float)(boundingPoly[i].X * Math.Sin(angleInRads) + boundingPoly[i].Y * Math.Cos(angleInRads));
                 boundingPoly[i] = tmp;
             }
 
