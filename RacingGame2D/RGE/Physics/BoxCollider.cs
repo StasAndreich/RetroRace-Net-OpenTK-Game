@@ -82,11 +82,11 @@ namespace RGEngine.Physics
 
             for (int i = 0; i < boundingPoly.Count; i++)
             {
-                var projection = Vector2.Dot(boundingPoly[i] + rigidBody.attachedTo.Position, direction);
+                var projection = Vector2.Dot(boundingPoly[i], direction);
                 if (projection > bestProjection)
                 {
                     bestProjection = projection;
-                    bestPoint = boundingPoly[i] + rigidBody.attachedTo.Position;
+                    bestPoint = boundingPoly[i];
                 }
             }
 
@@ -111,8 +111,8 @@ namespace RGEngine.Physics
                 // Get a normal to a bounding poly side.
                 var sideNormal = GetSideNormal(i);
                 // Get support point in the opposite direction of side normal.
-                var supportPoint = GetSupportPoint(-sideNormal);
-                float distance = Vector2.Dot(sideNormal, supportPoint - boundingPoly[i] - rigidBody.attachedTo.Position);
+                var supportPoint = other.GetSupportPoint(-sideNormal);
+                float distance = Vector2.Dot(sideNormal, supportPoint - boundingPoly[i]);
 
                 if (distance > largestDistance)
                 {
@@ -142,11 +142,11 @@ namespace RGEngine.Physics
                     // If distance is positive, axis found (no collision).
                     // If distance is negative, axis not found (collision occured).
 
-                    var a = FindLargestCollisionDistance(boxCollider, out var dirA);
+                    var a = -FindLargestCollisionDistance(boxCollider, out var dirA);
                     if (a > 0f)
                         return false;
 
-                    var b = FindLargestCollisionDistance(boxCollider, out var dirB);
+                    var b = -boxCollider.FindLargestCollisionDistance(this, out var dirB);
                     if (b > 0f)
                         return false;
 
@@ -158,13 +158,17 @@ namespace RGEngine.Physics
                     rigidBody.IsTriggeredNotify(boxCollider);
                     boxCollider.rigidBody.IsTriggeredNotify(this);
 
+                    this.IsTriggered = true;
+                    boxCollider.IsTriggered = true;
+
                     return true;
                 }
                 else
                     throw new ApplicationException("Incorrect collider type.");
             }
-            //// If no collision detected.
-            //IsTriggered = false;
+            // If no collision detected.
+            this.IsTriggered = false;
+            other.IsTriggered = false;
 
             // Reset resolving params if no collision occured.
             this.resolvingDistanceA = 0;
@@ -181,21 +185,26 @@ namespace RGEngine.Physics
         /// <param name="other"></param>
         internal override void ResolveCollision(Collider other)
         {
-            rigidBody.attachedTo.Position += -this.resolvingDirecionB
-                * Math.Max(this.resolvingDistanceA, this.resolvingDistanceB);
-
-            //if (resolvingDirecionA.X != 0 && resolvingDirecionB.Y != 0)
-            //    rigidBody.velocity = 0f;
+            if (!this.IsNonMovable)
+            {
+                rigidBody.attachedTo.Position += -this.resolvingDirecionB
+                    * Math.Max(this.resolvingDistanceA, this.resolvingDistanceB);
+            }
+            if (resolvingDirecionA.X != 0 && resolvingDirecionB.Y != 0)
+                rigidBody.velocity = 15f;
 
 
             var boxCollider = other as BoxCollider;
             if (boxCollider != null)
             {
-                boxCollider.rigidBody.attachedTo.Position += -this.resolvingDirecionA
-                    * Math.Max(this.resolvingDistanceA, this.resolvingDistanceB);
+                if (!boxCollider.IsNonMovable)
+                {
+                    boxCollider.rigidBody.attachedTo.Position += -this.resolvingDirecionA
+                        * Math.Max(this.resolvingDistanceA, this.resolvingDistanceB);
+                }
 
-                //if (resolvingDirecionB.X != 0 && resolvingDirecionB.Y != 0)
-                //    boxCollider.rigidBody.velocity = 0f;
+                if (resolvingDirecionB.X != 0 && resolvingDirecionB.Y != 0)
+                    boxCollider.rigidBody.velocity = 15f;
             }
                 
         }
@@ -213,7 +222,7 @@ namespace RGEngine.Physics
             if (IsTriggered)
                 GL.Color3(Color.Red);
             else
-                //GL.Color3(Color.LightGreen);
+                GL.Color3(Color.LightGreen);
 
             for (int i = 0; i < boundingPoly.Count; i++)
             {
@@ -231,14 +240,13 @@ namespace RGEngine.Physics
         /// <param name="angleInDegrees"></param>
         protected override void Rotate(float angleInDegrees)
         {
+            //boundingPoly.Rotate(angleInDegrees);
+            var angle = MathHelper.DegreesToRadians(angleInDegrees);
             for (int i = 0; i < boundingPoly.Count; i++)
             {
-                var angleInRads = MathHelper.DegreesToRadians(angleInDegrees);
-
                 var tmp = boundingPoly[i];
-                tmp.X = (float)(boundingPoly[i].X * Math.Cos(angleInRads) - boundingPoly[i].Y * Math.Sin(angleInRads));
-                tmp.Y = (float)(boundingPoly[i].X * Math.Sin(angleInRads) + boundingPoly[i].Y * Math.Cos(angleInRads));
-                boundingPoly[i] = tmp;
+                tmp.X = (float)(boundingPoly[i].X * Math.Cos(angle) - boundingPoly[i].Y * Math.Sin(angle));
+                tmp.X = (float)(boundingPoly[i].X * Math.Sin(angle) + boundingPoly[i].Y * Math.Cos(angle));
             }
 
             UpdateAABBSurrounding();

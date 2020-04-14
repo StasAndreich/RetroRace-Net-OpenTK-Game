@@ -14,12 +14,15 @@ namespace Racing.Prizes
         {
             spriteRenderer = AddComponent<SpriteRenderer>();
             rigidBody = AddComponent<RigidBody2D>();
-            animator = AddComponent<Animator>();
 
-            rigidBody.colliders = ColliderBatch.CreateColliderBatch(new BoxCollider(50, 50));
-            animator.FramesGrid = SpriteBatch.CreateSpriteBatch(ContentLoader.LoadTexture(prizeTexturePath));
+            Position = new Vector2(0f, 0f);
+            rigidBody.colliders = ColliderBatch.CreateColliderBatch(new BoxCollider(120, 124));
+            rigidBody.colliders[0].IsNonMovable = true;
+            var tex = ContentLoader.LoadTexture(prizeTexturePath);
+            var spr = new Sprite(tex, new Vector2(0.3f, 0.3f), new Vector2(0f, 0f), 5);
+            spriteRenderer.RenderQueue = SpriteBatch.CreateSpriteBatch(spr);
 
-            Position = new Vector2(100f, -150f);
+            
         }
 
         protected SpriteRenderer spriteRenderer;

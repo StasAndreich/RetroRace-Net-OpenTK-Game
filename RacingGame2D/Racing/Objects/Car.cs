@@ -26,7 +26,7 @@ namespace Racing.Objects
 
             // Set default wheelBase value and start car position.
             wheelBase = 80f;
-            SetStartCarPosition(new Vector2(0f, 0f));
+            SetStartCarPosition(new Vector2(50f, 50f));
 
             // Set default RigidBody parameters for a basic Car object.
             rigidBody2D.mass = 1200f;
@@ -47,7 +47,7 @@ namespace Racing.Objects
                                                                         wheelSpriteLeft,
                                                                         wheelSpriteRight);
 
-            rigidBody2D.colliders = ColliderBatch.CreateColliderBatch(new BoxCollider(135, 55));
+            rigidBody2D.colliders = ColliderBatch.CreateColliderBatch(new BoxCollider(140, 60));
         }
 
 
@@ -117,10 +117,10 @@ namespace Racing.Objects
             carDirectionAngle = (float)Math.Atan2(frontWheel.Y - backWheel.Y,
                 frontWheel.X - backWheel.X);
 
-            spriteRenderer.RenderQueue[0].Position = frontWheel;
-            spriteRenderer.RenderQueue[1].Position = backWheel;
+            //spriteRenderer.RenderQueue[0].Position = frontWheel;
+            //spriteRenderer.RenderQueue[1].Position = backWheel;
             spriteRenderer.RenderQueue[2].Rotation = MathHelper.RadiansToDegrees(carDirectionAngle);
-            spriteRenderer.RenderQueue[2].Position = this.Position;
+            //spriteRenderer.RenderQueue[2].Position = this.Position;
 
             foreach (var collider in rigidBody2D.colliders)
             {

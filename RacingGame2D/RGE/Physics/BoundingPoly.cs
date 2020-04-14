@@ -46,7 +46,7 @@ namespace RGEngine.Physics
             var X = this.Position.X;
             var Y = this.Position.Y;
 
-            Translate(X, Y);
+            Translate(-X, -Y);
 
             var rotation = MathHelper.DegreesToRadians(angleInDegrees);
             for (int i = 0; i < rectVertices.Length; i++)
@@ -57,7 +57,7 @@ namespace RGEngine.Physics
                     Math.Cos(rotation) * rectVertices[i].Y);
             }
 
-            Translate(-X, -Y);
+            Translate(X, Y);
         }
 
         public void Translate(float xTranslate, float yTranslate)
@@ -70,9 +70,9 @@ namespace RGEngine.Physics
             return new Vector2[pointsAmt]
             {
                 new Vector2(rectCenterPosition.X - width / 2, rectCenterPosition.Y + height / 2),
-                new Vector2(rectCenterPosition.X + width / 2, rectCenterPosition.Y + height / 2),
+                new Vector2(rectCenterPosition.X - width / 2, rectCenterPosition.Y - height / 2),
                 new Vector2(rectCenterPosition.X + width / 2, rectCenterPosition.Y - height / 2),
-                new Vector2(rectCenterPosition.X - width / 2, rectCenterPosition.Y - height / 2)
+                new Vector2(rectCenterPosition.X + width / 2, rectCenterPosition.Y + height / 2)
             };
         }
     }
