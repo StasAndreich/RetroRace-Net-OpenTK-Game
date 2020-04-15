@@ -17,7 +17,7 @@ namespace RGEngine
     /// </summary>
     public class EngineCore : GameWindow
     {
-        private static readonly List<GameObject> gameObjects = new List<GameObject>();
+        public static readonly List<GameObject> gameObjects = new List<GameObject>();
         private double totalTimeElapsed;
 
         public static double deltaTimeFixedUpdate;
@@ -51,8 +51,10 @@ namespace RGEngine
             SpriteRenderer.RenderEntireFrame(gameObjects);
 
             if (EnableColliderDrawing)
-                for (int i = 0; i < Collider.sceneColliders.Count; i++)
-                    Collider.sceneColliders[i].Draw();
+                //for (int i = 0; i < Collider.sceneColliders.Count; i++)
+                //    Collider.sceneColliders[i].Draw();
+                for (int i = 0; i < PolyCollider.allCollidersAttached.Count; i++)
+                    PolyCollider.allCollidersAttached[i].collider.Draw();
 
             SwapBuffers();
             base.OnRenderFrame(e);

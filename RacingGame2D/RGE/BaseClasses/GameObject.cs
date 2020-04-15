@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Collections.Generic;
 using OpenTK;
-
+using RGEngine.Physics;
 
 namespace RGEngine.BaseClasses
 {
@@ -12,11 +12,25 @@ namespace RGEngine.BaseClasses
     public abstract class GameObject
     {
         public Vector2 Position { get; set; }
+        private float rotation;
+        public float Rotation
+        {
+            get => this.rotation;
+            set
+            {
+                this.rotation = value;
+                OnRotate?.Invoke(this, new GameEventArgs(this.rotation));
+            }
+        }
+
+        public PolyCollider collider;
+        
+        public event EventHandler<GameEventArgs> OnRotate;
 
         /// <summary>
         /// Stores a list of the components for Update().
         /// </summary>
-        private List<Component> components = new List<Component>();
+        internal readonly List<Component> components = new List<Component>();
 
         /// <summary>
         /// Fully initializes game object.

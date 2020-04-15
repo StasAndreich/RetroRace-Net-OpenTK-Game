@@ -8,9 +8,9 @@ namespace Racing.Prizes
 {
     public class SlowdownPrize : Prize
     {
-        public SlowdownPrize()
-            : base(@"")
-        {
-        }
+        //public SlowdownPrize()
+        //    : base(@"")
+        //{
+        //}
     }
 }

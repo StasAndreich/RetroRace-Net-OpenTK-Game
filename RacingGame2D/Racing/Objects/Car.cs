@@ -6,6 +6,7 @@ using RGEngine.Input;
 using RGEngine.Graphics;
 using RGEngine.Physics;
 using RGEngine.Support;
+using RGEngine;
 
 
 namespace Racing.Objects
@@ -26,7 +27,7 @@ namespace Racing.Objects
 
             // Set default wheelBase value and start car position.
             wheelBase = 80f;
-            SetStartCarPosition(new Vector2(50f, 50f));
+            SetStartCarPosition(new Vector2(150f, 150f));
 
             // Set default RigidBody parameters for a basic Car object.
             rigidBody2D.mass = 1200f;
@@ -37,7 +38,7 @@ namespace Racing.Objects
             var wheelTexture = ContentLoader.LoadTexture(@"C:\Users\smedy\source\repos\OOP_CourseProject_StasMedyancev_NET_WinForms_OpenGL\RacingGame2D\Racing\Contents\Cars\wheel.png");
 
             var vehicleSprite = new Sprite(vehicleTexture, new Vector2(0.2f, 0.2f),
-                new Vector2(0f, 300f), 2);
+                new Vector2(0f, 0f), 2);
             var wheelSpriteLeft = new Sprite(wheelTexture, new Vector2(0.4f, 0.4f),
                 new Vector2(0f, 0f), 0);
             var wheelSpriteRight = new Sprite(wheelTexture, new Vector2(0.25f, 0.25f),
@@ -47,7 +48,8 @@ namespace Racing.Objects
                                                                         wheelSpriteLeft,
                                                                         wheelSpriteRight);
 
-            rigidBody2D.colliders = ColliderBatch.CreateColliderBatch(new BoxCollider(140, 60));
+            //rigidBody2D.colliders = ColliderBatch.CreateColliderBatch(new BoxCollider(140, 60));
+            base.collider = new PolyCollider(this, new Vector2(120f, 60f));
         }
 
 
@@ -96,9 +98,12 @@ namespace Racing.Objects
         {
             var steer = MathHelper.DegreesToRadians(steeringAngle);
 
-            backWheel.X += rigidBody2D.velocity * (float)fixedDeltaTime *
+            Vector2 deltaBackWheel = Vector2.Zero;
+            Vector2 deltaFrontWheel = Vector2.Zero;
+
+            deltaBackWheel.X = rigidBody2D.velocity * (float)fixedDeltaTime *
                 (float)Math.Cos(carDirectionAngle);
-            backWheel.Y += rigidBody2D.velocity * (float)fixedDeltaTime *
+            deltaBackWheel.Y = rigidBody2D.velocity * (float)fixedDeltaTime *
                 (float)Math.Sin(carDirectionAngle);
 
             // Calculations that push the front wheel forward and
@@ -108,24 +113,38 @@ namespace Racing.Objects
             var C = distance * (2 * wheelBase - distance);
             var calc = Math.Sqrt(B * B + C) - B;
 
-            frontWheel.X += (float)calc *
+            deltaFrontWheel.X = (float)calc *
                 (float)Math.Cos(carDirectionAngle + steer);
-            frontWheel.Y += (float)calc *
+            deltaFrontWheel.Y = (float)calc *
                 (float)Math.Sin(carDirectionAngle + steer);
+
+            backWheel += deltaBackWheel;
+            frontWheel += deltaFrontWheel;
+            base.Position = (frontWheel + backWheel) / 2;
+
+            foreach (var @object in EngineCore.gameObjects)
+            {
+                if (!ReferenceEquals(this, @object))
+                {
+                    if (collider.DetectCollision(@object))
+                    {
+                        backWheel -= deltaBackWheel;
+                        frontWheel -= deltaFrontWheel;
+                    }
+                }
+            }
 
             base.Position = (frontWheel + backWheel) / 2;
             carDirectionAngle = (float)Math.Atan2(frontWheel.Y - backWheel.Y,
                 frontWheel.X - backWheel.X);
 
+            base.Rotation = carDirectionAngle;
+
+
             //spriteRenderer.RenderQueue[0].Position = frontWheel;
             //spriteRenderer.RenderQueue[1].Position = backWheel;
             spriteRenderer.RenderQueue[2].Rotation = MathHelper.RadiansToDegrees(carDirectionAngle);
             //spriteRenderer.RenderQueue[2].Position = this.Position;
-
-            foreach (var collider in rigidBody2D.colliders)
-            {
-                collider.Update(MathHelper.RadiansToDegrees(carDirectionAngle));
-            }
         }
 
         protected virtual void GetUserInput(Key gas, Key brake, Key left, Key right)

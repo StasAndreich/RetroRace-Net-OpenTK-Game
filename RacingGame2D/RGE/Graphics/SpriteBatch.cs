@@ -35,6 +35,7 @@ namespace RGEngine.Graphics
                     sprites.Remove(sprite);
                 }
             }
+            OnBatchUpdate?.Invoke(this, new EventArgs());
         }
 
         public static SpriteBatch CreateSpriteBatch(params Texture2D[] textures)

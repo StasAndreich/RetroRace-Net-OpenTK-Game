@@ -58,13 +58,13 @@ namespace RGEngine.Support
 
         public static string GetNameFromPath(string path)
         {
-            for (int i = 0; i < path.LastIndexOf('/'); i++)
-            {
+            //for (int i = 0; i < path.LastIndexOf('/'); i++)
+            //{
 
-            }
-            var name 
+            //}
+            //var name 
 
-            return name;
+            return path;
         }
     }
 }

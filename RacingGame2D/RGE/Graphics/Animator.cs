@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using RGEngine.BaseClasses;
 
 
@@ -13,30 +10,30 @@ namespace RGEngine.Graphics
         public Animator(GameObject gameObject)
             : base(gameObject)
         {
-            FramesGrid = new SpriteBatch();
-            FramesGrid.OnBatchUpdate += FramesGrid_OnBatchUpdate;
+            AnimationSprites = new SpriteBatch();
+            AnimationSprites.OnBatchUpdate += FramesGrid_OnBatchUpdate;
         }
 
         private void FramesGrid_OnBatchUpdate(object sender, EventArgs e)
         {
-            if (FramesGrid.Quantity > 0)
+            if (AnimationSprites.Quantity > 0)
             {
-                ienumerator = FramesGrid.GetEnumerator();
+                ienumerator = AnimationSprites.GetEnumerator();
                 ienumerator.MoveNext();
             }
         }
 
 
-        public SpriteBatch FramesGrid { get; set; }
+        public SpriteBatch AnimationSprites { get; set; }
 
-        private int fps;
+        public int FPS { get; set; }
         private double frameLiveTime;
         private IEnumerator<Sprite> ienumerator;
 
 
         internal override void PerformComponent(double deltaTime)
         {
-            var delay = 1f / fps;
+            var delay = 1f / FPS;
             if (ienumerator != null)    
             {
                 base.attachedTo.GetComponent<SpriteRenderer>().RenderQueue.RemoveSprite(ienumerator.Current.Texture.Path);

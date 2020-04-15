@@ -14,7 +14,7 @@ namespace RGEngine.Physics
         {
         }
 
-        public ColliderBatch colliders = new ColliderBatch();
+        //public ColliderBatch colliders = new ColliderBatch();
 
         public event EventHandler<CollisionEventArgs> OnTriggered;
 
@@ -34,20 +34,20 @@ namespace RGEngine.Physics
 
             velocity += acceleration * (float)deltaTime;
 
-            // Process collisions.
-            // Pick each collider for this object.
-            foreach (var thisCollider in this.colliders)
-            {
-                // Pick another collider in the whole scene.
-                foreach (var otherCollider in Collider.sceneColliders)
-                {
-                    if (!ReferenceEquals(thisCollider, otherCollider))
-                    {
-                        if (thisCollider.DetectCollision(otherCollider))
-                            thisCollider.ResolveCollision(otherCollider);
-                    }
-                }
-            }
+            //// Process collisions.
+            //// Pick each collider for this object.
+            //foreach (var thisCollider in this.colliders)
+            //{
+            //    // Pick another collider in the whole scene.
+            //    foreach (var otherCollider in Collider.sceneColliders)
+            //    {
+            //        if (!ReferenceEquals(thisCollider, otherCollider))
+            //        {
+            //            if (thisCollider.DetectCollision(otherCollider))
+            //                thisCollider.ResolveCollision(otherCollider);
+            //        }
+            //    }
+            //}
         }
 
         internal void IsTriggeredNotify(Collider other)
@@ -62,8 +62,8 @@ namespace RGEngine.Physics
         /// </summary>
         internal override void InitializeComponent()
         {
-            foreach (var collider in colliders)
-                collider.RegisterToComponent(this);
+            //foreach (var collider in colliders)
+            //    collider.RegisterToComponent(this);
         }
     }
 }

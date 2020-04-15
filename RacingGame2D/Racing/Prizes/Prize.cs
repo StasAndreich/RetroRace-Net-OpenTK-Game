@@ -10,23 +10,30 @@ namespace Racing.Prizes
 {
     public abstract class Prize : GameObject
     {
-        public Prize(string prizeTexturePath)
+        public Prize(params string[] texturesPath)
         {
             spriteRenderer = AddComponent<SpriteRenderer>();
-            rigidBody = AddComponent<RigidBody2D>();
+            animator = AddComponent<Animator>();
 
             Position = new Vector2(0f, 0f);
-            rigidBody.colliders = ColliderBatch.CreateColliderBatch(new BoxCollider(120, 124));
-            rigidBody.colliders[0].IsNonMovable = true;
-            var tex = ContentLoader.LoadTexture(prizeTexturePath);
-            var spr = new Sprite(tex, new Vector2(0.3f, 0.3f), new Vector2(0f, 0f), 5);
-            spriteRenderer.RenderQueue = SpriteBatch.CreateSpriteBatch(spr);
+            //rigidBody.colliders = ColliderBatch.CreateColliderBatch(new BoxCollider(120, 124));
+            //rigidBody.colliders[0].IsNonMovable = true;
 
-            
+            for (int i = 0; i < texturesPath.Length; i++)
+            {
+                var tex = ContentLoader.LoadTexture(texturesPath[i]);
+                var sprite = new Sprite(tex, new Vector2(0.3f, 0.3f), new Vector2(0f, 0f), 3);
+                animator.AnimationSprites.AddSprite(sprite);
+            }
+            animator.FPS = 3;
+
+            base.collider = new PolyCollider(this, new Vector2(200f, 200f));
         }
 
         protected SpriteRenderer spriteRenderer;
         protected RigidBody2D rigidBody;
         protected Animator animator;
+
+        
     }
 }
