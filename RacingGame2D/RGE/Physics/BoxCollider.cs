@@ -66,7 +66,7 @@ namespace RGEngine.Physics
             var sideY = boundingPoly[endPoint].Y - boundingPoly[startPoint].Y;
 
             var normal = new Vector2(-sideY, sideX);
-            normal.Normalize();
+            //normal.Normalize();
             return normal;
         }
 
