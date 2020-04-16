@@ -11,7 +11,13 @@ namespace RGEngine.BaseClasses
     /// </summary>
     public abstract class GameObject
     {
+        /// <summary>
+        /// Stores a list of the components for Update().
+        /// </summary>
+        internal readonly List<Component> components = new List<Component>();
+
         public Vector2 Position { get; set; }
+        public PolyCollider collider;
         private float rotation;
         public float Rotation
         {
@@ -19,24 +25,24 @@ namespace RGEngine.BaseClasses
             set
             {
                 this.rotation = value;
-                OnRotate?.Invoke(this, new GameEventArgs(this.rotation));
+                Rotated?.Invoke(this, new GameEventArgs(this.rotation));
             }
         }
-
-        public PolyCollider collider;
         
-        public event EventHandler<GameEventArgs> OnRotate;
+        public event EventHandler<GameEventArgs> Rotated;
+        public virtual void GameObject_OnRotated(object sender, GameEventArgs e)
+        {
+            //this.collider.Rotate(e.rotation);
+        }
 
-        /// <summary>
-        /// Stores a list of the components for Update().
-        /// </summary>
-        internal readonly List<Component> components = new List<Component>();
+        
 
         /// <summary>
         /// Fully initializes game object.
         /// </summary>
         internal void InitializeObject()
         {
+            this.Rotated += GameObject_OnRotated;
             foreach (var component in components)
                 component.InitializeComponent();
         }

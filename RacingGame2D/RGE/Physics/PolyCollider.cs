@@ -24,9 +24,9 @@ namespace RGEngine.Physics
         }
 
 
-        private void Update()
+        private void Update(Vector2 position)
         {
-            var position = this.attachedTo.Position;
+            //var position = this.attachedTo.Position;
 
             var dx = size.X / 2f;
             var dy = size.Y / 2f;
@@ -82,9 +82,11 @@ namespace RGEngine.Physics
         {
             PolyCollider otherCollider = other.collider;
             
-            Update();
-            otherCollider.Update();
+            Update(this.attachedTo.Position);
+            otherCollider.Update(otherCollider.attachedTo.Position);
 
+            Rotate(attachedTo.Rotation);
+            //otherCollider.Rotate(other.Rotation);
 
             int allCount = this.vertices.Length + otherCollider.vertices.Length;
             var allVertices = new Vector2[allCount];
@@ -113,22 +115,18 @@ namespace RGEngine.Physics
         /// Rotates collider by some amount of degrees.
         /// </summary>
         /// <param name="angleInDegrees"></param>
-        private void Rotate(float angleInDegrees)
+        public void Rotate(float angleInDegrees)
         {
             var angle = MathHelper.DegreesToRadians(angleInDegrees);
+            Update(Vector2.Zero);
+
             for (int i = 0; i < vertices.Length; i++)
             {
                 var tmp = vertices[i];
                 tmp.X = (float)(vertices[i].X * Math.Cos(angle) - vertices[i].Y * Math.Sin(angle));
-                tmp.X = (float)(vertices[i].X * Math.Sin(angle) + vertices[i].Y * Math.Cos(angle));
+                tmp.Y = (float)(vertices[i].X * Math.Sin(angle) + vertices[i].Y * Math.Cos(angle));
+                vertices[i] = tmp + attachedTo.Position;
             }
-
-            //Update();
-        }
-
-        private void OnGameObjRotate(object sender, GameEventArgs e)
-        {
-            Rotate(e.rotation);
         }
 
         /// <summary>

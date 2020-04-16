@@ -130,6 +130,7 @@ namespace Racing.Objects
                     {
                         backWheel -= deltaBackWheel;
                         frontWheel -= deltaFrontWheel;
+                        rigidBody2D.velocity = 0f;
                     }
                 }
             }
@@ -138,7 +139,7 @@ namespace Racing.Objects
             carDirectionAngle = (float)Math.Atan2(frontWheel.Y - backWheel.Y,
                 frontWheel.X - backWheel.X);
 
-            base.Rotation = carDirectionAngle;
+            base.Rotation = MathHelper.RadiansToDegrees(carDirectionAngle);
 
 
             //spriteRenderer.RenderQueue[0].Position = frontWheel;
