@@ -25,6 +25,14 @@ namespace Racing.Objects
             MaxSteeringAngle = 25f;
             MaxBreakingForce = 500000f;
 
+            MaxFuelLevel = 50f;
+            this.fuelLevel = MaxFuelLevel;
+            IdleFuelConsumption = 1f;
+            DrivingFuelConsumption = 3f;
+
+            fuelTimer = new GameTimer(5f);
+            fuelTimer.Elapsed += (sender, e) => ApplyFuelConsumprion();
+
             // Set default wheelBase value and start car position.
             wheelBase = 80f;
             SetStartCarPosition(new Vector2(150f, 150f));
@@ -52,6 +60,11 @@ namespace Racing.Objects
             base.collider = new PolyCollider(this, new Vector2(120f, 60f));
         }
 
+        private void FuelTimer_OnElapsed(object sender, EventArgs e)
+        {
+            ApplyFuelConsumprion();
+        }
+
 
         // GameObject Components.
         protected SpriteRenderer spriteRenderer;
@@ -75,6 +88,8 @@ namespace Racing.Objects
         protected int drivingMode;
 
         protected float MaxFuelLevel { get; set; }
+        protected float IdleFuelConsumption { get; set; }
+        protected float DrivingFuelConsumption { get; set; }
 
         private float fuelLevel;
         protected float FuelLevel
@@ -84,12 +99,12 @@ namespace Racing.Objects
             {
                 if (this.fuelLevel + value > MaxFuelLevel)
                     this.fuelLevel = MaxFuelLevel;
-                else if (this.fuelLevel + value < 0)
-                    this.fuelLevel = 0;
                 else
-                    this.fuelLevel += value;
+                    this.fuelLevel = value;
             }
         }
+
+        private GameTimer fuelTimer;
 
         protected const float velocityConstraint = 6f;
 
@@ -146,6 +161,29 @@ namespace Racing.Objects
             //spriteRenderer.RenderQueue[1].Position = backWheel;
             spriteRenderer.RenderQueue[2].Rotation = MathHelper.RadiansToDegrees(carDirectionAngle);
             //spriteRenderer.RenderQueue[2].Position = this.Position;
+
+            //ApplyFuelConsumprion(fixedDeltaTime);
+            fuelTimer.Update(fixedDeltaTime);
+        }
+
+        //protected void ApplyFuelConsumprion(double fixedDeltaTime)
+        //{
+        //    var delay = 3f;
+        //    if (rigidBody2D.velocity == 0)
+        //        this.FuelLevel -= this.IdleFuelConsumption * (float)fixedDeltaTime / delay;
+        //    else
+        //        this.FuelLevel -= this.DrivingFuelConsumption * (float)fixedDeltaTime / delay;
+        //}
+
+        protected void ApplyFuelConsumprion()
+        {
+            if (this.fuelLevel < 0)
+                return;
+
+            if (rigidBody2D.velocity == 0)
+                this.fuelLevel -= this.IdleFuelConsumption;
+            else
+                this.fuelLevel -= this.DrivingFuelConsumption;
         }
 
         protected virtual void GetUserInput(Key gas, Key brake, Key left, Key right)
