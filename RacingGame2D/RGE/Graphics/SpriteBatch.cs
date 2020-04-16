@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-
+using System.Linq;
 
 namespace RGEngine.Graphics
 {
@@ -24,18 +24,19 @@ namespace RGEngine.Graphics
         {
             sprites.Add(sprite);
             sprites.Sort();
+            BatchUpdated?.Invoke(this, new EventArgs());
         }
 
         public void RemoveSprite(string name)
         {
-            foreach (var sprite in sprites)
+            BatchUpdated?.Invoke(this, new EventArgs());
+            foreach (var sprite in sprites.ToList<Sprite>())
             {
                 if (sprite.Texture.Path == name)
                 {
                     sprites.Remove(sprite);
                 }
             }
-            OnBatchUpdate?.Invoke(this, new EventArgs());
         }
 
         public static SpriteBatch CreateSpriteBatch(params Texture2D[] textures)
@@ -77,6 +78,6 @@ namespace RGEngine.Graphics
             return ((IEnumerable<Sprite>)sprites).GetEnumerator();
         }
 
-        public event EventHandler OnBatchUpdate;
+        public event EventHandler BatchUpdated;
     }
 }

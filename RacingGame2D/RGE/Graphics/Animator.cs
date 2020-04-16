@@ -11,10 +11,10 @@ namespace RGEngine.Graphics
             : base(gameObject)
         {
             AnimationSprites = new SpriteBatch();
-            AnimationSprites.OnBatchUpdate += FramesGrid_OnBatchUpdate;
+            AnimationSprites.BatchUpdated += AnimationSprites_OnBatchUpdated;
         }
 
-        private void FramesGrid_OnBatchUpdate(object sender, EventArgs e)
+        private void AnimationSprites_OnBatchUpdated(object sender, EventArgs e)
         {
             if (AnimationSprites.Quantity > 0)
             {
