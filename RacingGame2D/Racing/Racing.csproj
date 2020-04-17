@@ -36,6 +36,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -51,14 +52,11 @@
     <Compile Include="Objects\Environment.cs" />
     <Compile Include="Objects\PurpleCar.cs" />
     <Compile Include="Prizes\BoostPrize.cs" />
-    <Compile Include="Prizes\BoostPrizeGenerator.cs" />
     <Compile Include="Prizes\FuelPrize.cs" />
-    <Compile Include="Prizes\FuelPrizeGenerator.cs" />
+    <Compile Include="Prizes\IPrizeFactory.cs" />
     <Compile Include="Prizes\Prize.cs" />
     <Compile Include="Prizes\PrizeGenerator.cs" />
-    <Compile Include="Prizes\PrizeManager.cs" />
     <Compile Include="Prizes\SlowdownPrize.cs" />
-    <Compile Include="Prizes\SlowdownPrizeGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

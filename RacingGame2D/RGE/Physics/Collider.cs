@@ -48,6 +48,9 @@ namespace RGEngine.Physics
     }
 
 
+    public interface ICollidable { }
+
+
     public class CollisionEventArgs : EventArgs
     {
         public readonly Collider other;

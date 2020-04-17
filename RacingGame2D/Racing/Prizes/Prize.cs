@@ -3,21 +3,20 @@ using RGEngine.Physics;
 using RGEngine.BaseClasses;
 using RGEngine.Support;
 using OpenTK;
-using System;
-
 
 namespace Racing.Prizes
 {
-    public abstract class Prize : GameObject
+    public abstract class Prize : GameObject, IPrize, ICollidable
     {
         public Prize(params string[] texturesPath)
         {
             spriteRenderer = AddComponent<SpriteRenderer>();
             animator = AddComponent<Animator>();
 
+            // Set default position.
             Position = new Vector2(0f, 0f);
-            //rigidBody.colliders = ColliderBatch.CreateColliderBatch(new BoxCollider(120, 124));
             //rigidBody.colliders[0].IsNonMovable = true;
+
 
             for (int i = 0; i < texturesPath.Length; i++)
             {
@@ -34,6 +33,20 @@ namespace Racing.Prizes
         protected RigidBody2D rigidBody;
         protected Animator animator;
 
-        
+
+        public override void FixedUpdate(double fixedDeltaTime)
+        {
+            base.FixedUpdate(fixedDeltaTime);
+        }
+
+        // !!!
+        //protected abstract void ApplyDecorator();
+    }
+
+    public enum Prizes
+    {
+        Fuel = 1,
+        Boost = 2,
+        Slowdown = 3
     }
 }

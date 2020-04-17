@@ -18,9 +18,13 @@ namespace RGEngine.Physics
 
         public PolyCollider(GameObject @object, Vector2 size)
         {
-            allCollidersAttached.Add(@object);
-            this.attachedTo = @object;
-            this.size = size;
+            if (@object is ICollidable)
+            {
+                allCollidersAttached.Add(@object);
+                this.attachedTo = @object;
+                this.size = size;
+                Update(attachedTo.Position);
+            }
         }
 
 

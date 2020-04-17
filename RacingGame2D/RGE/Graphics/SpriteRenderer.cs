@@ -94,7 +94,8 @@ namespace RGEngine.Graphics
 
             foreach (var gameObject in gameObjects)
             {
-                SpriteRenderer.RenderSpritesQueue(gameObject.GetComponent<SpriteRenderer>().RenderQueue);
+                if (!(gameObject is INonRenderable))
+                    SpriteRenderer.RenderSpritesQueue(gameObject.GetComponent<SpriteRenderer>().RenderQueue);
             }
         }
 
@@ -106,4 +107,6 @@ namespace RGEngine.Graphics
             }
         }
     }
+
+    public interface INonRenderable { }
 }

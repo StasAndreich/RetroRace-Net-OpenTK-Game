@@ -11,7 +11,7 @@ using RGEngine;
 
 namespace Racing.Objects
 {
-    public abstract class Car : GameObject
+    public abstract class Car : GameObject, ICollidable
     {
         public Car(string vehicleTexturePath)
         {
@@ -56,7 +56,6 @@ namespace Racing.Objects
                                                                         wheelSpriteLeft,
                                                                         wheelSpriteRight);
 
-            //rigidBody2D.colliders = ColliderBatch.CreateColliderBatch(new BoxCollider(140, 60));
             base.collider = new PolyCollider(this, new Vector2(120f, 60f));
         }
 
@@ -139,6 +138,7 @@ namespace Racing.Objects
 
             foreach (var @object in EngineCore.gameObjects)
             {
+                if (@object is ICollidable)
                 if (!ReferenceEquals(this, @object))
                 {
                     if (collider.DetectCollision(@object))
@@ -165,15 +165,6 @@ namespace Racing.Objects
             //ApplyFuelConsumprion(fixedDeltaTime);
             fuelTimer.Update(fixedDeltaTime);
         }
-
-        //protected void ApplyFuelConsumprion(double fixedDeltaTime)
-        //{
-        //    var delay = 3f;
-        //    if (rigidBody2D.velocity == 0)
-        //        this.FuelLevel -= this.IdleFuelConsumption * (float)fixedDeltaTime / delay;
-        //    else
-        //        this.FuelLevel -= this.DrivingFuelConsumption * (float)fixedDeltaTime / delay;
-        //}
 
         protected void ApplyFuelConsumprion()
         {

@@ -1,13 +1,17 @@
-﻿namespace Racing.Objects
+﻿using RGEngine.Support;
+
+namespace Racing.Objects
 {
     //public abstract class CarDecorator : Car
     //{
-    //    protected Car basicCar;
+    //    protected Car baseCar;
 
-    //    public CarDecorator(Car basicCar)
-    //        : base(basicCar)
+    //    protected GameTimer lifeTimer;
+
+    //    public CarDecorator(Car baseCar)
+    //        : base()
     //    {
-    //        this.basicCar = basicCar;
+    //        this.baseCar = baseCar;
     //    }
     //}
 }

@@ -4,6 +4,11 @@ namespace RGEngine.Support
 {
     public class GameTimer
     {
+        public GameTimer()
+        {
+            this.Interval = 0;
+        }
+
         public GameTimer(double interval)
         {
             this.Interval = interval;
@@ -11,7 +16,7 @@ namespace RGEngine.Support
 
         private double elapsedTime;
         
-        public double Interval { get; private set; }
+        public double Interval { get; set; }
 
         public int Invokations { get; private set; }
 

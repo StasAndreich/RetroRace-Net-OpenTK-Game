@@ -7,7 +7,7 @@ using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using RGEngine.BaseClasses;
 using System.Collections.Generic;
-
+using System.Linq;
 
 namespace RGEngine
 {
@@ -51,8 +51,6 @@ namespace RGEngine
             SpriteRenderer.RenderEntireFrame(gameObjects);
 
             if (EnableColliderDrawing)
-                //for (int i = 0; i < Collider.sceneColliders.Count; i++)
-                //    Collider.sceneColliders[i].Draw();
                 for (int i = 0; i < PolyCollider.allCollidersAttached.Count; i++)
                     PolyCollider.allCollidersAttached[i].collider.Draw();
 
@@ -78,7 +76,7 @@ namespace RGEngine
             /// than choose elapsed time from the last frame render for a FixedUpdate.
             if (totalTimeElapsed >= deltaTimeFixedUpdate)
             {
-                foreach (var gameObject in gameObjects)
+                foreach (var gameObject in gameObjects.ToList<GameObject>())
                 {
                     gameObject.PerformFixedUpdate(totalTimeElapsed);
                 }
@@ -92,14 +90,13 @@ namespace RGEngine
         protected override void OnResize(EventArgs e)
         {
             Camera.SetView(Width, Height);
-
             base.OnResize(e);
         }
 
 
         protected override void OnUnload(EventArgs e)
         {
-            // Add Removing gameObjects.
+            gameObjects.RemoveRange(0, gameObjects.Count);
             base.OnUnload(e);
         }
 

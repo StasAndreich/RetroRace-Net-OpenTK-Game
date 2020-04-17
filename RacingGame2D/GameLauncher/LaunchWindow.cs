@@ -28,9 +28,10 @@ namespace GameLauncher
                 //EngineCore.AddGameObject(new Racing.Objects.Environment(@"C:\Users\smedy\Source\Repos\OOP_CourseProject_StasMedyancev_NET_WinForms_OpenGL\RacingGame2D\Racing\Contents\Environment\track.png"));
                 EngineCore.AddGameObject(new DefaultCar(@"C:\Users\smedy\source\repos\OOP_CourseProject_StasMedyancev_NET_WinForms_OpenGL\RacingGame2D\Racing\Contents\Cars\lambo.png"));
                 //EngineCore.AddGameObject(new PurpleCar());
-                EngineCore.AddGameObject(new FuelPrize());
+                EngineCore.AddGameObject(new PrizeGenerator());
 
                 racingGame.Title = "Racing Game";
+                //racingGame.Icon
                 racingGame.WindowBorder = OpenTK.WindowBorder.Fixed;
                 racingGame.WindowState = OpenTK.WindowState.Maximized;
                 racingGame.Run();

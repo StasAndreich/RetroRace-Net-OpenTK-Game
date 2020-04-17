@@ -125,4 +125,6 @@ namespace RGEngine.BaseClasses
             }
         }
     }
+
+    public interface IPrize { }
 }
