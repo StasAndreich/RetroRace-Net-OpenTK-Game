@@ -101,5 +101,11 @@
   <ItemGroup>
     <None Include="Resources\launcherBG_hd.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\launcherBG_hd_logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\start_w.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

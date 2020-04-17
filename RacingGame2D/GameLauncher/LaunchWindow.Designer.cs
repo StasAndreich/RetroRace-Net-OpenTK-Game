@@ -28,45 +28,46 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label_Start = new System.Windows.Forms.Label();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LaunchWindow));
+            this.start = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.start)).BeginInit();
             this.SuspendLayout();
             // 
-            // label_Start
+            // start
             // 
-            this.label_Start.AutoSize = true;
-            this.label_Start.Font = new System.Drawing.Font("EngraversGothic BT", 42F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_Start.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.label_Start.Location = new System.Drawing.Point(1052, 547);
-            this.label_Start.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label_Start.Name = "label_Start";
-            this.label_Start.Size = new System.Drawing.Size(142, 59);
-            this.label_Start.TabIndex = 1;
-            this.label_Start.Text = "Race";
-            this.label_Start.Click += new System.EventHandler(this.label_Start_Click);
-            this.label_Start.MouseEnter += new System.EventHandler(this.label_Start_OnMouseEnter);
-            this.label_Start.MouseLeave += new System.EventHandler(this.label_Start_OnMouseLeave);
+            this.start.BackColor = System.Drawing.Color.Transparent;
+            this.start.BackgroundImage = global::GameLauncher.Properties.Resources.start_w;
+            this.start.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.start.Location = new System.Drawing.Point(1052, 546);
+            this.start.Name = "start";
+            this.start.Size = new System.Drawing.Size(191, 60);
+            this.start.TabIndex = 2;
+            this.start.TabStop = false;
+            this.start.Click += new System.EventHandler(this.start_Click);
+            this.start.MouseEnter += new System.EventHandler(this.start_OnMouseEnter);
+            this.start.MouseLeave += new System.EventHandler(this.start_OnMouseLeave);
             // 
             // LaunchWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(27)))), ((int)(((byte)(27)))));
-            this.BackgroundImage = global::GameLauncher.Properties.Resources.launcherBG_hd;
+            this.BackgroundImage = global::GameLauncher.Properties.Resources.launcherBG_hd_logo;
             this.ClientSize = new System.Drawing.Size(1264, 681);
-            this.Controls.Add(this.label_Start);
+            this.Controls.Add(this.start);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "LaunchWindow";
-            this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Racing Game Launcher";
             this.Load += new System.EventHandler(this.LaunchWindow_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.start)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.Label label_Start;
+        private System.Windows.Forms.PictureBox start;
     }
 }
 
