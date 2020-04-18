@@ -7,7 +7,7 @@ using RGEngine.Graphics;
 using RGEngine.Physics;
 using RGEngine.Support;
 using RGEngine;
-
+using Racing.Prizes;
 
 namespace Racing.Objects
 {
@@ -57,11 +57,6 @@ namespace Racing.Objects
                                                                         wheelSpriteRight);
 
             base.collider = new PolyCollider(this, new Vector2(120f, 60f));
-        }
-
-        private void FuelTimer_OnElapsed(object sender, EventArgs e)
-        {
-            ApplyFuelConsumprion();
         }
 
 
@@ -139,13 +134,18 @@ namespace Racing.Objects
             foreach (var @object in EngineCore.gameObjects)
             {
                 if (@object is ICollidable)
-                if (!ReferenceEquals(this, @object))
                 {
-                    if (collider.DetectCollision(@object))
+                    if (!ReferenceEquals(this, @object))
                     {
-                        backWheel -= deltaBackWheel;
-                        frontWheel -= deltaFrontWheel;
-                        rigidBody2D.velocity = 0f;
+                        if (collider.DetectCollision(@object))
+                        {
+                            if (!(@object is INonResolveable))
+                            {
+                                backWheel -= deltaBackWheel;
+                                frontWheel -= deltaFrontWheel;
+                                rigidBody2D.velocity /= 2;
+                            }
+                        }
                     }
                 }
             }
@@ -153,7 +153,6 @@ namespace Racing.Objects
             base.Position = (frontWheel + backWheel) / 2;
             carDirectionAngle = (float)Math.Atan2(frontWheel.Y - backWheel.Y,
                 frontWheel.X - backWheel.X);
-
             base.Rotation = MathHelper.RadiansToDegrees(carDirectionAngle);
 
 
@@ -162,7 +161,6 @@ namespace Racing.Objects
             spriteRenderer.RenderQueue[2].Rotation = MathHelper.RadiansToDegrees(carDirectionAngle);
             //spriteRenderer.RenderQueue[2].Position = this.Position;
 
-            //ApplyFuelConsumprion(fixedDeltaTime);
             fuelTimer.Update(fixedDeltaTime);
         }
 

@@ -104,7 +104,11 @@ namespace RGEngine
         public static void AddGameObject(GameObject gameObject)
         {
             gameObjects.Add(gameObject);
-            gameObject.InitializeObject();
+        }
+
+        public static void RemoveGameObject(GameObject gameObject)
+        {
+            gameObjects.Remove(gameObject);
         }
     }
 }

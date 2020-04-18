@@ -45,7 +45,7 @@ namespace Racing.Prizes
             var prizesOnScene = 0;
             foreach (var @object in EngineCore.gameObjects)
             {
-                if (@object is IPrize)
+                if (@object is Prize)
                     prizesOnScene++;
             }
 
@@ -90,7 +90,7 @@ namespace Racing.Prizes
 
             foreach (var @object in EngineCore.gameObjects)
             {
-                if (@object is IPrize)
+                if (@object is Prize)
                 {
                     if (Math.Abs(@object.Position.X - this.spawnPositions[randSpawnPos].X) < 0.01f &&
                         Math.Abs(@object.Position.Y - this.spawnPositions[randSpawnPos].Y) < 0.01f)

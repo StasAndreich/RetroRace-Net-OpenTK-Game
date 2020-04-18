@@ -18,6 +18,8 @@ namespace RGEngine.BaseClasses
 
         public Vector2 Position { get; set; }
         public PolyCollider collider;
+        public bool IsTriggered { get; set; }
+
         private float rotation;
         public float Rotation
         {
@@ -25,27 +27,9 @@ namespace RGEngine.BaseClasses
             set
             {
                 this.rotation = value;
-                Rotated?.Invoke(this, new GameEventArgs(this.rotation));
             }
         }
-        
-        public event EventHandler<GameEventArgs> Rotated;
-        public virtual void GameObject_OnRotated(object sender, GameEventArgs e)
-        {
-            //this.collider.Rotate(e.rotation);
-        }
 
-        
-
-        /// <summary>
-        /// Fully initializes game object.
-        /// </summary>
-        internal void InitializeObject()
-        {
-            this.Rotated += GameObject_OnRotated;
-            foreach (var component in components)
-                component.InitializeComponent();
-        }
 
         /// <summary>
         /// Adds a Component attached to a GameObject.
@@ -125,6 +109,4 @@ namespace RGEngine.BaseClasses
             }
         }
     }
-
-    public interface IPrize { }
 }

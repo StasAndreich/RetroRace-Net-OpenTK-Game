@@ -3,7 +3,7 @@ using RGEngine.BaseClasses;
 using System;
 using System.Collections.Generic;
 using OpenTK.Graphics.OpenGL;
-
+using System.Linq;
 
 namespace RGEngine.Physics
 {
@@ -11,8 +11,7 @@ namespace RGEngine.Physics
     {
         public static List<GameObject> allCollidersAttached = new List<GameObject>();
 
-        public Vector2[] vertices = new Vector2[4];
-
+        private Vector2[] vertices = new Vector2[4];
         private GameObject attachedTo;
         private Vector2 size;
 
@@ -90,7 +89,6 @@ namespace RGEngine.Physics
             otherCollider.Update(otherCollider.attachedTo.Position);
 
             Rotate(attachedTo.Rotation);
-            //otherCollider.Rotate(other.Rotation);
 
             int allCount = this.vertices.Length + otherCollider.vertices.Length;
             var allVertices = new Vector2[allCount];
@@ -99,6 +97,7 @@ namespace RGEngine.Physics
 
             Vector2 normal;
             bool isCollide = false;
+            other.IsTriggered = false;
 
             for (int i = 0; i < allCount && !isCollide; i++)
             {
@@ -111,6 +110,8 @@ namespace RGEngine.Physics
                     otherProjection.X < currentProjection.Y)
                     return false;
             }
+
+            other.IsTriggered = true;
 
             return true;
         }
@@ -159,15 +160,17 @@ namespace RGEngine.Physics
         }
     }
 
-    public class GameEventArgs : EventArgs
-    {
-        public readonly Collider other;
-        public readonly float rotation;
+    public interface ICollidable { }
 
-        public GameEventArgs(float rotation)
+    public interface INonResolveable { }
+
+    public class CollisionEventArgs : EventArgs
+    {
+        public readonly GameObject other;
+
+        public CollisionEventArgs(GameObject other)
         {
-            //this.other = other;
-            this.rotation = rotation;
+            this.other = other;
         }
     }
 }

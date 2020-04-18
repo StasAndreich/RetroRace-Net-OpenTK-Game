@@ -14,5 +14,10 @@ namespace Racing.Prizes
         {
 
         }
+
+        protected override void ApplyDecorator()
+        {
+            
+        }
     }
 }

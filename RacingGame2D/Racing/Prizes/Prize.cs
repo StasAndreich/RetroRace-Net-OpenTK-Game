@@ -3,10 +3,12 @@ using RGEngine.Physics;
 using RGEngine.BaseClasses;
 using RGEngine.Support;
 using OpenTK;
+using RGEngine;
+using System.Linq;
 
 namespace Racing.Prizes
 {
-    public abstract class Prize : GameObject, IPrize, ICollidable
+    public abstract class Prize : GameObject, ICollidable, INonResolveable
     {
         public Prize(params string[] texturesPath)
         {
@@ -15,8 +17,6 @@ namespace Racing.Prizes
 
             // Set default position.
             Position = new Vector2(0f, 0f);
-            //rigidBody.colliders[0].IsNonMovable = true;
-
 
             for (int i = 0; i < texturesPath.Length; i++)
             {
@@ -36,11 +36,27 @@ namespace Racing.Prizes
 
         public override void FixedUpdate(double fixedDeltaTime)
         {
+            if (base.IsTriggered)
+            {
+                ApplyDecorator();
+                RemovePrize();
+            }
             base.FixedUpdate(fixedDeltaTime);
         }
 
-        // !!!
-        //protected abstract void ApplyDecorator();
+        protected void RemovePrize()
+        {
+            PolyCollider.allCollidersAttached.Remove(this);
+
+            var list = EngineCore.gameObjects.ToList<GameObject>();
+            foreach (var @object in list)
+            {
+                if (ReferenceEquals(@object, this))
+                    EngineCore.RemoveGameObject(this);
+            }
+        }
+
+        protected abstract void ApplyDecorator();
     }
 
     public enum Prizes

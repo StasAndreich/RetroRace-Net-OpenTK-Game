@@ -12,10 +12,9 @@ namespace Racing.Prizes
             //base.rigidBody.OnTriggered += FuelPrize_OnTriggered;
         }
 
-        private void FuelPrize_OnTriggered(object sender, EventArgs e)
+        protected override void ApplyDecorator()
         {
-            // apply decorator
-            // remove prize from scene
+            
         }
     }
 }

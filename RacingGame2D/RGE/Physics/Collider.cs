@@ -46,18 +46,4 @@ namespace RGEngine.Physics
 
         protected abstract void Rotate(float angleInDegrees);
     }
-
-
-    public interface ICollidable { }
-
-
-    public class CollisionEventArgs : EventArgs
-    {
-        public readonly Collider other;
-
-        public CollisionEventArgs(Collider other)
-        {
-            this.other = other;
-        }
-    }
 }
