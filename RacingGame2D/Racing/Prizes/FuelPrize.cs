@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Racing.Objects;
+using System;
 
 
 namespace Racing.Prizes
@@ -6,15 +7,17 @@ namespace Racing.Prizes
     public class FuelPrize : Prize
     {
         public FuelPrize()
-            : base(@"C:\Users\smedy\Source\Repos\OOP_CourseProject_StasMedyancev_NET_WinForms_OpenGL\RacingGame2D\Racing\Contents\low-poly-texture.jpg",
-            @"C:\Users\smedy\Source\Repos\OOP_CourseProject_StasMedyancev_NET_WinForms_OpenGL\RacingGame2D\Racing\gold-coin-illustration-png-clip-art.png")
+            : base(@"C:\Users\smedy\OneDrive\C4D\retro\launcher\animations\fuel\fuel1.png",
+                  @"C:\Users\smedy\OneDrive\C4D\retro\launcher\animations\fuel\fuel2.png",
+                  @"C:\Users\smedy\OneDrive\C4D\retro\launcher\animations\fuel\fuel3.png",
+                  @"C:\Users\smedy\OneDrive\C4D\retro\launcher\animations\fuel\fuel4.png")
         {
             //base.rigidBody.OnTriggered += FuelPrize_OnTriggered;
         }
 
-        protected override void ApplyDecorator()
+        protected override void ApplyDecorator(Car car)
         {
-            
+            car.properties = new FuelProps(car.properties);
         }
     }
 }

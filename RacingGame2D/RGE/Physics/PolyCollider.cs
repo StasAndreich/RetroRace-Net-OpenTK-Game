@@ -3,7 +3,6 @@ using RGEngine.BaseClasses;
 using System;
 using System.Collections.Generic;
 using OpenTK.Graphics.OpenGL;
-using System.Linq;
 
 namespace RGEngine.Physics
 {
@@ -26,11 +25,17 @@ namespace RGEngine.Physics
             }
         }
 
+        public event EventHandler<CollisionEventArgs> ColliderTriggered;
+
+        protected virtual void OnColliderTriggered(CollisionEventArgs e)
+        {
+            var handler = ColliderTriggered;
+            handler?.Invoke(this, e);
+        }
+
 
         private void Update(Vector2 position)
         {
-            //var position = this.attachedTo.Position;
-
             var dx = size.X / 2f;
             var dy = size.Y / 2f;
 
@@ -97,7 +102,7 @@ namespace RGEngine.Physics
 
             Vector2 normal;
             bool isCollide = false;
-            other.IsTriggered = false;
+            //other.IsTriggered = false;
 
             for (int i = 0; i < allCount && !isCollide; i++)
             {
@@ -111,7 +116,8 @@ namespace RGEngine.Physics
                     return false;
             }
 
-            other.IsTriggered = true;
+            OnColliderTriggered(new CollisionEventArgs(this.attachedTo, other));
+            //other.IsTriggered = true;
 
             return true;
         }
@@ -130,7 +136,7 @@ namespace RGEngine.Physics
                 var tmp = vertices[i];
                 tmp.X = (float)(vertices[i].X * Math.Cos(angle) - vertices[i].Y * Math.Sin(angle));
                 tmp.Y = (float)(vertices[i].X * Math.Sin(angle) + vertices[i].Y * Math.Cos(angle));
-                vertices[i] = tmp + attachedTo.Position;
+                vertices[i] = tmp + this.attachedTo.Position;
             }
         }
 
@@ -166,11 +172,13 @@ namespace RGEngine.Physics
 
     public class CollisionEventArgs : EventArgs
     {
-        public readonly GameObject other;
+        public readonly GameObject one;
+        public readonly GameObject another;
 
-        public CollisionEventArgs(GameObject other)
+        public CollisionEventArgs(GameObject one, GameObject another)
         {
-            this.other = other;
+            this.one = one;
+            this.another = another;
         }
     }
 }

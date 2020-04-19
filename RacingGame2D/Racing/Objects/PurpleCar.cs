@@ -2,16 +2,22 @@
 using RGEngine.Graphics;
 using OpenTK.Input;
 using OpenTK;
-
+using RGEngine.Physics;
+using RGEngine.Support;
 
 namespace Racing.Objects
 {
     public class PurpleCar : Car
     {
         public PurpleCar()
-            : base(@"C:\Users\smedy\source\repos\OOP_CourseProject_StasMedyancev_NET_WinForms_OpenGL\RacingGame2D\Racing\Contents\Cars\lambo.png")
         {
-            SetStartCarPosition(new Vector2(300f, 50f));
+            base.id = "Purple";
+            SetStartCarPosition(new Vector2(0f, 400f));
+
+            var vehicleTexture = ContentLoader.LoadTexture(@"C:\Users\smedy\OneDrive\C4D\retro\launcher\cars\purple.png");
+            var vehicleSprite = new Sprite(vehicleTexture, new Vector2(0.4f, 0.4f),
+                new Vector2(0f, 0f), 2);
+            spriteRenderer.RenderQueue = SpriteBatch.CreateSpriteBatch(vehicleSprite);
         }
 
 

@@ -36,9 +36,10 @@ namespace GameLauncher
 
             using (var racingGame = new EngineCore(true))
             {
-                //EngineCore.AddGameObject(new Racing.Objects.Environment(@"C:\Users\smedy\Source\Repos\OOP_CourseProject_StasMedyancev_NET_WinForms_OpenGL\RacingGame2D\Racing\Contents\Environment\track.png"));
-                EngineCore.AddGameObject(new DefaultCar(@"C:\Users\smedy\source\repos\OOP_CourseProject_StasMedyancev_NET_WinForms_OpenGL\RacingGame2D\Racing\Contents\Cars\lambo.png"));
-                //EngineCore.AddGameObject(new PurpleCar());
+                EngineCore.AddGameObject(new Racing.Objects.Environment(@"C:\Users\smedy\OneDrive\C4D\retro\launcher\BG\bg_ui.png"));
+                EngineCore.AddGameObject(new FinishLine());
+                EngineCore.AddGameObject(new BlackCar());
+                EngineCore.AddGameObject(new PurpleCar());
                 EngineCore.AddGameObject(new PrizeGenerator());
 
                 racingGame.Title = "Retro Race";

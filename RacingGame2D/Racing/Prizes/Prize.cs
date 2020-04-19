@@ -5,6 +5,7 @@ using RGEngine.Support;
 using OpenTK;
 using RGEngine;
 using System.Linq;
+using Racing.Objects;
 
 namespace Racing.Prizes
 {
@@ -21,12 +22,20 @@ namespace Racing.Prizes
             for (int i = 0; i < texturesPath.Length; i++)
             {
                 var tex = ContentLoader.LoadTexture(texturesPath[i]);
-                var sprite = new Sprite(tex, new Vector2(0.3f, 0.3f), new Vector2(0f, 0f), 3);
+                var sprite = new Sprite(tex, new Vector2(0.55f, 0.55f), new Vector2(0f, 0f), 3);
                 animator.AnimationSprites.AddSprite(sprite);
             }
-            animator.FPS = 3;
+            animator.FPS = 7;
 
-            base.collider = new PolyCollider(this, new Vector2(200f, 200f));
+            base.collider = new PolyCollider(this, new Vector2(40f, 40f));
+            base.collider.ColliderTriggered += (sender, e) =>
+            {
+                if (ReferenceEquals(this, e.another))
+                {
+                    ApplyDecorator((Car)e.one);
+                    RemovePrize();
+                }
+            };
         }
 
         protected SpriteRenderer spriteRenderer;
@@ -36,11 +45,6 @@ namespace Racing.Prizes
 
         public override void FixedUpdate(double fixedDeltaTime)
         {
-            if (base.IsTriggered)
-            {
-                ApplyDecorator();
-                RemovePrize();
-            }
             base.FixedUpdate(fixedDeltaTime);
         }
 
@@ -56,7 +60,7 @@ namespace Racing.Prizes
             }
         }
 
-        protected abstract void ApplyDecorator();
+        protected abstract void ApplyDecorator(Car car);
     }
 
     public enum Prizes

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Racing.Objects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,13 +10,16 @@ namespace Racing.Prizes
     public class SlowdownPrize : Prize
     {
         public SlowdownPrize()
-            : base(@"C:\Users\smedy\Source\Repos\OOP_CourseProject_StasMedyancev_NET_WinForms_OpenGL\RacingGame2D\Racing\Contents\low-poly-texture.jpg")
+            : base(@"C:\Users\smedy\OneDrive\C4D\retro\launcher\animations\slow\slow1.png",
+                  @"C:\Users\smedy\OneDrive\C4D\retro\launcher\animations\slow\slow2.png",
+                  @"C:\Users\smedy\OneDrive\C4D\retro\launcher\animations\slow\slow3.png",
+                  @"C:\Users\smedy\OneDrive\C4D\retro\launcher\animations\slow\slow4.png")
         {
         }
 
-        protected override void ApplyDecorator()
+        protected override void ApplyDecorator(Car car)
         {
-            
+            car.properties = new SlowdownProps(car.properties);
         }
     }
 }

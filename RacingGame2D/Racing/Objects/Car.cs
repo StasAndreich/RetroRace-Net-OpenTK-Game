@@ -13,22 +13,14 @@ namespace Racing.Objects
 {
     public abstract class Car : GameObject, ICollidable
     {
-        public Car(string vehicleTexturePath)
+        public Car()
         {
             spriteRenderer = AddComponent<SpriteRenderer>();
             rigidBody2D = AddComponent<RigidBody2D>();
 
             // Set defaults for a default car.
-            MaxEngineForce = 430000f;
-            MaxVelocity = 480f;
-            MaxVelocityReverse = -250f;
-            MaxSteeringAngle = 25f;
-            MaxBreakingForce = 500000f;
-
-            MaxFuelLevel = 50f;
-            this.fuelLevel = MaxFuelLevel;
-            IdleFuelConsumption = 1f;
-            DrivingFuelConsumption = 3f;
+            properties = new CarProps();
+            this.fuelLevel = properties.MaxFuelLevel;
 
             fuelTimer = new GameTimer(5f);
             fuelTimer.Elapsed += (sender, e) => ApplyFuelConsumprion();
@@ -41,22 +33,21 @@ namespace Racing.Objects
             rigidBody2D.mass = 1200f;
             rigidBody2D.frictionConst = 750f;
 
+            base.collider = new PolyCollider(this, new Vector2(110f, 45f));
+            base.collider.ColliderTriggered += Collider_ColliderTriggered;
+        }
 
-            var vehicleTexture = ContentLoader.LoadTexture(vehicleTexturePath);
-            var wheelTexture = ContentLoader.LoadTexture(@"C:\Users\smedy\source\repos\OOP_CourseProject_StasMedyancev_NET_WinForms_OpenGL\RacingGame2D\Racing\Contents\Cars\wheel.png");
-
-            var vehicleSprite = new Sprite(vehicleTexture, new Vector2(0.2f, 0.2f),
-                new Vector2(0f, 0f), 2);
-            var wheelSpriteLeft = new Sprite(wheelTexture, new Vector2(0.4f, 0.4f),
-                new Vector2(0f, 0f), 0);
-            var wheelSpriteRight = new Sprite(wheelTexture, new Vector2(0.25f, 0.25f),
-                new Vector2(0f, 0f), 1);
-
-            spriteRenderer.RenderQueue = SpriteBatch.CreateSpriteBatch(vehicleSprite,
-                                                                        wheelSpriteLeft,
-                                                                        wheelSpriteRight);
-
-            base.collider = new PolyCollider(this, new Vector2(120f, 60f));
+        private void Collider_ColliderTriggered(object sender, CollisionEventArgs e)
+        {
+            if (ReferenceEquals(this, e.one))
+            {
+                if (e.another is FinishLine)
+                {
+                    //if (this.lapsPassed == 5)
+                    //    // event on WINNER EndOfRace();
+                    this.lapsPassed++;
+                }
+            }
         }
 
 
@@ -64,26 +55,15 @@ namespace Racing.Objects
         protected SpriteRenderer spriteRenderer;
         protected RigidBody2D rigidBody2D;
 
-        protected float MaxEngineForce { get; set; }
-
-        protected float MaxVelocity { get; set; }
-        protected float MaxVelocityReverse { get; set; }
-        protected float MaxSteeringAngle { get; set; }
-        protected float MaxBreakingForce { get; set; }
+        public CarProps properties { get; set; }
 
         protected float wheelBase;
-
         protected float steeringAngle;
         protected float carDirectionAngle;
-
-        protected Vector2 frontWheel;
-        protected Vector2 backWheel;
-
         protected int drivingMode;
 
-        protected float MaxFuelLevel { get; set; }
-        protected float IdleFuelConsumption { get; set; }
-        protected float DrivingFuelConsumption { get; set; }
+        protected Vector2 frontWheel;
+        protected Vector2 backWheel;       
 
         private float fuelLevel;
         protected float FuelLevel
@@ -91,15 +71,15 @@ namespace Racing.Objects
             get => this.fuelLevel;
             set
             {
-                if (this.fuelLevel + value > MaxFuelLevel)
-                    this.fuelLevel = MaxFuelLevel;
+                if (this.fuelLevel + value > properties.MaxFuelLevel)
+                    this.fuelLevel = properties.MaxFuelLevel;
                 else
                     this.fuelLevel = value;
             }
         }
-
         private GameTimer fuelTimer;
-
+        protected string id;
+        protected int lapsPassed;
         protected const float velocityConstraint = 6f;
 
 
@@ -141,9 +121,10 @@ namespace Racing.Objects
                         {
                             if (!(@object is INonResolveable))
                             {
-                                backWheel -= deltaBackWheel;
-                                frontWheel -= deltaFrontWheel;
-                                rigidBody2D.velocity /= 2;
+                                backWheel -= 1.5f * deltaBackWheel;
+                                frontWheel -= 1.5f * deltaFrontWheel;
+                                rigidBody2D.velocity /= -2.75f;
+
                             }
                         }
                     }
@@ -155,33 +136,39 @@ namespace Racing.Objects
                 frontWheel.X - backWheel.X);
             base.Rotation = MathHelper.RadiansToDegrees(carDirectionAngle);
 
-
-            //spriteRenderer.RenderQueue[0].Position = frontWheel;
-            //spriteRenderer.RenderQueue[1].Position = backWheel;
-            spriteRenderer.RenderQueue[2].Rotation = MathHelper.RadiansToDegrees(carDirectionAngle);
-            //spriteRenderer.RenderQueue[2].Position = this.Position;
+            spriteRenderer.RenderQueue[0].Rotation = MathHelper.RadiansToDegrees(carDirectionAngle);
 
             fuelTimer.Update(fixedDeltaTime);
+            // Additional fuel from prizes.
+            this.fuelLevel += properties.FuelFillUp;
+        }
+
+        protected void EndOfRace()
+        {
+
         }
 
         protected void ApplyFuelConsumprion()
         {
-            if (this.fuelLevel < 0)
+            if (this.fuelLevel <= 0.001)
+            {
+                EndOfRace();
                 return;
+            }
 
             if (rigidBody2D.velocity == 0)
-                this.fuelLevel -= this.IdleFuelConsumption;
+                this.fuelLevel -= properties.IdleFuelConsumption;
             else
-                this.fuelLevel -= this.DrivingFuelConsumption;
+                this.fuelLevel -= properties.DrivingFuelConsumption;
         }
 
         protected virtual void GetUserInput(Key gas, Key brake, Key left, Key right)
         {
             // Check for max and min velocity-values.
-            if (rigidBody2D.velocity >= MaxVelocity)
-                rigidBody2D.velocity = MaxVelocity;
-            if (rigidBody2D.velocity <= MaxVelocityReverse)
-                rigidBody2D.velocity = MaxVelocityReverse;
+            if (rigidBody2D.velocity >= properties.MaxVelocity)
+                rigidBody2D.velocity = properties.MaxVelocity;
+            if (rigidBody2D.velocity <= properties.MaxVelocityReverse)
+                rigidBody2D.velocity = properties.MaxVelocityReverse;
 
             // Fixing a STOP-point.
             if (rigidBody2D.velocity <= velocityConstraint &&
@@ -191,16 +178,16 @@ namespace Racing.Objects
 
             if (InputController.CurrentKeyboardState.IsKeyDown(gas))
             {
-                rigidBody2D.engineForce = drivingMode * MaxEngineForce;
+                rigidBody2D.engineForce = drivingMode * properties.MaxEngineForce;
             }
             else if (InputController.CurrentKeyboardState.IsKeyDown(brake))
             {
                 if (rigidBody2D.velocity == 0)
                     rigidBody2D.breakingForce = 0;
                 else if (rigidBody2D.velocity > 0)
-                    rigidBody2D.breakingForce = MaxBreakingForce;
+                    rigidBody2D.breakingForce = properties.MaxBreakingForce;
                 else
-                    rigidBody2D.breakingForce = -MaxBreakingForce;
+                    rigidBody2D.breakingForce = -properties.MaxBreakingForce;
             }
             else
             {
@@ -211,11 +198,11 @@ namespace Racing.Objects
 
             if (InputController.CurrentKeyboardState.IsKeyDown(left))
             {
-                this.steeringAngle = -MaxSteeringAngle;
+                this.steeringAngle = -properties.MaxSteeringAngle;
             }
             else if (InputController.CurrentKeyboardState.IsKeyDown(right))
             {
-                this.steeringAngle = MaxSteeringAngle;
+                this.steeringAngle = properties.MaxSteeringAngle;
             }
             else
             {
@@ -251,6 +238,9 @@ namespace Racing.Objects
         /// Returns -1 cause all forces are in 'negative' direction.
         /// </summary>
         Reverse = -1,
+        /// <summary>
+        /// Returns 0 cause all forces are in 'neutral' direction.
+        /// </summary>
         Neutral = 0,
         /// <summary>
         /// Returns 1 cause all forces are in 'positive' direction.

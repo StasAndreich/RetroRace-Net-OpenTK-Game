@@ -1,12 +1,14 @@
 ﻿using OpenTK;
+using RGEngine;
 using RGEngine.BaseClasses;
 using RGEngine.Graphics;
+using RGEngine.Physics;
 using RGEngine.Support;
 
 
 namespace Racing.Objects
 {
-    public class Environment : GameObject
+    public class Environment : GameObject, ICollidable
     {
         public Environment(string backgroundPath)
         {
@@ -18,9 +20,25 @@ namespace Racing.Objects
             spriteRenderer.RenderQueue = SpriteBatch.CreateSpriteBatch(bgSprite);
 
             base.Position = new Vector2(0f, 0f);
+
+            // Middle collider.
+            base.collider = new PolyCollider(this, new Vector2(1310f, 480f));
+            // Add screen bounds.
+            EngineCore.AddGameObject(new Bound(new Vector2(-945f, 0f), new Vector2(20f, 1080f)));
+            EngineCore.AddGameObject(new Bound(new Vector2(945f, 0f), new Vector2(20f, 1080f)));
+            EngineCore.AddGameObject(new Bound(new Vector2(0f, 525f), new Vector2(1920f, 20f)));
+            EngineCore.AddGameObject(new Bound(new Vector2(0f, -525f), new Vector2(1920f, 20f)));
+        }
+
+        private class Bound : GameObject, ICollidable, INonRenderable
+        {
+            public Bound(Vector2 position, Vector2 size)
+            {
+                base.Position = position;
+                base.collider = new PolyCollider(this, size);
+            }   
         }
 
         private SpriteRenderer spriteRenderer;
-        private Animator animator;
     }
 }

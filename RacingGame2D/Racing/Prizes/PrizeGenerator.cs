@@ -19,8 +19,15 @@ namespace Racing.Prizes
         private GameTimer spawnTimer;
         private Vector2[] spawnPositions =
         {
-            new Vector2(400f, 200f),
-            new Vector2(-400f, -100f),
+            new Vector2(800f, 400f),
+            new Vector2(805f, -350f),
+            new Vector2(-350f, -350f),
+            new Vector2(-550f, 405f),
+
+            new Vector2(-800f, 0f),
+            new Vector2(805f, 0f),
+            new Vector2(-10f, -380f),
+            new Vector2(-330f, 405f),
         };
 
 
