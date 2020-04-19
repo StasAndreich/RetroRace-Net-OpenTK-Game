@@ -45,7 +45,9 @@ namespace Racing.Objects
                 {
                     //if (this.lapsPassed == 5)
                     //    // event on WINNER EndOfRace();
-                    this.lapsPassed++;
+                    if (this.carDirectionAngle < 90f &&
+                        this.carDirectionAngle > -90f)
+                        this.lapsPassed++;
                 }
             }
         }
