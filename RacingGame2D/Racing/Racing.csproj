@@ -55,6 +55,7 @@
     <Compile Include="Objects\FinishLine.cs" />
     <Compile Include="Objects\PurpleCar.cs" />
     <Compile Include="Objects\Decorated\SlowdownProps.cs" />
+    <Compile Include="Objects\UI\UIElement.cs" />
     <Compile Include="Prizes\BoostPrize.cs" />
     <Compile Include="Prizes\FuelPrize.cs" />
     <Compile Include="Prizes\IPrizeFactory.cs" />

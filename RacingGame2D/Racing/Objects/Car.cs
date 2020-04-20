@@ -7,7 +7,8 @@ using RGEngine.Graphics;
 using RGEngine.Physics;
 using RGEngine.Support;
 using RGEngine;
-using Racing.Prizes;
+using Racing.Objects.UI;
+using System.Linq;
 
 namespace Racing.Objects
 {
@@ -43,10 +44,9 @@ namespace Racing.Objects
         {
             if (ReferenceEquals(this, e.one))
             {
+                // Checks for finishline crossing.
                 if (e.another is FinishLine)
                 {
-                    //if (this.lapsPassed == 5)
-                    //    // event on WINNER EndOfRace();
                     if ((this.Rotation < 90f &&
                         this.Rotation > -90f &&
                         rigidBody2D.velocity > 0) ||
@@ -55,9 +55,36 @@ namespace Racing.Objects
                         rigidBody2D.velocity < 0))
                     {
                         if (!this.laps[this._lapsPassed])
+                        {
                             this.laps[this._lapsPassed] = true;
+                        }
                     }
-                    // if (finishline right and car left position) line++
+
+                    if (this._lapsPassed == 1)
+                        //OnEndedRace(new GameEventArgs(this));
+                        DisplayWinner(this);
+                }
+            }
+        }
+
+        private void DisplayWinner(GameObject winner)
+        {
+            var blackTex = @"C:\Users\smedy\OneDrive\C4D\retro\launcher\UI\WINS\blackWinsText.png";
+            var purpleTex = @"C:\Users\smedy\OneDrive\C4D\retro\launcher\UI\WINS\purpleWinsText.png";
+
+            var car = winner as Car;
+            if (car != null)
+            {
+                switch (car.id)
+                {
+                    case "Black":
+                        EngineCore.AddGameObject(new UIElement(blackTex, new Vector2(0f, 0f)));
+                        break;
+                    case "Purple":
+                        EngineCore.AddGameObject(new UIElement(purpleTex, new Vector2(0f, 0f)));
+                        break;
+                    default:
+                        throw new Exception("There is nothing to display.");
                 }
             }
         }
@@ -65,6 +92,7 @@ namespace Racing.Objects
         // GameObject Components.
         protected SpriteRenderer spriteRenderer;
         protected RigidBody2D rigidBody2D;
+        protected const float velocityConstraint = 6f;
 
         public CarProps properties { get; set; }
 
@@ -89,7 +117,7 @@ namespace Racing.Objects
             }
         }
         private GameTimer fuelTimer;
-        protected string id;
+        public string id;
 
         private bool[] laps;
         private int _lapsPassed;
@@ -111,7 +139,14 @@ namespace Racing.Objects
                 var input = value;
             }
         }
-        protected const float velocityConstraint = 6f;
+
+        public event EventHandler<GameEventArgs> EndedRace;
+
+        public void OnEndedRace(GameEventArgs e)
+        {
+            var handler = EndedRace;
+            handler?.Invoke(this, e);
+        }
 
 
         public override void FixedUpdate(double fixedDeltaTime)
@@ -142,7 +177,7 @@ namespace Racing.Objects
             frontWheel += deltaFrontWheel;
             base.Position = (frontWheel + backWheel) / 2;
 
-            foreach (var @object in EngineCore.gameObjects)
+            foreach (var @object in EngineCore.gameObjects.ToList<GameObject>())
             {
                 if (@object is ICollidable)
                 {
@@ -174,16 +209,16 @@ namespace Racing.Objects
             this.fuelLevel += properties.FuelFillUp;
         }
 
-        protected void EndOfRace()
-        {
+        //protected void DisplayWinner()
+        //{
 
-        }
+        //}
 
         protected void ApplyFuelConsumprion()
         {
             if (this.fuelLevel <= 0.001)
             {
-                EndOfRace();
+                OnEndedRace(new GameEventArgs(this));
                 return;
             }
 
