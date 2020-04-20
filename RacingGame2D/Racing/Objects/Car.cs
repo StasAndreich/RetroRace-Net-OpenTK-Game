@@ -19,7 +19,7 @@ namespace Racing.Objects
             rigidBody2D = AddComponent<RigidBody2D>();
 
             // Set defaults for a default car.
-            properties = new CarProps();
+            properties = new CarProps(this);
             this.fuelLevel = properties.MaxFuelLevel;
 
             fuelTimer = new GameTimer(5f);
@@ -35,6 +35,8 @@ namespace Racing.Objects
 
             base.collider = new PolyCollider(this, new Vector2(110f, 45f));
             base.collider.ColliderTriggered += Collider_ColliderTriggered;
+
+            this.laps = new bool[5];
         }
 
         private void Collider_ColliderTriggered(object sender, CollisionEventArgs e)
@@ -45,13 +47,20 @@ namespace Racing.Objects
                 {
                     //if (this.lapsPassed == 5)
                     //    // event on WINNER EndOfRace();
-                    if (this.carDirectionAngle < 90f &&
-                        this.carDirectionAngle > -90f)
-                        this.lapsPassed++;
+                    if ((this.Rotation < 90f &&
+                        this.Rotation > -90f &&
+                        rigidBody2D.velocity > 0) ||
+                        (this.Rotation > 90f &&
+                        this.Rotation < -90f &&
+                        rigidBody2D.velocity < 0))
+                    {
+                        if (!this.laps[this._lapsPassed])
+                            this.laps[this._lapsPassed] = true;
+                    }
+                    // if (finishline right and car left position) line++
                 }
             }
         }
-
 
         // GameObject Components.
         protected SpriteRenderer spriteRenderer;
@@ -81,7 +90,27 @@ namespace Racing.Objects
         }
         private GameTimer fuelTimer;
         protected string id;
-        protected int lapsPassed;
+
+        private bool[] laps;
+        private int _lapsPassed;
+        protected int LapsPassed
+        {
+            get
+            {
+                var result = 0;
+                for (int i = 0; i < this.laps.Length; i++)
+                {
+                    if (this.laps[i])
+                        result++;
+                }
+                this._lapsPassed = result;
+                return result;
+            }
+            private set
+            {
+                var input = value;
+            }
+        }
         protected const float velocityConstraint = 6f;
 
 

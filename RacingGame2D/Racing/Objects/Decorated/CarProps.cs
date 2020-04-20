@@ -8,8 +8,12 @@ namespace Racing.Objects
 {
     public class CarProps
     {
-        public CarProps()
+        public Car owner;
+
+        public CarProps(Car owner)
         {
+            this.owner = owner;
+
             MaxEngineForce = 430000f;
             MaxVelocity = 480f;
             MaxVelocityReverse = -250f;
