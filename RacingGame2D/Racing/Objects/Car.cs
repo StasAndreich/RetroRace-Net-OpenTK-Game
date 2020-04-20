@@ -7,7 +7,6 @@ using RGEngine.Graphics;
 using RGEngine.Physics;
 using RGEngine.Support;
 using RGEngine;
-using Racing.Objects.UI;
 using System.Linq;
 
 namespace Racing.Objects
@@ -54,37 +53,23 @@ namespace Racing.Objects
                         this.Rotation < -90f &&
                         rigidBody2D.velocity < 0))
                     {
-                        if (!this.laps[this._lapsPassed])
+                        if (!this.laps[_lapsPassed])
                         {
-                            this.laps[this._lapsPassed] = true;
+                            this.laps[_lapsPassed] = true;
                         }
+                        this.beingLocatedOnFinishLine++;
                     }
 
-                    if (this._lapsPassed == 1)
-                        //OnEndedRace(new GameEventArgs(this));
-                        DisplayWinner(this);
+                    if (LapsPassed == 2)
+                        OnEndedRace(new GameEventArgs(this));
                 }
-            }
-        }
-
-        private void DisplayWinner(GameObject winner)
-        {
-            var blackTex = @"C:\Users\smedy\OneDrive\C4D\retro\launcher\UI\WINS\blackWinsText.png";
-            var purpleTex = @"C:\Users\smedy\OneDrive\C4D\retro\launcher\UI\WINS\purpleWinsText.png";
-
-            var car = winner as Car;
-            if (car != null)
-            {
-                switch (car.id)
+                else
                 {
-                    case "Black":
-                        EngineCore.AddGameObject(new UIElement(blackTex, new Vector2(0f, 0f)));
-                        break;
-                    case "Purple":
-                        EngineCore.AddGameObject(new UIElement(purpleTex, new Vector2(0f, 0f)));
-                        break;
-                    default:
-                        throw new Exception("There is nothing to display.");
+                    if (this.beingLocatedOnFinishLine > 0)
+                    {
+                        this._lapsPassed = LapsPassed;
+                        this.beingLocatedOnFinishLine = 0;
+                    }
                 }
             }
         }
@@ -120,6 +105,7 @@ namespace Racing.Objects
         public string id;
 
         private bool[] laps;
+        private int beingLocatedOnFinishLine;
         private int _lapsPassed;
         protected int LapsPassed
         {
@@ -131,12 +117,10 @@ namespace Racing.Objects
                     if (this.laps[i])
                         result++;
                 }
-                this._lapsPassed = result;
                 return result;
             }
             private set
-            {
-                var input = value;
+            { 
             }
         }
 
@@ -208,11 +192,6 @@ namespace Racing.Objects
             // Additional fuel from prizes.
             this.fuelLevel += properties.FuelFillUp;
         }
-
-        //protected void DisplayWinner()
-        //{
-
-        //}
 
         protected void ApplyFuelConsumprion()
         {

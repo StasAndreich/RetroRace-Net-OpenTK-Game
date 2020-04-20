@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Racing.Objects
+﻿namespace Racing.Objects
 {
     public class CarProps
     {
@@ -20,7 +14,7 @@ namespace Racing.Objects
             MaxSteeringAngle = 25f;
             MaxBreakingForce = 500000f;
 
-            MaxFuelLevel = 50f;
+            MaxFuelLevel = 20f;
             IdleFuelConsumption = 1f;
             DrivingFuelConsumption = 3f;
             FuelFillUp = 0f;

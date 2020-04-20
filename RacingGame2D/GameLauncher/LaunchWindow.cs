@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using Racing.Objects;
+using Racing.Objects.UI;
 using Racing.Prizes;
 using RGEngine;
 
@@ -38,9 +39,11 @@ namespace GameLauncher
             {
                 EngineCore.AddGameObject(new Racing.Objects.Environment(@"C:\Users\smedy\OneDrive\C4D\retro\launcher\BG\bg_ui.png"));
                 EngineCore.AddGameObject(new FinishLine());
+                EngineCore.AddGameObject(new OuterFinishLine());
                 EngineCore.AddGameObject(new BlackCar());
                 EngineCore.AddGameObject(new PurpleCar());
                 EngineCore.AddGameObject(new PrizeGenerator());
+                EngineCore.AddGameObject(new UIHandler());
 
                 racingGame.Title = "Retro Race";
                 racingGame.Icon = new Icon(@"C:\Users\smedy\OneDrive\C4D\retro\launcher\icon32.ico");
