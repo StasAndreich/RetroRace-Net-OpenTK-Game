@@ -22,9 +22,6 @@ namespace Racing.Objects
             properties = new CarProps(this);
             this.fuelLevel = properties.MaxFuelLevel;
 
-            fuelTimer = new GameTimer(5f);
-            fuelTimer.Elapsed += (sender, e) => ApplyFuelConsumprion();
-
             // Set default wheelBase value and start car position.
             wheelBase = 80f;
             SetStartCarPosition(new Vector2(150f, 150f));
@@ -34,52 +31,19 @@ namespace Racing.Objects
             rigidBody2D.frictionConst = 750f;
 
             base.collider = new PolyCollider(this, new Vector2(110f, 45f));
-            base.collider.ColliderTriggered += Collider_ColliderTriggered;
+            base.collider.ColliderTriggered += FinishLine_ColliderTriggered;
 
+            // Difine finished laps array.
             this.laps = new bool[5];
         }
 
-        private void Collider_ColliderTriggered(object sender, CollisionEventArgs e)
-        {
-            if (ReferenceEquals(this, e.one))
-            {
-                // Checks for finishline crossing.
-                if (e.another is FinishLine)
-                {
-                    if ((this.Rotation < 90f &&
-                        this.Rotation > -90f &&
-                        rigidBody2D.velocity > 0) ||
-                        (this.Rotation > 90f &&
-                        this.Rotation < -90f &&
-                        rigidBody2D.velocity < 0))
-                    {
-                        if (!this.laps[_lapsPassed])
-                        {
-                            this.laps[_lapsPassed] = true;
-                        }
-                        this.beingLocatedOnFinishLine++;
-                    }
-
-                    if (LapsPassed == 2)
-                        OnEndedRace(new GameEventArgs(this));
-                }
-                else
-                {
-                    if (this.beingLocatedOnFinishLine > 0)
-                    {
-                        this._lapsPassed = LapsPassed;
-                        this.beingLocatedOnFinishLine = 0;
-                    }
-                }
-            }
-        }
 
         // GameObject Components.
         protected SpriteRenderer spriteRenderer;
         protected RigidBody2D rigidBody2D;
         protected const float velocityConstraint = 6f;
 
-        public CarProps properties { get; set; }
+        public CarProps properties;
 
         protected float wheelBase;
         protected float steeringAngle;
@@ -118,9 +82,6 @@ namespace Racing.Objects
                         result++;
                 }
                 return result;
-            }
-            private set
-            { 
             }
         }
 
@@ -186,25 +147,68 @@ namespace Racing.Objects
                 frontWheel.X - backWheel.X);
             base.Rotation = MathHelper.RadiansToDegrees(carDirectionAngle);
 
-            spriteRenderer.RenderQueue[0].Rotation = MathHelper.RadiansToDegrees(carDirectionAngle);
-
-            fuelTimer.Update(fixedDeltaTime);
+            ApplyFuelConsumprion(fixedDeltaTime);
             // Additional fuel from prizes.
             this.fuelLevel += properties.FuelFillUp;
         }
 
-        protected void ApplyFuelConsumprion()
+        private void FinishLine_ColliderTriggered(object sender, CollisionEventArgs e)
         {
+            if (ReferenceEquals(this, e.one))
+            {
+                // Checks for finishline crossing.
+                if (e.another is FinishLine)
+                {
+                    if ((this.Rotation < 90f &&
+                        this.Rotation > -90f &&
+                        rigidBody2D.velocity > 0) ||
+                        (this.Rotation > 90f &&
+                        this.Rotation < -90f &&
+                        rigidBody2D.velocity < 0))
+                    {
+                        if (!this.laps[_lapsPassed])
+                        {
+                            this.laps[_lapsPassed] = true;
+                        }
+                        this.beingLocatedOnFinishLine++;
+                    }
+
+                    if (LapsPassed == 2 + 1)
+                        OnEndedRace(new GameEventArgs(this));
+                }
+                else
+                {
+                    if (this.beingLocatedOnFinishLine > 0)
+                    {
+                        this._lapsPassed = LapsPassed;
+                        this.beingLocatedOnFinishLine = 0;
+                    }
+                }
+            }
+        }
+
+        protected void ApplyFuelConsumprion(double fixedDeltaTime)
+        {
+            // End of race condition.
             if (this.fuelLevel <= 0.001)
             {
+                // Choose another car as the winner.
+                if (this.id == "Black")
+                    this.id = "Purple";
+                else if (this.id == "Purple")
+                    this.id = "Black";
+                    
                 OnEndedRace(new GameEventArgs(this));
                 return;
             }
 
+            var consumptionTime = 5f;
             if (rigidBody2D.velocity == 0)
-                this.fuelLevel -= properties.IdleFuelConsumption;
+                this.fuelLevel -= (properties.IdleFuelConsumption * (float)fixedDeltaTime)
+                    / consumptionTime;
             else
-                this.fuelLevel -= properties.DrivingFuelConsumption;
+                this.fuelLevel -= (properties.DrivingFuelConsumption * (float)fixedDeltaTime)
+                    / consumptionTime;
         }
 
         protected virtual void GetUserInput(Key gas, Key brake, Key left, Key right)

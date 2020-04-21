@@ -117,7 +117,6 @@ namespace RGEngine.Physics
             }
 
             OnColliderTriggered(new CollisionEventArgs(this.attachedTo, other));
-            //other.IsTriggered = true;
 
             return true;
         }

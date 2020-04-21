@@ -18,7 +18,7 @@ namespace RGEngine.BaseClasses
 
         public Vector2 Position { get; set; }
         public PolyCollider collider;
-        public bool IsTriggered { get; set; }
+        //public bool IsTriggered { get; set; }
 
         private float rotation;
         public float Rotation
@@ -27,7 +27,16 @@ namespace RGEngine.BaseClasses
             set
             {
                 this.rotation = value;
+                OnRotationChanged(new EventArgs());
             }
+        }
+
+        public event EventHandler RotationChanged;
+
+        protected virtual void OnRotationChanged(EventArgs e)
+        {
+            var handler = RotationChanged;
+            handler?.Invoke(this, e);
         }
 
 
@@ -84,7 +93,6 @@ namespace RGEngine.BaseClasses
         /// </summary>
         /// <param name="deltaTime"></param>
         internal void PerformUpdate(double deltaTime)
-        
         {
             Update(deltaTime);
             foreach (var component in components)
