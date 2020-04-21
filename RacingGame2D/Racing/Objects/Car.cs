@@ -5,9 +5,9 @@ using RGEngine.BaseClasses;
 using RGEngine.Input;
 using RGEngine.Graphics;
 using RGEngine.Physics;
-using RGEngine.Support;
 using RGEngine;
 using System.Linq;
+using Racing.Prizes;
 
 namespace Racing.Objects
 {
@@ -32,6 +32,7 @@ namespace Racing.Objects
 
             base.collider = new PolyCollider(this, new Vector2(110f, 45f));
             base.collider.ColliderTriggered += FinishLine_ColliderTriggered;
+            base.collider.ColliderTriggered += Prize_ColliderTriggered;
 
             // Difine finished laps array.
             this.laps = new bool[5];
@@ -65,7 +66,6 @@ namespace Racing.Objects
                     this.fuelLevel = value;
             }
         }
-        private GameTimer fuelTimer;
         public string id;
 
         private bool[] laps;
@@ -122,9 +122,11 @@ namespace Racing.Objects
             frontWheel += deltaFrontWheel;
             base.Position = (frontWheel + backWheel) / 2;
 
+            // Detect and resolve collisions.
             foreach (var @object in EngineCore.gameObjects.ToList<GameObject>())
             {
-                if (@object is ICollidable)
+                // Car DOES NOT collide with other car.
+                if (@object is ICollidable && !(@object is Car))
                 {
                     if (!ReferenceEquals(this, @object))
                     {
@@ -135,7 +137,6 @@ namespace Racing.Objects
                                 backWheel -= 1.5f * deltaBackWheel;
                                 frontWheel -= 1.5f * deltaFrontWheel;
                                 rigidBody2D.velocity /= -2.75f;
-
                             }
                         }
                     }
@@ -178,10 +179,27 @@ namespace Racing.Objects
                 }
                 else
                 {
-                    if (this.beingLocatedOnFinishLine > 0)
+                    if (e.another is OuterFinishLine)
                     {
-                        this._lapsPassed = LapsPassed;
-                        this.beingLocatedOnFinishLine = 0;
+                        if (this.beingLocatedOnFinishLine > 0)
+                        {
+                            this._lapsPassed = LapsPassed;
+                            this.beingLocatedOnFinishLine = 0;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void Prize_ColliderTriggered(object sender, CollisionEventArgs e)
+        {
+            foreach (var @object in EngineCore.gameObjects.ToList<GameObject>())
+            {
+                if (@object is Prize)
+                {
+                    if (ReferenceEquals(@object, e.another))
+                    {
+                        ((Prize)@object).PickUp(this);
                     }
                 }
             }

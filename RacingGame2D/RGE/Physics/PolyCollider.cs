@@ -33,7 +33,6 @@ namespace RGEngine.Physics
             handler?.Invoke(this, e);
         }
 
-
         private void Update(Vector2 position)
         {
             var dx = size.X / 2f;
@@ -102,7 +101,6 @@ namespace RGEngine.Physics
 
             Vector2 normal;
             bool isCollide = false;
-            //other.IsTriggered = false;
 
             for (int i = 0; i < allCount && !isCollide; i++)
             {
@@ -149,10 +147,6 @@ namespace RGEngine.Physics
             GL.PushMatrix();
 
             GL.Begin(PrimitiveType.LineLoop);
-            //if (IsTriggered)
-            //    GL.Color3(Color.Red);
-            //else
-            //    GL.Color3(Color.LightGreen);
 
             for (int i = 0; i < vertices.Length; i++)
             {

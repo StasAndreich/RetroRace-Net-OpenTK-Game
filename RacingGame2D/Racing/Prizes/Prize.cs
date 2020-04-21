@@ -28,14 +28,6 @@ namespace Racing.Prizes
             animator.FPS = 7;
 
             base.collider = new PolyCollider(this, new Vector2(40f, 40f));
-            base.collider.ColliderTriggered += (sender, e) =>
-            {
-                if (ReferenceEquals(this, e.another))
-                {
-                    ApplyDecorator((Car)e.one);
-                    RemovePrize();
-                }
-            };
         }
 
         protected SpriteRenderer spriteRenderer;
@@ -43,9 +35,10 @@ namespace Racing.Prizes
         protected Animator animator;
 
 
-        public override void FixedUpdate(double fixedDeltaTime)
+        internal void PickUp(Car car)
         {
-            base.FixedUpdate(fixedDeltaTime);
+            ApplyDecorator(car);
+            RemovePrize();
         }
 
         protected void RemovePrize()

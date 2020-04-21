@@ -48,11 +48,11 @@ namespace RGEngine
 
         protected override void OnRenderFrame(FrameEventArgs e)
         {
-            SpriteRenderer.RenderEntireFrame(gameObjects);
+            SpriteRenderer.RenderEntireFrame(gameObjects.ToList<GameObject>());
 
             if (EnableColliderDrawing)
-                for (int i = 0; i < PolyCollider.allCollidersAttached.Count; i++)
-                    PolyCollider.allCollidersAttached[i].collider.Draw();
+                foreach (var @object in gameObjects.ToList<GameObject>())
+                    @object.collider?.Draw();
 
             SwapBuffers();
             base.OnRenderFrame(e);
@@ -63,7 +63,7 @@ namespace RGEngine
         {
             InputController.Update();
 
-            foreach (var gameObject in gameObjects)
+            foreach (var gameObject in gameObjects.ToList<GameObject>())
             {
                 gameObject.PerformUpdate(e.Time);
             }

@@ -40,8 +40,8 @@ namespace GameLauncher
                 EngineCore.AddGameObject(new Racing.Objects.Environment(@"C:\Users\smedy\OneDrive\C4D\retro\launcher\BG\bg_ui.png"));
                 EngineCore.AddGameObject(new FinishLine());
                 EngineCore.AddGameObject(new OuterFinishLine());
-                EngineCore.AddGameObject(new BlackCar());
                 EngineCore.AddGameObject(new PurpleCar());
+                EngineCore.AddGameObject(new BlackCar());
                 EngineCore.AddGameObject(new PrizeGenerator());
                 EngineCore.AddGameObject(new UIHandler());
 

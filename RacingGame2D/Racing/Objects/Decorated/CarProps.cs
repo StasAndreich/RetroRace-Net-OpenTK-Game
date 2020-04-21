@@ -14,7 +14,7 @@
             MaxSteeringAngle = 25f;
             MaxBreakingForce = 500000f;
 
-            MaxFuelLevel = 4f;
+            MaxFuelLevel = 40f;
             IdleFuelConsumption = 1f;
             DrivingFuelConsumption = 3f;
             FuelFillUp = 0f;
