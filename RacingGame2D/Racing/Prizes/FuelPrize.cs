@@ -12,7 +12,6 @@ namespace Racing.Prizes
                   @"C:\Users\smedy\OneDrive\C4D\retro\launcher\animations\fuel\fuel3.png",
                   @"C:\Users\smedy\OneDrive\C4D\retro\launcher\animations\fuel\fuel4.png")
         {
-            //base.rigidBody.OnTriggered += FuelPrize_OnTriggered;
         }
 
         protected override void ApplyDecorator(Car car)

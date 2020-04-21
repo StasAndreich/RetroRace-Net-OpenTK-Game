@@ -5,8 +5,18 @@
         public BoostProps(CarProps props)
             : base(props)
         {
-            props.MaxVelocity *= 1.5f;
-            props.MaxEngineForce *= 2f;
         }
-     }
+
+        public override float MaxVelocity
+        {
+            get => baseProps.MaxVelocity * 1.5f;
+            set => base.MaxVelocity = value; 
+        }
+
+        public override float MaxEngineForce 
+        { 
+            get => baseProps.MaxEngineForce * 2f;
+            set => base.MaxEngineForce = value; 
+        }
+    }
 }

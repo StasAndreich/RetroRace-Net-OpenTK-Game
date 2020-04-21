@@ -2,7 +2,6 @@
 using RGEngine.Graphics;
 using OpenTK.Input;
 using OpenTK;
-using RGEngine.Physics;
 using RGEngine.Support;
 
 namespace Racing.Objects
@@ -12,7 +11,7 @@ namespace Racing.Objects
         public BlackCar()
         {
             base.id = "Black";
-            SetStartCarPosition(new Vector2(0f, 300f));
+            SetStartCarPosition(new Vector2(85f, 325f));
 
             var vehicleTexture = ContentLoader.LoadTexture(@"C:\Users\smedy\OneDrive\C4D\retro\launcher\cars\black.png");
             var vehicleSprite = new Sprite(vehicleTexture, new Vector2(0.4f, 0.4f),

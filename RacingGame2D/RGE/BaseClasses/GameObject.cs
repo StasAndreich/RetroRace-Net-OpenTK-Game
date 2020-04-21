@@ -18,7 +18,6 @@ namespace RGEngine.BaseClasses
 
         public Vector2 Position { get; set; }
         public PolyCollider collider;
-        //public bool IsTriggered { get; set; }
 
         private float rotation;
         public float Rotation

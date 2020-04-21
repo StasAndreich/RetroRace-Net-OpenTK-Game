@@ -15,17 +15,20 @@ namespace Racing.Objects
             : base(baseProps.owner)
         {
             this.baseProps = baseProps;
+            base.owner = baseProps.owner;
+
             this.lifeTimer = new GameTimer();
-            this.lifeTimer.Interval = 4f;
+            this.lifeTimer.Interval = 3f;
             this.lifeTimer.Elapsed += (sender, e) => RemoveDecorator();
+
+            EngineCore.AddGameObject(this);
         }
 
-        public event EventHandler Expired;
 
-        protected virtual void OnExpired(EventArgs e)
+        public override void FixedUpdate(double fixedDeltaTime)
         {
-            var handler = Expired;
-            handler?.Invoke(this, e);
+            lifeTimer.Update(fixedDeltaTime);
+            base.FixedUpdate(fixedDeltaTime);
         }
 
         private void RemoveDecorator()
@@ -39,6 +42,7 @@ namespace Racing.Objects
                     car.properties = this.baseProps;
                 }
             }
+            EngineCore.RemoveGameObject(this);
         }
     }
 }

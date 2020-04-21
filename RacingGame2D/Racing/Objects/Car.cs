@@ -149,8 +149,9 @@ namespace Racing.Objects
             base.Rotation = MathHelper.RadiansToDegrees(carDirectionAngle);
 
             ApplyFuelConsumprion(fixedDeltaTime);
-            // Additional fuel from prizes.
+            // Add fuel from canister.
             this.fuelLevel += properties.FuelFillUp;
+            this.properties.FuelFillUp = 0;
         }
 
         private void FinishLine_ColliderTriggered(object sender, CollisionEventArgs e)
@@ -174,7 +175,7 @@ namespace Racing.Objects
                         this.beingLocatedOnFinishLine++;
                     }
 
-                    if (LapsPassed == 2 + 1)
+                    if (LapsPassed == 5)
                         OnEndedRace(new GameEventArgs(this));
                 }
                 else

@@ -4,7 +4,6 @@ using RGEngine.Graphics;
 using RGEngine.BaseClasses;
 using RGEngine.Support;
 using System;
-using System.Drawing;
 
 namespace Racing.Prizes
 {
@@ -23,18 +22,6 @@ namespace Racing.Prizes
         }
         
         private GameTimer spawnTimer;
-        //private Vector2[] spawnPositions =
-        //{
-        //    new Vector2(800f, 400f),
-        //    new Vector2(805f, -350f),
-        //    new Vector2(-350f, -350f),
-        //    new Vector2(-550f, 405f),
-
-        //    new Vector2(-800f, 0f),
-        //    new Vector2(805f, 0f),
-        //    new Vector2(-10f, -380f),
-        //    new Vector2(-330f, 405f),
-        //};
 
         // Rect1 is outer bound.
         // Rect2 is inner bound.
@@ -75,6 +62,7 @@ namespace Racing.Prizes
             var random = new Random();
             var prizesCount = 3;
             var randPrize = random.Next(1, prizesCount + 1);
+            Prize prize;
 
             switch (randPrize)
             {

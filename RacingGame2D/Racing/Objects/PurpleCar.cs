@@ -1,8 +1,6 @@
-﻿using RGEngine.Input;
-using RGEngine.Graphics;
+﻿using RGEngine.Graphics;
 using OpenTK.Input;
 using OpenTK;
-using RGEngine.Physics;
 using RGEngine.Support;
 
 namespace Racing.Objects
@@ -12,7 +10,7 @@ namespace Racing.Objects
         public PurpleCar()
         {
             base.id = "Purple";
-            SetStartCarPosition(new Vector2(0f, 400f));
+            SetStartCarPosition(new Vector2(85f, 435f));
 
             var vehicleTexture = ContentLoader.LoadTexture(@"C:\Users\smedy\OneDrive\C4D\retro\launcher\cars\purple.png");
             var vehicleSprite = new Sprite(vehicleTexture, new Vector2(0.4f, 0.4f),

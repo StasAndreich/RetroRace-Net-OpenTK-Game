@@ -1,6 +1,10 @@
-﻿namespace Racing.Objects
+﻿using RGEngine.BaseClasses;
+using RGEngine.Graphics;
+using RGEngine.Physics;
+
+namespace Racing.Objects
 {
-    public class CarProps
+    public class CarProps : GameObject, INonResolveable, INonRenderable
     {
         public Car owner;
 
@@ -20,9 +24,8 @@
             FuelFillUp = 0f;
         }
 
-        public float MaxEngineForce { get; set; }
-
-        public float MaxVelocity { get; set; }
+        public virtual float MaxEngineForce { get; set; }
+        public virtual float MaxVelocity { get; set; }
         public float MaxVelocityReverse { get; set; }
         public float MaxSteeringAngle { get; set; }
         public float MaxBreakingForce { get; set; }
@@ -30,6 +33,6 @@
         public float MaxFuelLevel { get; set; }
         public float IdleFuelConsumption { get; set; }
         public float DrivingFuelConsumption { get; set; }
-        public float FuelFillUp { get; set; }
+        public virtual float FuelFillUp { get; set; }
     }
 }
