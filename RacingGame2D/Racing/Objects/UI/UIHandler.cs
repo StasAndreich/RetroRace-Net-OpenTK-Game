@@ -8,8 +8,14 @@ using System.Linq;
 
 namespace Racing.Objects.UI
 {
+    /// <summary>
+    /// Defines a control object for the UI.
+    /// </summary>
     public class UIHandler : GameObject, INonRenderable
     {
+        /// <summary>
+        /// Default ctor.
+        /// </summary>
         public UIHandler()
         {
             SubscribeOnPlayers();

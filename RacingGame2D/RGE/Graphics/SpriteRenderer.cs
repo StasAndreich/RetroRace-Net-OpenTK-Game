@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using RGEngine.BaseClasses;
-using RGEngine.Graphics;
-using System;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
@@ -23,6 +21,10 @@ namespace RGEngine.Graphics
             GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
         }
 
+        /// <summary>
+        /// Default ctor.
+        /// </summary>
+        /// <param name="gameObject"></param>
         public SpriteRenderer(GameObject gameObject) :
             base(gameObject)
         {
@@ -79,7 +81,10 @@ namespace RGEngine.Graphics
             GL.PopMatrix();
         }
 
-        // Renders a list of all the sprites from the scene.
+        /// <summary>
+        /// Renders a list of all the sprites from the scene.
+        /// </summary>
+        /// <param name="batch"></param>
         internal static void RenderSpritesQueue(SpriteBatch batch)
         {
             for (int i = 0; i < batch.Quantity; i++)
@@ -88,6 +93,10 @@ namespace RGEngine.Graphics
             }
         }
 
+        /// <summary>
+        /// Renders all objects from the scene.
+        /// </summary>
+        /// <param name="gameObjects"></param>
         internal static void RenderEntireFrame(List<GameObject> gameObjects)
         {
             GL.Clear(ClearBufferMask.ColorBufferBit);
@@ -99,6 +108,10 @@ namespace RGEngine.Graphics
             }
         }
 
+        /// <summary>
+        /// Updates sprite position and rotation state.
+        /// </summary>
+        /// <param name="deltaTime"></param>
         internal override void PerformComponent(double deltaTime)
         {
             foreach (var sprite in RenderQueue)
@@ -109,5 +122,8 @@ namespace RGEngine.Graphics
         }
     }
 
+    /// <summary>
+    /// Interface that disables rendering for an object.
+    /// </summary>
     public interface INonRenderable { }
 }

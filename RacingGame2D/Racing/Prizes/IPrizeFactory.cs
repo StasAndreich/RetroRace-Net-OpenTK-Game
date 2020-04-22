@@ -1,7 +1,8 @@
-﻿using OpenTK;
-
-namespace Racing.Prizes
+﻿namespace Racing.Prizes
 {
+    /// <summary>
+    /// Interface for a prize factory.
+    /// </summary>
     interface IPrizeFactory
     {
         Prize GeneratePrize();

@@ -11,8 +11,14 @@ using Racing.Prizes;
 
 namespace Racing.Objects
 {
+    /// <summary>
+    /// Defines an abstract car object.
+    /// </summary>
     public abstract class Car : GameObject, ICollidable
     {
+        /// <summary>
+        /// Ctor that set a basic car object settings properly.
+        /// </summary>
         public Car()
         {
             spriteRenderer = AddComponent<SpriteRenderer>();
@@ -39,22 +45,55 @@ namespace Racing.Objects
         }
 
 
-        // GameObject Components.
+        /// <summary>
+        /// SpriteRenderer component.
+        /// </summary>
         protected SpriteRenderer spriteRenderer;
+        /// <summary>
+        /// RigidBody2D component.
+        /// </summary>
         protected RigidBody2D rigidBody2D;
+        /// <summary>
+        /// Constraint on min car velocity.
+        /// </summary>
         protected const float velocityConstraint = 6f;
 
+        /// <summary>
+        /// Keeps all car properties.
+        /// </summary>
         public CarProps properties;
 
+        /// <summary>
+        /// Defines a distance between front and rear wheel.
+        /// </summary>
         protected float wheelBase;
+        /// <summary>
+        /// Responsible for car front wheels steering angle.
+        /// </summary>
         protected float steeringAngle;
+        /// <summary>
+        /// Defines current car direction on scene (in radians).
+        /// </summary>
         protected float carDirectionAngle;
+        /// <summary>
+        /// Keeps a driving mode.
+        /// Drive or Reverse.
+        /// </summary>
         protected int drivingMode;
 
+        /// <summary>
+        /// Defines a position of a front wheel.
+        /// </summary>
         protected Vector2 frontWheel;
+        /// <summary>
+        /// Defines a position of a back wheel.
+        /// </summary>
         protected Vector2 backWheel;       
 
         private float fuelLevel;
+        /// <summary>
+        /// Responsible for getting and setting current fuel level.
+        /// </summary>
         protected float FuelLevel
         {
             get => this.fuelLevel;
@@ -66,11 +105,17 @@ namespace Racing.Objects
                     this.fuelLevel = value;
             }
         }
+        /// <summary>
+        /// String ID name of a car.
+        /// </summary>
         public string id;
 
         private bool[] laps;
         private int beingLocatedOnFinishLine;
         private int _lapsPassed;
+        /// <summary>
+        /// Responsible for counting laps that were passed.
+        /// </summary>
         protected int LapsPassed
         {
             get
@@ -85,15 +130,26 @@ namespace Racing.Objects
             }
         }
 
+        /// <summary>
+        /// Event that raised when End of race occured.
+        /// </summary>
         public event EventHandler<GameEventArgs> EndedRace;
 
-        public void OnEndedRace(GameEventArgs e)
+        /// <summary>
+        /// Invokes EndedRace event.
+        /// </summary>
+        /// <param name="e"></param>
+        protected virtual void OnEndedRace(GameEventArgs e)
         {
             var handler = EndedRace;
             handler?.Invoke(this, e);
         }
 
 
+        /// <summary>
+        /// Override of FixedUpdate method.
+        /// </summary>
+        /// <param name="fixedDeltaTime"></param>
         public override void FixedUpdate(double fixedDeltaTime)
         {
             var steer = MathHelper.DegreesToRadians(steeringAngle);
@@ -154,6 +210,11 @@ namespace Racing.Objects
             this.properties.FuelFillUp = 0;
         }
 
+        /// <summary>
+        /// Handles the ColliderTriggered event when car collides a finish line.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FinishLine_ColliderTriggered(object sender, CollisionEventArgs e)
         {
             if (ReferenceEquals(this, e.one))
@@ -192,6 +253,11 @@ namespace Racing.Objects
             }
         }
 
+        /// <summary>
+        /// Handles the ColliderTriggered event when car collides a prize.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Prize_ColliderTriggered(object sender, CollisionEventArgs e)
         {
             foreach (var @object in EngineCore.gameObjects.ToList<GameObject>())
@@ -206,7 +272,7 @@ namespace Racing.Objects
             }
         }
 
-        protected void ApplyFuelConsumprion(double fixedDeltaTime)
+        private void ApplyFuelConsumprion(double fixedDeltaTime)
         {
             // End of race condition.
             if (this.fuelLevel <= 0.001)
@@ -230,6 +296,13 @@ namespace Racing.Objects
                     / consumptionTime;
         }
 
+        /// <summary>
+        /// Gets user input for the main car control.
+        /// </summary>
+        /// <param name="gas"></param>
+        /// <param name="brake"></param>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
         protected virtual void GetUserInput(Key gas, Key brake, Key left, Key right)
         {
             // Check for max and min velocity-values.
@@ -278,6 +351,11 @@ namespace Racing.Objects
             }
         }
 
+        /// <summary>
+        /// Gets user input to update a gearbox state.
+        /// </summary>
+        /// <param name="reverse"></param>
+        /// <param name="drive"></param>
         protected virtual void UpdateGearboxState(Key reverse, Key drive)
         {
             if (InputController.CurrentKeyboardState.IsKeyDown(drive))
@@ -290,6 +368,10 @@ namespace Racing.Objects
             }
         }
 
+        /// <summary>
+        /// Sets a start car position.
+        /// </summary>
+        /// <param name="startPosition"></param>
         protected virtual void SetStartCarPosition(Vector2 startPosition)
         {
             base.Position = startPosition;
@@ -300,6 +382,9 @@ namespace Racing.Objects
         }
     }
 
+    /// <summary>
+    /// Defines main driving modes.
+    /// </summary>
     public enum DrivingModes
     {
         /// <summary>

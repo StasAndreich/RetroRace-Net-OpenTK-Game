@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Racing.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -80,6 +81,7 @@
   <ItemGroup>
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
+    <None Include="RacingClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Contents\Animations\Prizes\FuelPrize\" />

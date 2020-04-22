@@ -1,13 +1,18 @@
-﻿using RGEngine.Input;
-using RGEngine.Graphics;
+﻿using RGEngine.Graphics;
 using OpenTK.Input;
 using OpenTK;
 using RGEngine.Support;
 
 namespace Racing.Objects
 {
+    /// <summary>
+    /// Defines a player on a black car.
+    /// </summary>
     public class BlackCar : Car
     {
+        /// <summary>
+        /// Default ctor.
+        /// </summary>
         public BlackCar()
         {
             base.id = "Black";
@@ -19,7 +24,10 @@ namespace Racing.Objects
             spriteRenderer.RenderQueue = SpriteBatch.CreateSpriteBatch(vehicleSprite);
         }
 
-
+        /// <summary>
+        /// Override of FixedUpdate with new user input.
+        /// </summary>
+        /// <param name="fixedDeltaTime"></param>
         public override void FixedUpdate(double fixedDeltaTime)
         {
             UpdateGearboxState(Key.Q, Key.E);

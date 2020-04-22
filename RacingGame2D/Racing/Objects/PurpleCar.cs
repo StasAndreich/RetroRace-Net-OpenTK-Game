@@ -5,8 +5,14 @@ using RGEngine.Support;
 
 namespace Racing.Objects
 {
+    /// <summary>
+    /// Defines a player on a purple car.
+    /// </summary>
     public class PurpleCar : Car
     {
+        /// <summary>
+        /// Default ctor.
+        /// </summary>
         public PurpleCar()
         {
             base.id = "Purple";
@@ -19,6 +25,10 @@ namespace Racing.Objects
         }
 
 
+        /// <summary>
+        /// Override of FixedUpdate with new user input.
+        /// </summary>
+        /// <param name="fixedDeltaTime"></param>
         public override void FixedUpdate(double fixedDeltaTime)
         {
             UpdateGearboxState(Key.Keypad7, Key.Keypad9);

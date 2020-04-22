@@ -16,10 +16,19 @@ namespace RGEngine.BaseClasses
         /// </summary>
         internal readonly List<Component> components = new List<Component>();
 
+        /// <summary>
+        /// Keeps current position of GameObject.
+        /// </summary>
         public Vector2 Position { get; set; }
+        /// <summary>
+        /// Stores a GameObjectCollider.
+        /// </summary>
         public PolyCollider collider;
 
         private float rotation;
+        /// <summary>
+        /// Keeps current rotation of GameObject.
+        /// </summary>
         public float Rotation
         {
             get => this.rotation;
@@ -30,8 +39,15 @@ namespace RGEngine.BaseClasses
             }
         }
 
+        /// <summary>
+        /// Event that raised when rotation occured.
+        /// </summary>
         public event EventHandler RotationChanged;
 
+        /// <summary>
+        /// Method that invokes a RotationChanged ivent.
+        /// </summary>
+        /// <param name="e"></param>
         protected virtual void OnRotationChanged(EventArgs e)
         {
             var handler = RotationChanged;
@@ -105,7 +121,7 @@ namespace RGEngine.BaseClasses
         /// Updates a game object and it's components
         /// over a fixed delta time interval.
         /// </summary>
-        /// <param name="deltaTime"></param>
+        /// <param name="fixedDeltaTime"></param>
         internal void PerformFixedUpdate(double fixedDeltaTime)
         {
             FixedUpdate(fixedDeltaTime);

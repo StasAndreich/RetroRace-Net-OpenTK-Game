@@ -7,12 +7,17 @@ using System;
 
 namespace Racing.Prizes
 {
+    /// <summary>
+    /// Defines a class responsible for a prize generation.
+    /// </summary>
     public class PrizeGenerator : GameObject, IPrizeFactory, INonRenderable
     {
+        /// <summary>
+        /// Sets the geteration interval and generation area bounds.
+        /// </summary>
         public PrizeGenerator()
         {
-            spawnTimer = new GameTimer();
-            spawnTimer.Interval = 7f;
+            spawnTimer = new GameTimer(7f);
             spawnTimer.Elapsed += (sender, e) => AddPrizeOnScene();
 
             rect1min = new Vector2(-870, 450);
@@ -62,7 +67,6 @@ namespace Racing.Prizes
             var random = new Random();
             var prizesCount = 3;
             var randPrize = random.Next(1, prizesCount + 1);
-            Prize prize;
 
             switch (randPrize)
             {
@@ -80,6 +84,10 @@ namespace Racing.Prizes
             }
         }
 
+        /// <summary>
+        /// Overrides FixedUpdate with updating inner timer.
+        /// </summary>
+        /// <param name="fixedDeltaTime"></param>
         public override void FixedUpdate(double fixedDeltaTime)
         {
             spawnTimer?.Update(fixedDeltaTime);
@@ -92,8 +100,8 @@ namespace Racing.Prizes
         /// <returns></returns>
         private Vector2 GetPrizePosition()
         {
-            var randX = 0;
-            var randY = 0;
+            int randX;
+            int randY;
 
             var random = new Random();
             var randRegion = random.Next(4);

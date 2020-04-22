@@ -9,8 +9,15 @@ using Racing.Objects;
 
 namespace Racing.Prizes
 {
+    /// <summary>
+    /// Defines an abstract class for a prize.
+    /// </summary>
     public abstract class Prize : GameObject, ICollidable, INonResolveable
     {
+        /// <summary>
+        /// Default ctor with setting collider and animation.
+        /// </summary>
+        /// <param name="texturesPath"></param>
         public Prize(params string[] texturesPath)
         {
             spriteRenderer = AddComponent<SpriteRenderer>();
@@ -30,8 +37,17 @@ namespace Racing.Prizes
             base.collider = new PolyCollider(this, new Vector2(40f, 40f));
         }
 
+        /// <summary>
+        /// SpriteRenderer component.
+        /// </summary>
         protected SpriteRenderer spriteRenderer;
+        /// <summary>
+        /// RigidBody2D component.
+        /// </summary>
         protected RigidBody2D rigidBody;
+        /// <summary>
+        /// Animator component.
+        /// </summary>
         protected Animator animator;
 
 
@@ -41,6 +57,9 @@ namespace Racing.Prizes
             RemovePrize();
         }
 
+        /// <summary>
+        /// Removes a prize from the scene.
+        /// </summary>
         protected void RemovePrize()
         {
             PolyCollider.allCollidersAttached.Remove(this);
@@ -53,13 +72,29 @@ namespace Racing.Prizes
             }
         }
 
+        /// <summary>
+        /// Applies a decorator to a CarProps.
+        /// </summary>
+        /// <param name="car"></param>
         protected abstract void ApplyDecorator(Car car);
     }
 
+    /// <summary>
+    /// Defines all possible in-game prizes.
+    /// </summary>
     public enum Prizes
     {
+        /// <summary>
+        /// Adds fuel.
+        /// </summary>
         Fuel = 1,
+        /// <summary>
+        /// Speeds up a car.
+        /// </summary>
         Boost = 2,
+        /// <summary>
+        /// Slows a car.
+        /// </summary>
         Slowdown = 3
     }
 }

@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="RGEngine.BaseClasses.GameObject" Collapsed="true">
+    <Position X="3" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Racing.Objects.BlackCar" Collapsed="true">
+    <Position X="9.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Objects\BlackCar.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Racing.Objects.Car" Collapsed="true">
+    <Position X="10.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>JQJgAAgCYgADACIABAAAACAAA0AAAAEAAAAAAKBAAgA=</HashCode>
+      <FileName>Objects\Car.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Racing.Objects.BoostProps" Collapsed="true">
+    <Position X="2.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>Objects\Decorated\BoostProps.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Racing.Objects.CarProps" Collapsed="true">
+    <Position X="2.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAgAgAAAgAAAAQACMAAAAAAAAAAgAAAQAAA=</HashCode>
+      <FileName>Objects\Decorated\CarProps.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Racing.Objects.CarPropsDecorator" Collapsed="true">
+    <Position X="2.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAQAAAAAAAAAAAAIAAAAAAACAAAAAAAAA=</HashCode>
+      <FileName>Objects\Decorated\CarPropsDecorator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Racing.Objects.FuelProps" Collapsed="true">
+    <Position X="0.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Objects\Decorated\FuelProps.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Racing.Objects.SlowdownProps" Collapsed="true">
+    <Position X="5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>Objects\Decorated\SlowdownProps.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Racing.Objects.Environment" Collapsed="true">
+    <Position X="7.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Objects\Environment.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Racing.Objects.GameEventArgs" Collapsed="true">
+    <Position X="23.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Objects\Environment.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Racing.Objects.FinishLine" Collapsed="true">
+    <Position X="16.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Objects\FinishLine.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Racing.Objects.OuterFinishLine" Collapsed="true">
+    <Position X="18.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Objects\OuterFinishLine.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Racing.Objects.PurpleCar" Collapsed="true">
+    <Position X="11.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Objects\PurpleCar.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Racing.Objects.UI.UIElement" Collapsed="true">
+    <Position X="14" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Objects\UI\UIElement.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Racing.Objects.UI.UIHandler" Collapsed="true">
+    <Position X="20.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAQAAQ=</HashCode>
+      <FileName>Objects\UI\UIHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="Racing.Objects.UI.IUIElement" Collapsed="true">
+    <Position X="23.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Objects\UI\UIElement.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="Racing.Objects.DrivingModes" Collapsed="true">
+    <Position X="23.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAoAAAAAACAAAAAAA=</HashCode>
+      <FileName>Objects\Car.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

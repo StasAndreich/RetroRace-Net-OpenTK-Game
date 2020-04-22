@@ -6,14 +6,25 @@ using OpenTK.Graphics.OpenGL;
 
 namespace RGEngine.Physics
 {
+    /// <summary>
+    /// Describes a polygon collider for an object.
+    /// </summary>
     public class PolyCollider
     {
+        /// <summary>
+        /// Keeps the list of all objects that use collider.
+        /// </summary>
         public static List<GameObject> allCollidersAttached = new List<GameObject>();
 
         private Vector2[] vertices = new Vector2[4];
         private GameObject attachedTo;
         private Vector2 size;
 
+        /// <summary>
+        /// Basic ctor that instantiates SIZED collider to an object.
+        /// </summary>
+        /// <param name="object"></param>
+        /// <param name="size"></param>
         public PolyCollider(GameObject @object, Vector2 size)
         {
             if (@object is ICollidable)
@@ -25,8 +36,15 @@ namespace RGEngine.Physics
             }
         }
 
+        /// <summary>
+        /// Event that raised when collision occured.
+        /// </summary>
         public event EventHandler<CollisionEventArgs> ColliderTriggered;
 
+        /// <summary>
+        /// Method that invokes a ColliderTriggered ivent.
+        /// </summary>
+        /// <param name="e"></param>
         protected virtual void OnColliderTriggered(CollisionEventArgs e)
         {
             var handler = ColliderTriggered;
@@ -46,7 +64,7 @@ namespace RGEngine.Physics
 
         private Vector2 GetNormal(Vector2[] vertices, int startPoint)
         {
-            int endPoint = 0;
+            int endPoint;
             if (startPoint + 1 >= vertices.Length)
                 endPoint = 0;
             else
@@ -85,6 +103,11 @@ namespace RGEngine.Physics
             return result;
         }
 
+        /// <summary>
+        /// Method that checks a collision between this and other collider.
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public bool DetectCollision(GameObject other)
         {
             PolyCollider otherCollider = other.collider;
@@ -159,15 +182,35 @@ namespace RGEngine.Physics
         }
     }
 
+    /// <summary>
+    /// Interface for an object that supports collisions.
+    /// </summary>
     public interface ICollidable { }
 
+    /// <summary>
+    /// Interface for an object that does not need collision resolution.
+    /// </summary>
     public interface INonResolveable { }
 
+    /// <summary>
+    /// Event args for collision events.
+    /// </summary>
     public class CollisionEventArgs : EventArgs
     {
+        /// <summary>
+        /// First collided object.
+        /// </summary>
         public readonly GameObject one;
+        /// <summary>
+        /// Second collided object.
+        /// </summary>
         public readonly GameObject another;
 
+        /// <summary>
+        /// Basic ctor that init objects that collided.
+        /// </summary>
+        /// <param name="one"></param>
+        /// <param name="another"></param>
         public CollisionEventArgs(GameObject one, GameObject another)
         {
             this.one = one;

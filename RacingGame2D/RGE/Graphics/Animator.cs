@@ -5,8 +5,15 @@ using RGEngine.BaseClasses;
 
 namespace RGEngine.Graphics
 {
+    /// <summary>
+    /// Defines an animation component.
+    /// </summary>
     public sealed class Animator : Component
     {
+        /// <summary>
+        /// Default ctor.
+        /// </summary>
+        /// <param name="gameObject"></param>
         public Animator(GameObject gameObject)
             : base(gameObject)
         {
@@ -23,9 +30,14 @@ namespace RGEngine.Graphics
             }
         }
 
-
+        /// <summary>
+        /// Stores all sprites for animation.
+        /// </summary>
         public SpriteBatch AnimationSprites { get; set; }
 
+        /// <summary>
+        /// Defines Frames Per Second rate for animation.
+        /// </summary>
         public int FPS { get; set; }
         private double frameLiveTime;
         private IEnumerator<Sprite> ienumerator;

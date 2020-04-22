@@ -5,8 +5,14 @@ using RGEngine.Physics;
 
 namespace Racing.Objects
 {
+    /// <summary>
+    /// Defines a finish line object.
+    /// </summary>
     public class FinishLine : GameObject, INonRenderable, ICollidable, INonResolveable
     {
+        /// <summary>
+        /// Default ctor with position and collider settings.
+        /// </summary>
         public FinishLine()
         {
             base.Position = new Vector2(10f, 380f);

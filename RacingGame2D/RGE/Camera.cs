@@ -1,18 +1,26 @@
 ﻿using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
-
 namespace RGEngine
 {
     /// <summary>
     /// A Camera is a device through which the player views the world.
     /// </summary>
-    public class Camera
+    internal class Camera
     {
+        /// <summary>
+        /// Keeps current position of Camera.
+        /// </summary>
         public Vector2 position;
 
+        /// <summary>
+        /// Keeps current zoom value of Camera.
+        /// </summary>
         public double zoom;
 
+        /// <summary>
+        /// Keeps current rotation of Camera.
+        /// </summary>
         public double rotation;
 
 

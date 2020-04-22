@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RGEngine.Graphics
+﻿namespace RGEngine.Graphics
 {
     /// <summary>
     /// Describes a 2D texture.
     /// </summary>
-    public class Texture2D// : IDisposable
+    public class Texture2D
     {
         /// <summary>
         /// Specifies a texture identifier.
@@ -37,6 +31,7 @@ namespace RGEngine.Graphics
         /// <param name="id"></param>
         /// <param name="width"></param>
         /// <param name="height"></param>
+        /// <param name="path"></param>
         public Texture2D(int id, int width, int height, string path)
         {
             this.Id = id;
@@ -44,23 +39,5 @@ namespace RGEngine.Graphics
             this.Height = height;
             this.Path = path;
         }
-
-        //bool isDisposed = false;
-        //public void Dispose()
-        //{
-        //    Dispose(true);
-        //    GC.SuppressFinalize(this);
-        //}
-
-        //public void Dispose(bool disposing)
-        //{
-        //    if (!isDisposed)
-        //    {
-        //        if (disposing)
-        //        {
-
-        //        }
-        //    }
-        //}
     }
 }

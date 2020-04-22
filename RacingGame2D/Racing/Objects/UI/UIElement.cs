@@ -5,10 +5,18 @@ using RGEngine.Support;
 
 namespace Racing.Objects.UI
 {
+    /// <summary>
+    /// Defines a simple UI graphical element.
+    /// </summary>
     public class UIElement : GameObject, IUIElement
     {
         private SpriteRenderer spriteRenderer;
 
+        /// <summary>
+        /// Default ctor with setting a position.
+        /// </summary>
+        /// <param name="uiTexturePath"></param>
+        /// <param name="position"></param>
         public UIElement(string uiTexturePath, Vector2 position)
         {
             spriteRenderer = AddComponent<SpriteRenderer>();
@@ -22,5 +30,8 @@ namespace Racing.Objects.UI
         }
     }
 
+    /// <summary>
+    /// Interface for UI element object.
+    /// </summary>
     public interface IUIElement { }
 }

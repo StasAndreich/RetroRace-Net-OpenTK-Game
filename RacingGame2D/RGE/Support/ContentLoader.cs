@@ -2,10 +2,12 @@
 using System.Drawing;
 using OpenTK.Graphics.OpenGL;
 using System.IO;
-using System;
 
 namespace RGEngine.Support
 {
+    /// <summary>
+    /// Defines a class that supports loading additional content to the game.
+    /// </summary>
     public class ContentLoader
     {
         /// <summary>
@@ -53,18 +55,7 @@ namespace RGEngine.Support
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter,
                 (int)TextureMagFilter.Linear);
 
-            return new Texture2D(textureId, bitmap.Width, bitmap.Height, GetNameFromPath(texturePath));
-        }
-
-        public static string GetNameFromPath(string path)
-        {
-            //for (int i = 0; i < path.LastIndexOf('/'); i++)
-            //{
-
-            //}
-            //var name 
-
-            return path;
+            return new Texture2D(textureId, bitmap.Width, bitmap.Height, texturePath);
         }
     }
 }

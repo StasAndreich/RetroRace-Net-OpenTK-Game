@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\RGEngine.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -55,17 +56,11 @@
     <Compile Include="Graphics\SpriteRenderer.cs" />
     <Compile Include="Graphics\Texture2D.cs" />
     <Compile Include="Input\InputController.cs" />
-    <Compile Include="Physics\AABB.cs" />
-    <Compile Include="Physics\BoundingPoly.cs" />
-    <Compile Include="Physics\BoxCollider.cs" />
-    <Compile Include="Physics\Collider.cs" />
-    <Compile Include="Physics\ColliderBatch.cs" />
     <Compile Include="Physics\PolyCollider.cs" />
     <Compile Include="Physics\RigidBody2D.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Support\ContentLoader.cs" />
     <Compile Include="Support\GameTimer.cs" />
-    <Compile Include="Support\Vector2Extensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="OpenTK.dll.config" />

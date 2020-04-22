@@ -31,7 +31,8 @@
         internal virtual void InitializeComponent() { }
     }
 
-    // INTERFACE FLAGS
-    // For the type of update.
+    /// <summary>
+    /// Defines an object update type.
+    /// </summary>
     internal interface IFixedUpdatable { }
 }
