@@ -63,26 +63,6 @@ namespace GameLauncher.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap launcherBG {
-            get {
-                object obj = ResourceManager.GetObject("launcherBG", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap launcherBG_hd {
-            get {
-                object obj = ResourceManager.GetObject("launcherBG_hd", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap launcherBG_hd_logo {
             get {
                 object obj = ResourceManager.GetObject("launcherBG_hd_logo", resourceCulture);

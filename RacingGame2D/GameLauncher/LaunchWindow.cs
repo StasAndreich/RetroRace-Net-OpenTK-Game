@@ -23,12 +23,12 @@ namespace GameLauncher
 
         private void start_OnMouseEnter(object sender, EventArgs e)
         {
-            start.BackgroundImage = new Bitmap(@"C:\Users\smedy\OneDrive\C4D\retro\launcher\start_y.png");
+            start.BackgroundImage = new Bitmap(@"Resources\start_y.png");
         }
 
         private void start_OnMouseLeave(object sender, EventArgs e)
         {
-            start.BackgroundImage = new Bitmap(@"C:\Users\smedy\OneDrive\C4D\retro\launcher\start_w.png");
+            start.BackgroundImage = new Bitmap(@"Resources\start_w.png");
         }
 
         private void start_Click(object sender, EventArgs e)
@@ -37,7 +37,7 @@ namespace GameLauncher
 
             using (var racingGame = new EngineCore(true))
             {
-                EngineCore.AddGameObject(new Racing.Objects.Environment(@"C:\Users\smedy\OneDrive\C4D\retro\launcher\BG\bg_ui.png"));
+                EngineCore.AddGameObject(new Racing.Objects.Environment(@"Contents\Environment\bg_ui.png"));
                 EngineCore.AddGameObject(new FinishLine());
                 EngineCore.AddGameObject(new OuterFinishLine());
                 EngineCore.AddGameObject(new PurpleCar());
@@ -46,7 +46,7 @@ namespace GameLauncher
                 EngineCore.AddGameObject(new UIHandler());
 
                 racingGame.Title = "Retro Race";
-                racingGame.Icon = new Icon(@"C:\Users\smedy\OneDrive\C4D\retro\launcher\icon32.ico");
+                racingGame.Icon = new Icon(@"Resources\icon32.ico");
                 racingGame.WindowBorder = OpenTK.WindowBorder.Fixed;
                 racingGame.WindowState = OpenTK.WindowState.Maximized;
                 racingGame.Run();

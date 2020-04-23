@@ -36,8 +36,8 @@ namespace Racing.Objects.UI
 
         private void DisplayWinner(GameObject winner)
         {
-            var blackTex = @"C:\Users\smedy\OneDrive\C4D\retro\launcher\UI\WINS\blackWinsText.png";
-            var purpleTex = @"C:\Users\smedy\OneDrive\C4D\retro\launcher\UI\WINS\purpleWinsText.png";
+            var blackTex = @"Contents\UI\Winners\blackWinsText.png";
+            var purpleTex = @"Contents\UI\Winners\purpleWinsText.png";
 
             var car = winner as Car;
             if (car != null)

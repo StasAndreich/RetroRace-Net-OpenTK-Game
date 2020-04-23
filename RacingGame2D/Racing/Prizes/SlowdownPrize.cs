@@ -11,10 +11,10 @@ namespace Racing.Prizes
         /// Loading textures.
         /// </summary>
         public SlowdownPrize()
-            : base(@"C:\Users\smedy\OneDrive\C4D\retro\launcher\animations\slow\slow1.png",
-                  @"C:\Users\smedy\OneDrive\C4D\retro\launcher\animations\slow\slow2.png",
-                  @"C:\Users\smedy\OneDrive\C4D\retro\launcher\animations\slow\slow3.png",
-                  @"C:\Users\smedy\OneDrive\C4D\retro\launcher\animations\slow\slow4.png")
+            : base(@"Contents\Animations\Prizes\Slowdown\slow1.png",
+                  @"Contents\Animations\Prizes\Slowdown\slow2.png",
+                  @"Contents\Animations\Prizes\Slowdown\slow3.png",
+                  @"Contents\Animations\Prizes\Slowdown\slow4.png")
         {
         }
 

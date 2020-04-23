@@ -18,7 +18,7 @@ namespace Racing.Objects
             base.id = "Black";
             SetStartCarPosition(new Vector2(85f, 325f));
 
-            var vehicleTexture = ContentLoader.LoadTexture(@"C:\Users\smedy\OneDrive\C4D\retro\launcher\cars\black.png");
+            var vehicleTexture = ContentLoader.LoadTexture(@"Contents\Cars\black.png");
             var vehicleSprite = new Sprite(vehicleTexture, new Vector2(0.4f, 0.4f),
                 new Vector2(0f, 0f), 2);
             spriteRenderer.RenderQueue = SpriteBatch.CreateSpriteBatch(vehicleSprite);

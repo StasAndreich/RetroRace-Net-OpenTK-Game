@@ -11,10 +11,10 @@ namespace Racing.Prizes
         /// Loading textures.
         /// </summary>
         public BoostPrize()
-            : base(@"C:\Users\smedy\OneDrive\C4D\retro\launcher\animations\nos\nos1.png",
-                  @"C:\Users\smedy\OneDrive\C4D\retro\launcher\animations\nos\nos2.png",
-                  @"C:\Users\smedy\OneDrive\C4D\retro\launcher\animations\nos\nos3.png",
-                  @"C:\Users\smedy\OneDrive\C4D\retro\launcher\animations\nos\nos4.png")
+            : base(@"Contents\Animations\Prizes\Boost\nos1.png",
+                  @"Contents\Animations\Prizes\Boost\nos2.png",
+                  @"Contents\Animations\Prizes\Boost\nos3.png",
+                  @"Contents\Animations\Prizes\Boost\nos4.png")
         {
 
         }
