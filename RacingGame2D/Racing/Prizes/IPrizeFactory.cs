@@ -1,10 +1,12 @@
-﻿namespace Racing.Prizes
+﻿using System;
+
+namespace Racing.Prizes
 {
     /// <summary>
     /// Interface for a prize factory.
     /// </summary>
     interface IPrizeFactory
     {
-        Prize GeneratePrize();
+        Prize GeneratePrize(Random random);
     }
 }

@@ -17,7 +17,7 @@ namespace Racing.Prizes
         /// </summary>
         public PrizeGenerator()
         {
-            spawnTimer = new GameTimer(7f);
+            spawnTimer = new GameTimer(4f);
             spawnTimer.Elapsed += (sender, e) => AddPrizeOnScene();
 
             rect1min = new Vector2(-870, 450);
@@ -38,10 +38,11 @@ namespace Racing.Prizes
 
         private void AddPrizeOnScene()
         {
-            var prize = GeneratePrize();
+            var rand = new Random();
+            var prize = GeneratePrize(rand);
             if (prize != null)
             {
-                prize.Position = GetPrizePosition();
+                prize.Position = GetPrizePosition(rand);
                 EngineCore.AddGameObject(prize);
             }
         }
@@ -49,7 +50,7 @@ namespace Racing.Prizes
         /// <summary>
         /// Main Fabric Method.
         /// </summary>
-        public Prize GeneratePrize()
+        public Prize GeneratePrize(Random random)
         {
             // Limit the number of prizes located
             // on scene at the same time.
@@ -64,7 +65,6 @@ namespace Racing.Prizes
                 return null;
 
             
-            var random = new Random();
             var prizesCount = 3;
             var randPrize = random.Next(1, prizesCount + 1);
 
@@ -98,12 +98,11 @@ namespace Racing.Prizes
         /// Generates random prize spawn position.
         /// </summary>
         /// <returns></returns>
-        private Vector2 GetPrizePosition()
+        private Vector2 GetPrizePosition(Random random)
         {
             int randX;
             int randY;
 
-            var random = new Random();
             var randRegion = random.Next(4);
 
             // INVERSED Y-axis.
