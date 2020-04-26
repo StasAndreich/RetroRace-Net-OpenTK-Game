@@ -41,7 +41,7 @@ namespace Racing.Objects
             base.collider.ColliderTriggered += Prize_ColliderTriggered;
 
             // Difine finished laps array.
-            this.laps = new bool[5];
+            this.laps = new bool[5 + 1];
         }
 
 
@@ -233,7 +233,7 @@ namespace Racing.Objects
                         this.beingLocatedOnFinishLine++;
                     }
 
-                    if (LapsPassed == 5)
+                    if (LapsPassed == 5 + 1)
                         OnEndedRace(new GameEventArgs(this));
                 }
                 else

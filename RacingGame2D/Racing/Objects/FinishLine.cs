@@ -15,7 +15,8 @@ namespace Racing.Objects
         /// </summary>
         public FinishLine()
         {
-            base.Position = new Vector2(10f, 380f);
+            //base.Position = new Vector2(10f, 380f);
+            base.Position = new Vector2(150f, 380f);
             base.collider = new PolyCollider(this, new Vector2(15f, 250f));
         }
     }

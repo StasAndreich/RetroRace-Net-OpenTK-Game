@@ -28,7 +28,7 @@ namespace Racing.Objects
             MaxSteeringAngle = 25f;
             MaxBreakingForce = 500000f;
 
-            MaxFuelLevel = 40f;
+            MaxFuelLevel = 35f;
             IdleFuelConsumption = 1f;
             DrivingFuelConsumption = 3f;
         }
