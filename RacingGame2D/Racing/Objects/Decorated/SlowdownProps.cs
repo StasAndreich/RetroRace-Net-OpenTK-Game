@@ -22,14 +22,5 @@
             get => baseProps.MaxVelocity / 1.5f;
             set => base.MaxVelocity = value;
         }
-
-        /// <summary>
-        /// Overrides MaxEngineForce prop.
-        /// </summary>
-        public override float MaxEngineForce
-        {
-            get => baseProps.MaxEngineForce / 2f;
-            set => base.MaxEngineForce = value;
-        }
     }
 }

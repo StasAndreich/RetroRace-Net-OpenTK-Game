@@ -17,7 +17,7 @@ namespace Racing.Prizes
         /// </summary>
         public PrizeGenerator()
         {
-            spawnTimer = new GameTimer(4f);
+            spawnTimer = new GameTimer(5f);
             spawnTimer.Elapsed += (sender, e) => AddPrizeOnScene();
 
             rect1min = new Vector2(-870, 450);
