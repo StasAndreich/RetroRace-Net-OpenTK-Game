@@ -31,7 +31,6 @@ namespace Racing.Objects
             MaxFuelLevel = 40f;
             IdleFuelConsumption = 1f;
             DrivingFuelConsumption = 3f;
-            FuelFillUp = 0f;
         }
 
         /// <summary>
@@ -67,9 +66,5 @@ namespace Racing.Objects
         /// Defines driving fuel consumption.
         /// </summary>
         public float DrivingFuelConsumption { get; set; }
-        /// <summary>
-        /// Defines additional fuel from can.
-        /// </summary>
-        public virtual float FuelFillUp { get; set; }
     }
 }

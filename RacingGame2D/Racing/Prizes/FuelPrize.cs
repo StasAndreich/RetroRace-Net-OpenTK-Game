@@ -19,12 +19,12 @@ namespace Racing.Prizes
         }
 
         /// <summary>
-        /// Applies a specified decorator to a CarProps.
+        /// Adds more fuel to a Car object.
         /// </summary>
         /// <param name="car"></param>
-        protected override void ApplyDecorator(Car car)
+        protected override void ApplyPrize(Car car)
         {
-            car.properties = new FuelProps(car.properties);
+            car.FuelLevel += 7f;
         }
     }
 }

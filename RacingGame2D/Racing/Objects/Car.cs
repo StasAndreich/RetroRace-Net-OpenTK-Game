@@ -94,12 +94,12 @@ namespace Racing.Objects
         /// <summary>
         /// Responsible for getting and setting current fuel level.
         /// </summary>
-        protected float FuelLevel
+        public float FuelLevel
         {
             get => this.fuelLevel;
             set
             {
-                if (this.fuelLevel + value > properties.MaxFuelLevel)
+                if (this.fuelLevel + value >= properties.MaxFuelLevel)
                     this.fuelLevel = properties.MaxFuelLevel;
                 else
                     this.fuelLevel = value;
@@ -205,9 +205,6 @@ namespace Racing.Objects
             base.Rotation = MathHelper.RadiansToDegrees(carDirectionAngle);
 
             ApplyFuelConsumprion(fixedDeltaTime);
-            // Add fuel from canister.
-            this.fuelLevel += properties.FuelFillUp;
-            this.properties.FuelFillUp = 0;
         }
 
         /// <summary>

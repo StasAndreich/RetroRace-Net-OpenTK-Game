@@ -53,7 +53,7 @@ namespace Racing.Prizes
 
         internal void PickUp(Car car)
         {
-            ApplyDecorator(car);
+            ApplyPrize(car);
             RemovePrize();
         }
 
@@ -73,10 +73,10 @@ namespace Racing.Prizes
         }
 
         /// <summary>
-        /// Applies a decorator to a CarProps.
+        /// Applies a prize to a Car.
         /// </summary>
         /// <param name="car"></param>
-        protected abstract void ApplyDecorator(Car car);
+        protected abstract void ApplyPrize(Car car);
     }
 
     /// <summary>

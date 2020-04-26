@@ -22,7 +22,7 @@ namespace Racing.Prizes
         /// Applies a specified decorator to a CarProps.
         /// </summary>
         /// <param name="car"></param>
-        protected override void ApplyDecorator(Car car)
+        protected override void ApplyPrize(Car car)
         {
             car.properties = new SlowdownProps(car.properties);
         }
