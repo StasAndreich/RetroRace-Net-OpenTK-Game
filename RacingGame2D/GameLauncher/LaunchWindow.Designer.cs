@@ -55,8 +55,10 @@
             this.BackgroundImage = global::GameLauncher.Properties.Resources.launcherBG_hd_logo;
             this.ClientSize = new System.Drawing.Size(1264, 681);
             this.Controls.Add(this.start);
+            this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "LaunchWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Racing Game Launcher";
