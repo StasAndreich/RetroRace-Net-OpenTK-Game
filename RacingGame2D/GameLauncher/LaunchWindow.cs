@@ -35,9 +35,9 @@ namespace GameLauncher
         {
             start.Enabled = false;
 
-            using (var racingGame = new EngineCore(true))
+            using (var racingGame = new EngineCore(false))
             {
-                EngineCore.AddGameObject(new Racing.Objects.Environment(@"Contents\Environment\bg_ui.png"));
+                EngineCore.AddGameObject(new Racing.Objects.Environment(@"Contents\Environment\bg_ui_v2.png"));
                 EngineCore.AddGameObject(new FinishLine());
                 EngineCore.AddGameObject(new OuterFinishLine());
                 EngineCore.AddGameObject(new PurpleCar());

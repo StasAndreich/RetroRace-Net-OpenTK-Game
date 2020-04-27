@@ -116,7 +116,7 @@ namespace Racing.Objects
         /// <summary>
         /// Responsible for counting laps that were passed.
         /// </summary>
-        protected int LapsPassed
+        public int LapsPassed
         {
             get
             {
@@ -134,7 +134,6 @@ namespace Racing.Objects
         /// Event that raised when End of race occured.
         /// </summary>
         public event EventHandler<GameEventArgs> EndedRace;
-
         /// <summary>
         /// Invokes EndedRace event.
         /// </summary>
@@ -144,6 +143,34 @@ namespace Racing.Objects
             var handler = EndedRace;
             handler?.Invoke(this, e);
         }
+
+        ///// <summary>
+        ///// Event that raised when laps count changed.
+        ///// </summary>
+        //public event EventHandler<GameEventArgs> LapsChanged;
+        ///// <summary>
+        ///// Invokes LapsChanged event.
+        ///// </summary>
+        ///// <param name="e"></param>
+        //protected virtual void OnLapsChaged(GameEventArgs e)
+        //{
+        //    var handler = LapsChanged;
+        //    handler?.Invoke(this, e);
+        //}
+
+        ///// <summary>
+        ///// Event that raised when fuel amount changed.
+        ///// </summary>
+        //public event EventHandler<GameEventArgs> FuelChanged;
+        ///// <summary>
+        ///// Invokes FuelChanged event.
+        ///// </summary>
+        ///// <param name="e"></param>
+        //protected virtual void OnFuelChanged(GameEventArgs e)
+        //{
+        //    var handler = FuelChanged;
+        //    handler?.Invoke(this, e);
+        //}
 
 
         /// <summary>

@@ -10,7 +10,10 @@ namespace Racing.Objects.UI
     /// </summary>
     public class UIElement : GameObject, IUIElement
     {
-        private SpriteRenderer spriteRenderer;
+        /// <summary>
+        /// Holds SpriteRenderer component.
+        /// </summary>
+        public SpriteRenderer spriteRenderer;
 
         /// <summary>
         /// Default ctor with setting a position.
@@ -26,6 +29,16 @@ namespace Racing.Objects.UI
                 new Vector2(0f, 0f), 10);
             spriteRenderer.RenderQueue = SpriteBatch.CreateSpriteBatch(uiSprite);
 
+            base.Position = position;
+        }
+
+        /// <summary>
+        /// Ctor for rendering SpriteBatch-ready UI elements.
+        /// </summary>
+        /// <param name="position"></param>
+        public UIElement(Vector2 position)
+        {
+            spriteRenderer = AddComponent<SpriteRenderer>();
             base.Position = position;
         }
     }

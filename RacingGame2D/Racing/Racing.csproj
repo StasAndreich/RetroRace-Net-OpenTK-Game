@@ -58,6 +58,7 @@
     <Compile Include="Objects\Decorated\SlowdownProps.cs" />
     <Compile Include="Objects\UI\UIElement.cs" />
     <Compile Include="Objects\UI\UIHandler.cs" />
+    <Compile Include="Objects\UI\UIText.cs" />
     <Compile Include="Prizes\BoostPrize.cs" />
     <Compile Include="Prizes\FuelPrize.cs" />
     <Compile Include="Prizes\IPrizeFactory.cs" />
@@ -123,6 +124,39 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Contents\Environment\bg_ui.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Contents\Environment\bg_ui_v2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Contents\UI\Digits\0.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Contents\UI\Digits\1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Contents\UI\Digits\2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Contents\UI\Digits\3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Contents\UI\Digits\4.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Contents\UI\Digits\5.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Contents\UI\Digits\6.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Contents\UI\Digits\7.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Contents\UI\Digits\8.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Contents\UI\Digits\9.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Contents\UI\Winners\blackWinsText.png">

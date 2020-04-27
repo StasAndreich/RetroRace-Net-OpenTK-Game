@@ -116,7 +116,7 @@ namespace RGEngine.Graphics
         {
             foreach (var sprite in RenderQueue)
             {
-                sprite.Position = base.attachedTo.Position;
+                sprite.Position = base.attachedTo.Position + sprite.Offset;
                 sprite.Rotation = base.attachedTo.Rotation;
             }
         }
