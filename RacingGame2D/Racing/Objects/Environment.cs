@@ -22,12 +22,12 @@ namespace Racing.Objects
         {
             spriteRenderer = AddComponent<SpriteRenderer>();
 
+            base.Position = new Vector2(0f, 0f);
+
             var bgTexture = ContentLoader.LoadTexture(backgroundPath);
-            var bgSprite = new Sprite(bgTexture, new Vector2(1f, 1f),
+            var bgSprite = new Sprite(bgTexture, Position, new Vector2(1f, 1f),
                 new Vector2(0f, 0f), -1);
             spriteRenderer.RenderQueue = SpriteBatch.CreateSpriteBatch(bgSprite);
-
-            base.Position = new Vector2(0f, 0f);
 
             // Middle collider.
             base.collider = new PolyCollider(this, new Vector2(1310f, 480f));

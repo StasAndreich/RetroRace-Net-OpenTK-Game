@@ -24,12 +24,12 @@ namespace Racing.Objects.UI
         {
             spriteRenderer = AddComponent<SpriteRenderer>();
 
+            base.Position = position;
+
             var uiTex = ContentLoader.LoadTexture(uiTexturePath);
-            var uiSprite = new Sprite(uiTex, new Vector2(1f, 1f),
+            var uiSprite = new Sprite(uiTex, Position, new Vector2(1f, 1f),
                 new Vector2(0f, 0f), 10);
             spriteRenderer.RenderQueue = SpriteBatch.CreateSpriteBatch(uiSprite);
-
-            base.Position = position;
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using Racing.Objects;
+﻿using OpenTK;
+using Racing.Objects;
 
 namespace Racing.Prizes
 {
@@ -10,8 +11,9 @@ namespace Racing.Prizes
         /// <summary>
         /// Loading textures.
         /// </summary>
-        public SlowdownPrize()
-            : base(@"Contents\Animations\Prizes\Slowdown\slow1.png",
+        public SlowdownPrize(Vector2 position)
+            : base(position,
+                  @"Contents\Animations\Prizes\Slowdown\slow1.png",
                   @"Contents\Animations\Prizes\Slowdown\slow2.png",
                   @"Contents\Animations\Prizes\Slowdown\slow3.png",
                   @"Contents\Animations\Prizes\Slowdown\slow4.png")

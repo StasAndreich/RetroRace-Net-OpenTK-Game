@@ -70,6 +70,7 @@ namespace Racing.Objects.UI
                 throw new ArgumentException("There is no parse data into the input string.");
 
             var sprites = new List<Sprite>();
+            var startPos = textPosition;
             // Create an offset with the space size of 5.
             var spaceWidth = -7;
             var offset = digitTextures[0].Width / 2 + spaceWidth;
@@ -81,7 +82,7 @@ namespace Racing.Objects.UI
                 {
                     if (@char == digits[i])
                     {
-                        symbolSprite = new Sprite(digitTextures[i], symbolScale,
+                        symbolSprite = new Sprite(digitTextures[i], startPos, symbolScale,
                             textPosition, 10);
                         sprites.Add(symbolSprite);
 

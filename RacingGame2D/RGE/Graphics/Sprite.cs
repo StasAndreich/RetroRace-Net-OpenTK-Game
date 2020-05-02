@@ -68,20 +68,21 @@ namespace RGEngine.Graphics
         /// Ctor that tunes the sprite in more details.
         /// </summary>
         /// <param name="texture"></param>
+        /// <param name="position"></param>
         /// <param name="scale"></param>
         /// <param name="offset"></param>
         /// <param name="zIndex"></param>
-        public Sprite(Texture2D texture, Vector2 scale, Vector2 offset, int zIndex)
+        public Sprite(Texture2D texture, Vector2 position, Vector2 scale, Vector2 offset, int zIndex)
         {
             this.Texture = texture;
             this.Width = texture.Width;
             this.Height = texture.Height;
 
+            this.Position = position;
             this.Scale = scale;
             this.Offset = offset;
             this.ZIndex = zIndex;
         }
-
 
         /// <summary>
         /// Compares Sprites by Z-index.

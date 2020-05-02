@@ -17,19 +17,20 @@ namespace Racing.Prizes
         /// <summary>
         /// Default ctor with setting collider and animation.
         /// </summary>
+        /// <param name="position"></param>
         /// <param name="texturesPath"></param>
-        public Prize(params string[] texturesPath)
+        public Prize(Vector2 position, params string[] texturesPath)
         {
             spriteRenderer = AddComponent<SpriteRenderer>();
             animator = AddComponent<Animator>();
 
             // Set default position.
-            Position = new Vector2(0f, 0f);
+            base.Position = position;
 
             for (int i = 0; i < texturesPath.Length; i++)
             {
                 var tex = ContentLoader.LoadTexture(texturesPath[i]);
-                var sprite = new Sprite(tex, new Vector2(0.55f, 0.55f), new Vector2(0f, 0f), 3);
+                var sprite = new Sprite(tex, position, new Vector2(0.55f, 0.55f), new Vector2(0f, 0f), 3);
                 animator.AnimationSprites.AddSprite(sprite);
             }
             animator.FPS = 7;

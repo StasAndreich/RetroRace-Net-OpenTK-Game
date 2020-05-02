@@ -39,10 +39,9 @@ namespace Racing.Prizes
         private void AddPrizeOnScene()
         {
             var rand = new Random();
-            var prize = GeneratePrize(rand);
+            var prize = GeneratePrize(rand, GetPrizePosition(rand));
             if (prize != null)
             {
-                prize.Position = GetPrizePosition(rand);
                 EngineCore.AddGameObject(prize);
             }
         }
@@ -50,7 +49,7 @@ namespace Racing.Prizes
         /// <summary>
         /// Main Fabric Method.
         /// </summary>
-        public Prize GeneratePrize(Random random)
+        public Prize GeneratePrize(Random random, Vector2 position)
         {
             // Limit the number of prizes located
             // on scene at the same time.
@@ -71,13 +70,13 @@ namespace Racing.Prizes
             switch (randPrize)
             {
                 case (int)Prizes.Fuel:
-                    return new FuelPrize();
+                    return new FuelPrize(position);
 
                 case (int)Prizes.Boost:
-                    return new BoostPrize();
+                    return new BoostPrize(position);
 
                 case (int)Prizes.Slowdown:
-                    return new SlowdownPrize();
+                    return new SlowdownPrize(position);
 
                 default:
                     throw new Exception("There is no such a prize number.");

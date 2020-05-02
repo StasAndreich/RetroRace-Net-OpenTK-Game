@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenTK;
+using System;
 
 namespace Racing.Prizes
 {
@@ -7,6 +8,6 @@ namespace Racing.Prizes
     /// </summary>
     interface IPrizeFactory
     {
-        Prize GeneratePrize(Random random);
+        Prize GeneratePrize(Random random, Vector2 position);
     }
 }
