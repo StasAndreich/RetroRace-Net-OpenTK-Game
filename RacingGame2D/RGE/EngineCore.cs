@@ -81,11 +81,6 @@ namespace RGEngine
         {
             InputController.Update();
 
-            foreach (var gameObject in gameObjects.ToList<GameObject>())
-            {
-                gameObject.PerformUpdate(e.Time);
-            }
-
             totalTimeElapsed += e.Time;
             // Prevents redundant Updating of FixedUpdate() method.
             // *REASON: Rendering is slower than physics fixed updates.*
@@ -100,7 +95,12 @@ namespace RGEngine
                 }
             }
             totalTimeElapsed = 0f;
-            
+
+            foreach (var gameObject in gameObjects.ToList<GameObject>())
+            {
+                gameObject.PerformUpdate(e.Time);
+            }
+
             base.OnUpdateFrame(e);
         }
 
