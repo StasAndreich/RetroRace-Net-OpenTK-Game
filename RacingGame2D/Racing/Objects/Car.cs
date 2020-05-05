@@ -144,34 +144,6 @@ namespace Racing.Objects
             handler?.Invoke(this, e);
         }
 
-        ///// <summary>
-        ///// Event that raised when laps count changed.
-        ///// </summary>
-        //public event EventHandler<GameEventArgs> LapsChanged;
-        ///// <summary>
-        ///// Invokes LapsChanged event.
-        ///// </summary>
-        ///// <param name="e"></param>
-        //protected virtual void OnLapsChaged(GameEventArgs e)
-        //{
-        //    var handler = LapsChanged;
-        //    handler?.Invoke(this, e);
-        //}
-
-        ///// <summary>
-        ///// Event that raised when fuel amount changed.
-        ///// </summary>
-        //public event EventHandler<GameEventArgs> FuelChanged;
-        ///// <summary>
-        ///// Invokes FuelChanged event.
-        ///// </summary>
-        ///// <param name="e"></param>
-        //protected virtual void OnFuelChanged(GameEventArgs e)
-        //{
-        //    var handler = FuelChanged;
-        //    handler?.Invoke(this, e);
-        //}
-
 
         /// <summary>
         /// Override of FixedUpdate method.
