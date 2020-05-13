@@ -21,8 +21,8 @@ namespace Racing.Objects
         /// </summary>
         public Car()
         {
-            spriteRenderer = AddComponent<SpriteRenderer>();
-            rigidBody2D = AddComponent<RigidBody2D>();
+            spriteRenderer = (SpriteRenderer)AddComponent("SpriteRenderer");
+            rigidBody2D = (RigidBody2D)AddComponent("RigidBody2D");
 
             // Set defaults for a default car.
             properties = new CarProps(this);
@@ -44,7 +44,8 @@ namespace Racing.Objects
             this.laps = new bool[5 + 1];
         }
 
-
+        #region Fields and Props
+        
         /// <summary>
         /// SpriteRenderer component.
         /// </summary>
@@ -130,6 +131,8 @@ namespace Racing.Objects
             }
         }
 
+        #endregion
+
         /// <summary>
         /// Event that raised when End of race occured.
         /// </summary>
@@ -206,6 +209,8 @@ namespace Racing.Objects
             ApplyFuelConsumprion(fixedDeltaTime);
         }
 
+        #region ColliderTriggered handlers
+
         /// <summary>
         /// Handles the ColliderTriggered event when car collides a finish line.
         /// </summary>
@@ -268,7 +273,14 @@ namespace Racing.Objects
             }
         }
 
-        private void ApplyFuelConsumprion(double fixedDeltaTime)
+        #endregion
+
+        /// <summary>
+        /// Applies a fuel consuption throught time.
+        /// </summary>
+        /// <param name="fixedDeltaTime"></param>
+        /// <returns></returns>
+        public void ApplyFuelConsumprion(double fixedDeltaTime)
         {
             // End of race condition.
             if (this.fuelLevel <= 0.001)
@@ -291,6 +303,8 @@ namespace Racing.Objects
                 this.fuelLevel -= (properties.DrivingFuelConsumption * (float)fixedDeltaTime)
                     / consumptionTime;
         }
+
+        #region User Input Methods
 
         /// <summary>
         /// Gets user input for the main car control.
@@ -363,6 +377,8 @@ namespace Racing.Objects
                 drivingMode = (int)DrivingModes.Reverse;
             }
         }
+
+        #endregion
 
         /// <summary>
         /// Sets a start car position.

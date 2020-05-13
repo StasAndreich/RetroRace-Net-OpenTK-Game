@@ -21,8 +21,8 @@ namespace Racing.Prizes
         /// <param name="texturesPath"></param>
         public Prize(Vector2 position, params string[] texturesPath)
         {
-            spriteRenderer = AddComponent<SpriteRenderer>();
-            animator = AddComponent<Animator>();
+            spriteRenderer = (SpriteRenderer)AddComponent("SpriteRenderer");
+            animator = (Animator)AddComponent("Animator");
 
             // Set default position.
             base.Position = position;

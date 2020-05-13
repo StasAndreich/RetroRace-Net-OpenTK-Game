@@ -22,7 +22,7 @@ namespace Racing.Objects.UI
         /// <param name="position"></param>
         public UIElement(string uiTexturePath, Vector2 position)
         {
-            spriteRenderer = AddComponent<SpriteRenderer>();
+            spriteRenderer = (SpriteRenderer)AddComponent("SpriteRenderer");
 
             base.Position = position;
 
@@ -38,7 +38,8 @@ namespace Racing.Objects.UI
         /// <param name="position"></param>
         public UIElement(Vector2 position)
         {
-            spriteRenderer = AddComponent<SpriteRenderer>();
+            //spriteRenderer = AddComponent<SpriteRenderer>();
+            spriteRenderer = (SpriteRenderer)AddComponent("SpriteRenderer");
             base.Position = position;
         }
     }

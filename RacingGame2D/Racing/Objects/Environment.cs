@@ -20,7 +20,7 @@ namespace Racing.Objects
         /// <param name="backgroundPath"></param>
         public Environment(string backgroundPath)
         {
-            spriteRenderer = AddComponent<SpriteRenderer>();
+            spriteRenderer = (SpriteRenderer)AddComponent("SpriteRenderer");
 
             base.Position = new Vector2(0f, 0f);
 

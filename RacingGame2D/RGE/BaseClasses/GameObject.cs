@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Reflection;
 using System.Collections.Generic;
 using OpenTK;
 using RGEngine.Physics;
+using RGEngine.Graphics;
 
 namespace RGEngine.BaseClasses
 {
@@ -54,24 +54,33 @@ namespace RGEngine.BaseClasses
             handler?.Invoke(this, e);
         }
 
-
         /// <summary>
         /// Adds a Component attached to a GameObject.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        public T AddComponent<T>() where T : Component
+        /// <param name="componentName"></param>
+        /// <returns></returns>
+        public Component AddComponent(string componentName)
         {
-            // Instantiate THIS class in Component constructor.
-            var tConstructor = typeof(T).GetConstructor(BindingFlags.Instance | BindingFlags.Public,
-                null, new[] { typeof(GameObject) }, null);
+            Component newComponent = null;
+            switch(componentName)
+            {
+                case "SpriteRenderer":
+                    newComponent = new SpriteRenderer(this);
+                    break;
 
-            var newComponent = (T)tConstructor.Invoke(new[] { this });
+                case "RigidBody2D":
+                    newComponent = new RigidBody2D(this);
+                    break;
+
+                case "Animator":
+                    newComponent = new Animator(this);
+                    break;
+            }
 
             components.Add(newComponent);
 
             return newComponent;
-        }   
-
+        }
 
         /// <summary>
         /// Returns a Component attached to a GameObject.
