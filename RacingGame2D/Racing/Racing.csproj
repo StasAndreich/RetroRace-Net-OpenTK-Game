@@ -74,6 +74,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Decorator.cd" />
+    <None Include="FabricMethod.cd" />
     <None Include="GameObjectInheritance.cd" />
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />

@@ -34,6 +34,13 @@ namespace Racing.Objects
         }
 
         /// <summary>
+        /// Basic ctor.
+        /// </summary>
+        public CarProps()
+        {
+        }
+
+        /// <summary>
         /// Defines max engine force.
         /// </summary>
         public virtual float MaxEngineForce { get; set; }

@@ -35,6 +35,14 @@ namespace Racing.Objects
             EngineCore.AddGameObject(this);
         }
 
+        /// <summary>
+        /// Testing ctor.
+        /// </summary>
+        public CarPropsDecorator(CarProps baseProps, Car owner)
+        {
+            this.baseProps = baseProps;
+            base.owner = owner;
+        }
 
         /// <summary>
         /// Overrides FixedUpdate with inner timer update.

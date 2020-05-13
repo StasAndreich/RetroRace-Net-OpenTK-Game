@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Racing.Prizes.BoostPrize">
+    <Position X="4.75" Y="5" Width="1.5" />
+    <Members>
+      <Method Name="BoostPrize" Hidden="true" />
+    </Members>
+    <InheritanceLine Type="Racing.Prizes.Prize" ManuallyRouted="true" FixedFromPoint="true">
+      <Path>
+        <Point X="7.25" Y="4.483" />
+        <Point X="7.25" Y="4.827" />
+        <Point X="5.5" Y="4.827" />
+        <Point X="5.5" Y="5" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Prizes\BoostPrize.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Racing.Prizes.FuelPrize">
+    <Position X="6.5" Y="5" Width="1.5" />
+    <Members>
+      <Method Name="FuelPrize" Hidden="true" />
+    </Members>
+    <InheritanceLine Type="Racing.Prizes.Prize" FixedFromPoint="true">
+      <Path>
+        <Point X="7.25" Y="4.483" />
+        <Point X="7.25" Y="5" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Prizes\FuelPrize.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Racing.Prizes.Prize">
+    <Position X="6.5" Y="3.25" Width="1.5" />
+    <Members>
+      <Field Name="animator" Hidden="true" />
+      <Method Name="PickUp" Hidden="true" />
+      <Method Name="Prize" Hidden="true" />
+      <Method Name="RemovePrize" Hidden="true" />
+      <Field Name="rigidBody" Hidden="true" />
+      <Field Name="spriteRenderer" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>BAAIACAAAAAAAKAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Prizes\Prize.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Racing.Prizes.PrizeGenerator">
+    <Position X="2.75" Y="5" Width="1.5" />
+    <Members>
+      <Method Name="AddPrizeOnScene" Hidden="true" />
+      <Method Name="FixedUpdate" Hidden="true" />
+      <Method Name="GetPrizePosition" Hidden="true" />
+      <Method Name="PrizeGenerator" Hidden="true" />
+      <Field Name="rect1max" Hidden="true" />
+      <Field Name="rect1min" Hidden="true" />
+      <Field Name="rect2max" Hidden="true" />
+      <Field Name="rect2min" Hidden="true" />
+      <Field Name="spawnTimer" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAEMAQQAAAAAAAAgABAAAEAAAAAAAA=</HashCode>
+      <FileName>Prizes\PrizeGenerator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.892" />
+  </Class>
+  <Class Name="Racing.Prizes.SlowdownPrize">
+    <Position X="8.25" Y="5" Width="1.5" />
+    <Members>
+      <Method Name="SlowdownPrize" Hidden="true" />
+    </Members>
+    <InheritanceLine Type="Racing.Prizes.Prize" ManuallyRouted="true" FixedFromPoint="true">
+      <Path>
+        <Point X="7.25" Y="4.483" />
+        <Point X="7.25" Y="4.827" />
+        <Point X="9" Y="4.827" />
+        <Point X="9" Y="5" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Prizes\SlowdownPrize.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Racing.Prizes.IPrizeFactory">
+    <Position X="2.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Prizes\IPrizeFactory.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Racing.Objects.BoostProps">
+    <Position X="4.75" Y="6" Width="1.5" />
+    <Members>
+      <Method Name="BoostProps" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>Objects\Decorated\BoostProps.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Racing.Objects.CarProps">
+    <Position X="5.5" Y="0.5" Width="2" />
+    <Members>
+      <Method Name="CarProps" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAgAgAAAgAAAAQACEAAAAAAAAAAgAAAQAAA=</HashCode>
+      <FileName>Objects\Decorated\CarProps.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Racing.Objects.CarPropsDecorator">
+    <Position X="5.75" Y="3.75" Width="1.5" />
+    <Members>
+      <Method Name="CarPropsDecorator" Hidden="true" />
+      <Method Name="FixedUpdate" Hidden="true" />
+      <Field Name="lifeTimer" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAQAAAAAAAAAAAAIAAAAAAACAAAAAAAAA=</HashCode>
+      <FileName>Objects\Decorated\CarPropsDecorator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Racing.Objects.SlowdownProps">
+    <Position X="6.75" Y="6" Width="1.5" />
+    <Members>
+      <Method Name="SlowdownProps" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>Objects\Decorated\SlowdownProps.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

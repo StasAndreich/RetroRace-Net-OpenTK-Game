@@ -15,6 +15,16 @@
         }
 
         /// <summary>
+        /// Testing ctor.
+        /// </summary>
+        /// <param name="props"></param>
+        /// <param name="owner"></param>
+        public SlowdownProps(CarProps props, Car owner)
+            : base(props, owner)
+        {
+        }
+
+        /// <summary>
         /// Overrides MaxVelocity prop.
         /// </summary>
         public override float MaxVelocity
