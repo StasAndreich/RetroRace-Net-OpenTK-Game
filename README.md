@@ -1,6 +1,6 @@
 <br />
 <p align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
+  <a href="https://github.com/StasAndreich/RetroRace-Net-OpenTK-Game/tree/master/RacingGame2D">
     <img src="readme-resources/icon32.png" alt="RetroRace icon" width="256" height="256">
   </a>
 
