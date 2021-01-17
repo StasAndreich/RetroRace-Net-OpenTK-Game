@@ -6,7 +6,7 @@
 
   <h3 align="center">RetroRace - 2D Topdown Racing</h3>
   <p align="center">
-    Build with .NET Framework and OpenGL wrapper (OpenTK).
+    Built with .NET Framework and OpenGL wrapper (OpenTK).
     <br />
     <a href="https://github.com/StasAndreich/RetroRace-Net-OpenTK-Game/tree/master/RacingGame2D"><strong>Source code »</strong></a>
   </p>
