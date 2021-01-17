@@ -1,7 +1,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="readme-resources/icon32.png" alt="RetroRace icon" width="80" height="80">
+    <img src="readme-resources/icon32.png" alt="RetroRace icon" width="256" height="256">
   </a>
 
   <h3 align="center">RetroRace - 2D Topdown Racing</h3>
