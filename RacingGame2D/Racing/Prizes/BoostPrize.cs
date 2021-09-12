@@ -13,12 +13,11 @@ namespace Racing.Prizes
         /// </summary>
         public BoostPrize(Vector2 position)
             : base(position,
-                  @"Contents\Animations\Prizes\Boost\nos1.png",
-                  @"Contents\Animations\Prizes\Boost\nos2.png",
-                  @"Contents\Animations\Prizes\Boost\nos3.png",
-                  @"Contents\Animations\Prizes\Boost\nos4.png")
+                   @"Contents\Animations\Prizes\Boost\nos1.png",
+                   @"Contents\Animations\Prizes\Boost\nos2.png",
+                   @"Contents\Animations\Prizes\Boost\nos3.png",
+                   @"Contents\Animations\Prizes\Boost\nos4.png")
         {
-
         }
 
         /// <summary>
