@@ -33,8 +33,8 @@ namespace GameLauncher
             this.ConnectButton = new System.Windows.Forms.Button();
             this.SingleButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.ipAddress = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.ipAddress = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -46,6 +46,7 @@ namespace GameLauncher
             this.HostButton.TabIndex = 0;
             this.HostButton.Text = "Play as Host";
             this.HostButton.UseVisualStyleBackColor = true;
+            this.HostButton.Click += new System.EventHandler(this.Host_Click);
             // 
             // ConnectButton
             // 
@@ -55,6 +56,7 @@ namespace GameLauncher
             this.ConnectButton.TabIndex = 1;
             this.ConnectButton.Text = "Connect To";
             this.ConnectButton.UseVisualStyleBackColor = true;
+            this.ConnectButton.Click += new System.EventHandler(this.Connect_Click);
             // 
             // SingleButton
             // 
@@ -79,13 +81,6 @@ namespace GameLauncher
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Multiplayer";
             // 
-            // ipAddress
-            // 
-            this.ipAddress.Location = new System.Drawing.Point(28, 81);
-            this.ipAddress.Name = "ipAddress";
-            this.ipAddress.Size = new System.Drawing.Size(109, 20);
-            this.ipAddress.TabIndex = 2;
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -95,6 +90,13 @@ namespace GameLauncher
             this.label1.Size = new System.Drawing.Size(23, 13);
             this.label1.TabIndex = 3;
             this.label1.Text = "IP:";
+            // 
+            // ipAddress
+            // 
+            this.ipAddress.Location = new System.Drawing.Point(28, 81);
+            this.ipAddress.Name = "ipAddress";
+            this.ipAddress.Size = new System.Drawing.Size(109, 20);
+            this.ipAddress.TabIndex = 2;
             // 
             // GameMode
             // 

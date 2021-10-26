@@ -9,6 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>RGEngine</RootNamespace>
     <AssemblyName>RGEngine</AssemblyName>
+    <LangVersion>8.0</LangVersion>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -56,6 +57,7 @@
     <Compile Include="Graphics\SpriteRenderer.cs" />
     <Compile Include="Graphics\Texture2D.cs" />
     <Compile Include="Input\InputController.cs" />
+    <Compile Include="Multiplayer\GameP2P.cs" />
     <Compile Include="Physics\PolyCollider.cs" />
     <Compile Include="Physics\RigidBody2D.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
