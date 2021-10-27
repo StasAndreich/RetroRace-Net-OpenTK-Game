@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants\CarConstants.cs" />
     <Compile Include="Objects\BlackCar.cs" />
     <Compile Include="Objects\Decorated\BoostProps.cs" />
     <Compile Include="Objects\Car.cs" />
@@ -57,14 +58,16 @@
     <Compile Include="Objects\OuterFinishLine.cs" />
     <Compile Include="Objects\PurpleCar.cs" />
     <Compile Include="Objects\Decorated\SlowdownProps.cs" />
-    <Compile Include="Objects\UI\UIElement.cs" />
-    <Compile Include="Objects\UI\UIHandler.cs" />
-    <Compile Include="Objects\UI\UIText.cs" />
+    <Compile Include="Objects\UserInterface\IUserInterfaceElement.cs" />
+    <Compile Include="Objects\UserInterface\UserInterfaceElement.cs" />
+    <Compile Include="Objects\UserInterface\UserInterfaceHandler.cs" />
+    <Compile Include="Objects\UserInterface\TextElement.cs" />
     <Compile Include="Prizes\BoostPrize.cs" />
     <Compile Include="Prizes\FuelPrize.cs" />
     <Compile Include="Prizes\IPrizeFactory.cs" />
     <Compile Include="Prizes\Prize.cs" />
     <Compile Include="Prizes\PrizeGenerator.cs" />
+    <Compile Include="Prizes\PrizesTypes.cs" />
     <Compile Include="Prizes\SlowdownPrize.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

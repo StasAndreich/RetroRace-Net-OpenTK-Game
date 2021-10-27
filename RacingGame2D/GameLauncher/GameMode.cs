@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
 using Racing.Objects;
-using Racing.Objects.UI;
+using Racing.Objects.UserInterface;
 using Racing.Prizes;
 using RGEngine;
 
@@ -39,7 +39,7 @@ namespace GameLauncher
             EngineCore.AddGameObject(new PurpleCar());
             //EngineCore.AddGameObject(new BlackCar());
             EngineCore.AddGameObject(new PrizeGenerator());
-            EngineCore.AddGameObject(new UIHandler());
+            EngineCore.AddGameObject(new UserInterfaceHandler());
 
             ConfigureGameWindow(racingGame);
             racingGame.Run();
@@ -58,7 +58,7 @@ namespace GameLauncher
             EngineCore.AddGameObject(new PurpleCar());
             EngineCore.AddGameObject(new BlackCar());
             EngineCore.AddGameObject(new PrizeGenerator());
-            EngineCore.AddGameObject(new UIHandler());
+            EngineCore.AddGameObject(new UserInterfaceHandler());
 
             ConfigureGameWindow(racingGame);
             racingGame.Run();
@@ -75,7 +75,7 @@ namespace GameLauncher
             //EngineCore.AddGameObject(new PurpleCar());
             EngineCore.AddGameObject(new BlackCar());
             EngineCore.AddGameObject(new PrizeGenerator());
-            EngineCore.AddGameObject(new UIHandler());
+            EngineCore.AddGameObject(new UserInterfaceHandler());
 
             ConfigureGameWindow(racingGame);
             racingGame.Run();

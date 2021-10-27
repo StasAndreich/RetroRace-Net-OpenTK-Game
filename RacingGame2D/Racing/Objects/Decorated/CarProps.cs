@@ -10,17 +10,12 @@ namespace Racing.Objects
     public class CarProps : GameObject, INonResolveable, INonRenderable
     {
         /// <summary>
-        /// Object-owner.
-        /// </summary>
-        public Car owner;
-
-        /// <summary>
         /// Init with default values.
         /// </summary>
         /// <param name="owner"></param>
         public CarProps(Car owner)
         {
-            this.owner = owner;
+            Owner = owner;
 
             MaxEngineForce = 430000f;
             MaxVelocity = 480f;
@@ -39,6 +34,11 @@ namespace Racing.Objects
         public CarProps()
         {
         }
+
+        /// <summary>
+        /// Object-owner.
+        /// </summary>
+        public Car Owner { get; set; }
 
         /// <summary>
         /// Defines max engine force.

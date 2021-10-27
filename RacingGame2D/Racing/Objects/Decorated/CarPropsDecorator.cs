@@ -1,7 +1,5 @@
 ﻿using RGEngine;
-using RGEngine.BaseClasses;
 using RGEngine.Support;
-using System.Linq;
 
 namespace Racing.Objects
 {
@@ -10,27 +8,25 @@ namespace Racing.Objects
     /// </summary>
     public abstract class CarPropsDecorator : CarProps
     {
-        /// <summary>
-        /// Keeps base props object.
-        /// </summary>
-        protected CarProps baseProps;
+        private const float TimeIntervalValue = 3f;
+
         /// <summary>
         /// Sets prize life timer.
         /// </summary>
-        protected GameTimer lifeTimer;
+        private readonly GameTimer _lifeTimer;
 
         /// <summary>
         /// Sets decorator life time period in a timer.
         /// </summary>
         /// <param name="baseProps"></param>
         public CarPropsDecorator(CarProps baseProps)
-            : base(baseProps.owner)
+            : base(baseProps.Owner)
         {
-            this.baseProps = baseProps;
-            base.owner = baseProps.owner;
+            BaseProps = baseProps;
+            Owner = baseProps.Owner;
 
-            this.lifeTimer = new GameTimer(3f);
-            this.lifeTimer.Elapsed += (sender, e) => RemoveDecorator();
+            _lifeTimer = new GameTimer(TimeIntervalValue);
+            _lifeTimer.Elapsed += (sender, e) => RemoveDecorator();
 
             EngineCore.AddGameObject(this);
         }
@@ -40,9 +36,14 @@ namespace Racing.Objects
         /// </summary>
         public CarPropsDecorator(CarProps baseProps, Car owner)
         {
-            this.baseProps = baseProps;
-            base.owner = owner;
+            BaseProps = baseProps;
+            Owner = owner;
         }
+
+        /// <summary>
+        /// Keeps base props object.
+        /// </summary>
+        protected CarProps BaseProps { get; set; }
 
         /// <summary>
         /// Overrides FixedUpdate with inner timer update.
@@ -50,21 +51,20 @@ namespace Racing.Objects
         /// <param name="fixedDeltaTime"></param>
         public override void FixedUpdate(double fixedDeltaTime)
         {
-            lifeTimer.Update(fixedDeltaTime);
+            _lifeTimer.Update(fixedDeltaTime);
             base.FixedUpdate(fixedDeltaTime);
         }
 
         private void RemoveDecorator()
         {
-            var list = EngineCore.gameObjects.ToList<GameObject>();
-            foreach (var @object in list)
+            foreach (var gameObject in EngineCore.gameObjects)
             {
-                if ((@object is Car) && ReferenceEquals(@object, base.owner))
+                if ((gameObject is Car car) && ReferenceEquals(gameObject, Owner))
                 {
-                    var car = (Car)@object;
-                    car.properties = this.baseProps;
+                    car.Properties = BaseProps;
                 }
             }
+
             EngineCore.RemoveGameObject(this);
         }
     }

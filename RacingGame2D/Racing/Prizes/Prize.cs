@@ -4,8 +4,8 @@ using RGEngine.BaseClasses;
 using RGEngine.Support;
 using OpenTK;
 using RGEngine;
-using System.Linq;
 using Racing.Objects;
+using System.Linq;
 
 namespace Racing.Prizes
 {
@@ -14,6 +14,10 @@ namespace Racing.Prizes
     /// </summary>
     public abstract class Prize : GameObject, ICollidable, INonResolveable
     {
+        private SpriteRenderer _spriteRenderer;
+        private RigidBody2D _rigidBody;
+        private Animator _animator;
+
         /// <summary>
         /// Default ctor with setting collider and animation.
         /// </summary>
@@ -21,36 +25,22 @@ namespace Racing.Prizes
         /// <param name="texturesPath"></param>
         public Prize(Vector2 position, params string[] texturesPath)
         {
-            spriteRenderer = (SpriteRenderer)AddComponent("SpriteRenderer");
-            animator = (Animator)AddComponent("Animator");
+            _spriteRenderer = (SpriteRenderer)AddComponent("SpriteRenderer");
+            _animator = (Animator)AddComponent("Animator");
 
             // Set default position.
-            base.Position = position;
+            Position = position;
 
             for (int i = 0; i < texturesPath.Length; i++)
             {
                 var tex = ContentLoader.LoadTexture(texturesPath[i]);
                 var sprite = new Sprite(tex, position, new Vector2(0.55f, 0.55f), new Vector2(0f, 0f), 3);
-                animator.AnimationSprites.AddSprite(sprite);
+                _animator.AnimationSprites.AddSprite(sprite);
             }
-            animator.FPS = 7;
+            _animator.FPS = 7;
 
-            base.collider = new PolyCollider(this, new Vector2(40f, 40f));
+            collider = new PolyCollider(this, new Vector2(40f, 40f));
         }
-
-        /// <summary>
-        /// SpriteRenderer component.
-        /// </summary>
-        protected SpriteRenderer spriteRenderer;
-        /// <summary>
-        /// RigidBody2D component.
-        /// </summary>
-        protected RigidBody2D rigidBody;
-        /// <summary>
-        /// Animator component.
-        /// </summary>
-        protected Animator animator;
-
 
         internal void PickUp(Car car)
         {
@@ -65,11 +55,13 @@ namespace Racing.Prizes
         {
             PolyCollider.allCollidersAttached.Remove(this);
 
-            var list = EngineCore.gameObjects.ToList<GameObject>();
-            foreach (var @object in list)
+            var gameObjects = EngineCore.gameObjects.ToList();
+            foreach (var gameObject in gameObjects)
             {
-                if (ReferenceEquals(@object, this))
+                if (ReferenceEquals(gameObject, this))
+                {
                     EngineCore.RemoveGameObject(this);
+                }
             }
         }
 
@@ -78,24 +70,5 @@ namespace Racing.Prizes
         /// </summary>
         /// <param name="car"></param>
         protected abstract void ApplyPrize(Car car);
-    }
-
-    /// <summary>
-    /// Defines all possible in-game prizes.
-    /// </summary>
-    public enum Prizes
-    {
-        /// <summary>
-        /// Adds fuel.
-        /// </summary>
-        Fuel = 1,
-        /// <summary>
-        /// Speeds up a car.
-        /// </summary>
-        Boost = 2,
-        /// <summary>
-        /// Slows a car.
-        /// </summary>
-        Slowdown = 3
     }
 }

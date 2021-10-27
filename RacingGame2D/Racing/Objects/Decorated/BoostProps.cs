@@ -29,7 +29,7 @@
         /// </summary>
         public override float MaxVelocity
         {
-            get => baseProps.MaxVelocity * 1.5f;
+            get => BaseProps.MaxVelocity * 1.5f;
             set => base.MaxVelocity = value; 
         }
 
@@ -38,7 +38,7 @@
         /// </summary>
         public override float MaxEngineForce 
         { 
-            get => baseProps.MaxEngineForce * 2f;
+            get => BaseProps.MaxEngineForce * 2f;
             set => base.MaxEngineForce = value; 
         }
     }

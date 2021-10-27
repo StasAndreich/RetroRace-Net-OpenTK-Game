@@ -22,15 +22,19 @@ namespace Racing.Objects
         {
             spriteRenderer = (SpriteRenderer)AddComponent("SpriteRenderer");
 
-            base.Position = new Vector2(0f, 0f);
+            Position = new Vector2(0f, 0f);
 
-            var bgTexture = ContentLoader.LoadTexture(backgroundPath);
-            var bgSprite = new Sprite(bgTexture, Position, new Vector2(1f, 1f),
-                new Vector2(0f, 0f), -1);
+            var backgroundTexture = ContentLoader.LoadTexture(backgroundPath);
+            var bgSprite = new Sprite(
+                backgroundTexture,
+                Position,
+                new Vector2(1f, 1f),
+                new Vector2(0f, 0f),
+                -1);
             spriteRenderer.RenderQueue = SpriteBatch.CreateSpriteBatch(bgSprite);
 
             // Middle collider.
-            base.collider = new PolyCollider(this, new Vector2(1310f, 480f));
+            collider = new PolyCollider(this, new Vector2(1310f, 480f));
             // Add screen bounds.
             EngineCore.AddGameObject(new Bound(new Vector2(-945f, 0f), new Vector2(20f, 1080f)));
             EngineCore.AddGameObject(new Bound(new Vector2(945f, 0f), new Vector2(20f, 1080f)));
@@ -42,8 +46,8 @@ namespace Racing.Objects
         {
             public Bound(Vector2 position, Vector2 size)
             {
-                base.Position = position;
-                base.collider = new PolyCollider(this, size);
+                Position = position;
+                collider = new PolyCollider(this, size);
             }   
         }
 

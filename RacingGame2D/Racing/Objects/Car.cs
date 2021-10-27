@@ -65,8 +65,8 @@ namespace Racing.Objects
             _rigidBody2D.frictionConst = BaseCarFriction;
 
             // Set defaults for a default car.
-            properties = new CarProps(this);
-            _fuelLevel = properties.MaxFuelLevel;
+            Properties = new CarProps(this);
+            _fuelLevel = Properties.MaxFuelLevel;
 
             SetStartCarPosition(CarStartPosition);
 
@@ -81,7 +81,7 @@ namespace Racing.Objects
         /// <summary>
         /// Keeps all car properties.
         /// </summary>
-        public CarProps properties;
+        public CarProps Properties { get; set; }
         
         /// <summary>
         /// Responsible for getting and setting current fuel level.
@@ -91,9 +91,9 @@ namespace Racing.Objects
             get => _fuelLevel;
             set
             {
-                if (_fuelLevel + value >= properties.MaxFuelLevel)
+                if (_fuelLevel + value >= Properties.MaxFuelLevel)
                 {
-                    _fuelLevel = properties.MaxFuelLevel;
+                    _fuelLevel = Properties.MaxFuelLevel;
                 }
                 else
                 {
@@ -286,11 +286,11 @@ namespace Racing.Objects
 
             if (_rigidBody2D.velocity == 0)
             {
-                _fuelLevel -= properties.IdleFuelConsumption * (float)fixedDeltaTime / FuelConsumptionTime;
+                _fuelLevel -= Properties.IdleFuelConsumption * (float)fixedDeltaTime / FuelConsumptionTime;
             }
             else
             {
-                _fuelLevel -= properties.DrivingFuelConsumption * (float)fixedDeltaTime / FuelConsumptionTime;
+                _fuelLevel -= Properties.DrivingFuelConsumption * (float)fixedDeltaTime / FuelConsumptionTime;
             }
         }
 
@@ -306,13 +306,13 @@ namespace Racing.Objects
         protected virtual void GetUserInput(Key gas, Key brake, Key left, Key right)
         {
             // Check for max and min velocity-values.
-            if (_rigidBody2D.velocity >= properties.MaxVelocity)
+            if (_rigidBody2D.velocity >= Properties.MaxVelocity)
             {
-                _rigidBody2D.velocity = properties.MaxVelocity;
+                _rigidBody2D.velocity = Properties.MaxVelocity;
             }
-            if (_rigidBody2D.velocity <= properties.MaxVelocityReverse)
+            if (_rigidBody2D.velocity <= Properties.MaxVelocityReverse)
             {
-                _rigidBody2D.velocity = properties.MaxVelocityReverse;
+                _rigidBody2D.velocity = Properties.MaxVelocityReverse;
             }
 
             // Fixing a STOP-point.
@@ -323,7 +323,7 @@ namespace Racing.Objects
 
             if (InputController.CurrentKeyboardState.IsKeyDown(gas))
             {
-                _rigidBody2D.engineForce = (int)_currentDrivingMode * properties.MaxEngineForce;
+                _rigidBody2D.engineForce = (int)_currentDrivingMode * Properties.MaxEngineForce;
             }
             else if (InputController.CurrentKeyboardState.IsKeyDown(brake))
             {
@@ -333,11 +333,11 @@ namespace Racing.Objects
                 }
                 else if (_rigidBody2D.velocity > 0)
                 {
-                    _rigidBody2D.breakingForce = properties.MaxBreakingForce;
+                    _rigidBody2D.breakingForce = Properties.MaxBreakingForce;
                 }
                 else
                 {
-                    _rigidBody2D.breakingForce = -properties.MaxBreakingForce;
+                    _rigidBody2D.breakingForce = -Properties.MaxBreakingForce;
                 }
             }
             else
@@ -348,11 +348,11 @@ namespace Racing.Objects
 
             if (InputController.CurrentKeyboardState.IsKeyDown(left))
             {
-                _steeringAngle = -properties.MaxSteeringAngle;
+                _steeringAngle = -Properties.MaxSteeringAngle;
             }
             else if (InputController.CurrentKeyboardState.IsKeyDown(right))
             {
-                _steeringAngle = properties.MaxSteeringAngle;
+                _steeringAngle = Properties.MaxSteeringAngle;
             }
             else
             {
