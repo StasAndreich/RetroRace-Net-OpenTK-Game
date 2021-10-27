@@ -25,16 +25,16 @@ namespace RGEngine.BaseClasses
         /// </summary>
         public PolyCollider collider;
 
-        private float rotation;
+        private float _rotation;
         /// <summary>
         /// Keeps current rotation of GameObject.
         /// </summary>
         public float Rotation
         {
-            get => this.rotation;
+            get => _rotation;
             set
             {
-                this.rotation = value;
+                _rotation = value;
                 OnRotationChanged(new EventArgs());
             }
         }

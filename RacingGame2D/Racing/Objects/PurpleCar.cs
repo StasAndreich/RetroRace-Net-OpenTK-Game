@@ -2,6 +2,7 @@
 using OpenTK.Input;
 using OpenTK;
 using RGEngine.Support;
+using Racing.Constants;
 
 namespace Racing.Objects
 {
@@ -10,17 +11,18 @@ namespace Racing.Objects
     /// </summary>
     public class PurpleCar : Car
     {
-        /// <summary>
-        /// Default ctor.
-        /// </summary>
         public PurpleCar()
         {
-            base.id = "Purple";
+            id = CarConstants.PurpleCarName;
             SetStartCarPosition(new Vector2(85f, 435f));
 
             var vehicleTexture = ContentLoader.LoadTexture(@"Contents\Cars\purple.png");
-            var vehicleSprite = new Sprite(vehicleTexture, Position, new Vector2(0.4f, 0.4f),
-                new Vector2(0f, 0f), 2);
+            var vehicleSprite = new Sprite(
+                vehicleTexture,
+                Position,
+                new Vector2(0.4f, 0.4f),
+                new Vector2(0f, 0f),
+                2);
             spriteRenderer.RenderQueue = SpriteBatch.CreateSpriteBatch(vehicleSprite);
         }
 

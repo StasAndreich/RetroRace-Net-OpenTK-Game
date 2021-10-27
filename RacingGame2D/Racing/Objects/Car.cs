@@ -16,104 +16,92 @@ namespace Racing.Objects
     /// </summary>
     public abstract class Car : GameObject, ICollidable
     {
+        private const float MinCarVelocity = 6f;
+        private const float WheelBaseLength = 80f;
+        private const float BaseCarMass = 1200f;
+        private const float BaseCarFriction = 750f;
+        private const float FuelConsumptionTime = 5f;
+
+        private readonly Vector2 CarStartPosition = new Vector2(150f, 150f);
+        private readonly Vector2 CarPolyColliderSize = new Vector2(110f, 45f);
+
+        private float _fuelLevel;
+        /// <summary>
+        /// Responsible for car front wheels steering angle.
+        /// </summary>
+        private float _steeringAngle;
+        /// <summary>
+        /// Defines current car direction on scene (in radians).
+        /// </summary>
+        private float _currentCarDirectionAngle;
+        /// <summary>
+        /// Keeps a driving mode. Drive or Reverse.
+        /// </summary>
+        private DrivingModes _currentDrivingMode;
+
+        private Vector2 _frontWheelPosition;
+        private Vector2 _backWheelPosition;
+
+        /// <summary>
+        /// String ID name of a car.
+        /// </summary>
+        public string id;
+
+        private bool[] _laps;
+        private int _beingLocatedOnFinishLine;
+        private int _lapsPassed;
+
+        private readonly RigidBody2D _rigidBody2D;
+        protected SpriteRenderer spriteRenderer;
+
         /// <summary>
         /// Ctor that set a basic car object settings properly.
         /// </summary>
         public Car()
         {
             spriteRenderer = (SpriteRenderer)AddComponent("SpriteRenderer");
-            rigidBody2D = (RigidBody2D)AddComponent("RigidBody2D");
+            _rigidBody2D = (RigidBody2D)AddComponent("RigidBody2D");
+            _rigidBody2D.mass = BaseCarMass;
+            _rigidBody2D.frictionConst = BaseCarFriction;
 
             // Set defaults for a default car.
-            properties = new CarProps(this);
-            this.fuelLevel = properties.MaxFuelLevel;
+            Properties = new CarProps(this);
+            _fuelLevel = Properties.MaxFuelLevel;
 
-            // Set default wheelBase value and start car position.
-            wheelBase = 80f;
-            SetStartCarPosition(new Vector2(150f, 150f));
+            SetStartCarPosition(CarStartPosition);
 
-            // Set default RigidBody parameters for a basic Car object.
-            rigidBody2D.mass = 1200f;
-            rigidBody2D.frictionConst = 750f;
-
-            base.collider = new PolyCollider(this, new Vector2(110f, 45f));
-            base.collider.ColliderTriggered += FinishLine_ColliderTriggered;
-            base.collider.ColliderTriggered += Prize_ColliderTriggered;
+            collider = new PolyCollider(this, CarPolyColliderSize);
+            collider.ColliderTriggered += FinishLine_ColliderTriggered;
+            collider.ColliderTriggered += Prize_ColliderTriggered;
 
             // Difine finished laps array.
-            this.laps = new bool[5 + 1];
+            _laps = new bool[5 + 1];
         }
-
-        #region Fields and Props
-        
-        /// <summary>
-        /// SpriteRenderer component.
-        /// </summary>
-        protected SpriteRenderer spriteRenderer;
-        /// <summary>
-        /// RigidBody2D component.
-        /// </summary>
-        protected RigidBody2D rigidBody2D;
-        /// <summary>
-        /// Constraint on min car velocity.
-        /// </summary>
-        protected const float velocityConstraint = 6f;
 
         /// <summary>
         /// Keeps all car properties.
         /// </summary>
-        public CarProps properties;
-
-        /// <summary>
-        /// Defines a distance between front and rear wheel.
-        /// </summary>
-        protected float wheelBase;
-        /// <summary>
-        /// Responsible for car front wheels steering angle.
-        /// </summary>
-        protected float steeringAngle;
-        /// <summary>
-        /// Defines current car direction on scene (in radians).
-        /// </summary>
-        protected float carDirectionAngle;
-        /// <summary>
-        /// Keeps a driving mode.
-        /// Drive or Reverse.
-        /// </summary>
-        protected int drivingMode;
-
-        /// <summary>
-        /// Defines a position of a front wheel.
-        /// </summary>
-        protected Vector2 frontWheel;
-        /// <summary>
-        /// Defines a position of a back wheel.
-        /// </summary>
-        protected Vector2 backWheel;       
-
-        private float fuelLevel;
+        public CarProps Properties { get; set; }
+        
         /// <summary>
         /// Responsible for getting and setting current fuel level.
         /// </summary>
         public float FuelLevel
         {
-            get => this.fuelLevel;
+            get => _fuelLevel;
             set
             {
-                if (this.fuelLevel + value >= properties.MaxFuelLevel)
-                    this.fuelLevel = properties.MaxFuelLevel;
+                if (_fuelLevel + value >= Properties.MaxFuelLevel)
+                {
+                    _fuelLevel = Properties.MaxFuelLevel;
+                }
                 else
-                    this.fuelLevel = value;
+                {
+                    _fuelLevel = value;
+                }
             }
         }
-        /// <summary>
-        /// String ID name of a car.
-        /// </summary>
-        public string id;
 
-        private bool[] laps;
-        private int beingLocatedOnFinishLine;
-        private int _lapsPassed;
         /// <summary>
         /// Responsible for counting laps that were passed.
         /// </summary>
@@ -122,16 +110,16 @@ namespace Racing.Objects
             get
             {
                 var result = 0;
-                for (int i = 0; i < this.laps.Length; i++)
+                for (int i = 0; i < _laps.Length; i++)
                 {
-                    if (this.laps[i])
+                    if (_laps[i])
+                    {
                         result++;
+                    }
                 }
                 return result;
             }
         }
-
-        #endregion
 
         /// <summary>
         /// Event that raised when End of race occured.
@@ -154,34 +142,31 @@ namespace Racing.Objects
         /// <param name="fixedDeltaTime"></param>
         public override void FixedUpdate(double fixedDeltaTime)
         {
-            var steer = MathHelper.DegreesToRadians(steeringAngle);
+            var steer = MathHelper.DegreesToRadians(_steeringAngle);
 
-            Vector2 deltaBackWheel = Vector2.Zero;
-            Vector2 deltaFrontWheel = Vector2.Zero;
+            var deltaBackWheel = Vector2.Zero;
+            var deltaFrontWheel = Vector2.Zero;
 
-            deltaBackWheel.X = rigidBody2D.velocity * (float)fixedDeltaTime *
-                (float)Math.Cos(carDirectionAngle);
-            deltaBackWheel.Y = rigidBody2D.velocity * (float)fixedDeltaTime *
-                (float)Math.Sin(carDirectionAngle);
+            deltaBackWheel.X = _rigidBody2D.velocity * (float)fixedDeltaTime *
+                (float)Math.Cos(_currentCarDirectionAngle);
+            deltaBackWheel.Y = _rigidBody2D.velocity * (float)fixedDeltaTime *
+                (float)Math.Sin(_currentCarDirectionAngle);
 
-            // Calculations that push the front wheel forward and
-            // conserve the wheelBase distance.
-            var distance = rigidBody2D.velocity * (float)fixedDeltaTime;
-            var B = (wheelBase - distance) * Math.Cos(steer);
-            var C = distance * (2 * wheelBase - distance);
+            // Calculations that push the front wheel forward and conserve the wheelBase distance.
+            var distance = _rigidBody2D.velocity * (float)fixedDeltaTime;
+            var B = (WheelBaseLength - distance) * Math.Cos(steer);
+            var C = distance * (2 * WheelBaseLength - distance);
             var calc = Math.Sqrt(B * B + C) - B;
 
-            deltaFrontWheel.X = (float)calc *
-                (float)Math.Cos(carDirectionAngle + steer);
-            deltaFrontWheel.Y = (float)calc *
-                (float)Math.Sin(carDirectionAngle + steer);
+            deltaFrontWheel.X = (float)(calc * Math.Cos(_currentCarDirectionAngle + steer));
+            deltaFrontWheel.Y = (float)(calc * Math.Sin(_currentCarDirectionAngle + steer));
 
-            backWheel += deltaBackWheel;
-            frontWheel += deltaFrontWheel;
-            base.Position = (frontWheel + backWheel) / 2;
+            _backWheelPosition += deltaBackWheel;
+            _frontWheelPosition += deltaFrontWheel;
+            Position = (_frontWheelPosition + _backWheelPosition) / 2;
 
             // Detect and resolve collisions.
-            foreach (var @object in EngineCore.gameObjects.ToList<GameObject>())
+            foreach (var @object in EngineCore.gameObjects.ToList())
             {
                 // Car DOES NOT collide with other car.
                 if (@object is ICollidable && !(@object is Car))
@@ -192,19 +177,20 @@ namespace Racing.Objects
                         {
                             if (!(@object is INonResolveable))
                             {
-                                backWheel -= 1.5f * deltaBackWheel;
-                                frontWheel -= 1.5f * deltaFrontWheel;
-                                rigidBody2D.velocity /= -2.75f;
+                                _backWheelPosition -= 1.5f * deltaBackWheel;
+                                _frontWheelPosition -= 1.5f * deltaFrontWheel;
+                                _rigidBody2D.velocity /= -2.75f;
                             }
                         }
                     }
                 }
             }
 
-            base.Position = (frontWheel + backWheel) / 2;
-            carDirectionAngle = (float)Math.Atan2(frontWheel.Y - backWheel.Y,
-                frontWheel.X - backWheel.X);
-            base.Rotation = MathHelper.RadiansToDegrees(carDirectionAngle);
+            Position = (_frontWheelPosition + _backWheelPosition) / 2;
+            _currentCarDirectionAngle = (float)Math.Atan2(
+                _frontWheelPosition.Y - _backWheelPosition.Y,
+                _frontWheelPosition.X - _backWheelPosition.X);
+            Rotation = MathHelper.RadiansToDegrees(_currentCarDirectionAngle);
 
             ApplyFuelConsumprion(fixedDeltaTime);
         }
@@ -223,31 +209,30 @@ namespace Racing.Objects
                 // Checks for finishline crossing.
                 if (e.another is FinishLine)
                 {
-                    if ((this.Rotation < 90f &&
-                        this.Rotation > -90f &&
-                        rigidBody2D.velocity > 0) ||
-                        (this.Rotation > 90f &&
-                        this.Rotation < -90f &&
-                        rigidBody2D.velocity < 0))
+                    if ((Rotation < 90f && Rotation > -90f && _rigidBody2D.velocity > 0) ||
+                        (Rotation > 90f && Rotation < -90f && _rigidBody2D.velocity < 0))
                     {
-                        if (!this.laps[_lapsPassed])
+                        if (!_laps[_lapsPassed])
                         {
-                            this.laps[_lapsPassed] = true;
+                            _laps[_lapsPassed] = true;
                         }
-                        this.beingLocatedOnFinishLine++;
+
+                        _beingLocatedOnFinishLine++;
                     }
 
                     if (LapsPassed == 5 + 1)
+                    {
                         OnEndedRace(new GameEventArgs(this));
+                    }
                 }
                 else
                 {
                     if (e.another is OuterFinishLine)
                     {
-                        if (this.beingLocatedOnFinishLine > 0)
+                        if (_beingLocatedOnFinishLine > 0)
                         {
-                            this._lapsPassed = LapsPassed;
-                            this.beingLocatedOnFinishLine = 0;
+                            _lapsPassed = LapsPassed;
+                            _beingLocatedOnFinishLine = 0;
                         }
                     }
                 }
@@ -261,13 +246,13 @@ namespace Racing.Objects
         /// <param name="e"></param>
         private void Prize_ColliderTriggered(object sender, CollisionEventArgs e)
         {
-            foreach (var @object in EngineCore.gameObjects.ToList<GameObject>())
+            foreach (var gameObject in EngineCore.gameObjects.ToList())
             {
-                if (@object is Prize)
+                if (gameObject is Prize prize)
                 {
-                    if (ReferenceEquals(@object, e.another))
+                    if (ReferenceEquals(gameObject, e.another))
                     {
-                        ((Prize)@object).PickUp(this);
+                        prize.PickUp(this);
                     }
                 }
             }
@@ -283,25 +268,30 @@ namespace Racing.Objects
         public void ApplyFuelConsumprion(double fixedDeltaTime)
         {
             // End of race condition.
-            if (this.fuelLevel <= 0.001)
+            if (_fuelLevel <= 0.001)
             {
                 // Choose another car as the winner.
-                if (this.id == "Black")
-                    this.id = "Purple";
-                else if (this.id == "Purple")
-                    this.id = "Black";
+                if (id == "Black")
+                {
+                    id = "Purple";
+                }
+                else if (id == "Purple")
+                {
+                    id = "Black";
+                }
                     
                 OnEndedRace(new GameEventArgs(this));
                 return;
             }
 
-            var consumptionTime = 5f;
-            if (rigidBody2D.velocity == 0)
-                this.fuelLevel -= (properties.IdleFuelConsumption * (float)fixedDeltaTime)
-                    / consumptionTime;
+            if (_rigidBody2D.velocity == 0)
+            {
+                _fuelLevel -= Properties.IdleFuelConsumption * (float)fixedDeltaTime / FuelConsumptionTime;
+            }
             else
-                this.fuelLevel -= (properties.DrivingFuelConsumption * (float)fixedDeltaTime)
-                    / consumptionTime;
+            {
+                _fuelLevel -= Properties.DrivingFuelConsumption * (float)fixedDeltaTime / FuelConsumptionTime;
+            }
         }
 
         #region User Input Methods
@@ -316,48 +306,57 @@ namespace Racing.Objects
         protected virtual void GetUserInput(Key gas, Key brake, Key left, Key right)
         {
             // Check for max and min velocity-values.
-            if (rigidBody2D.velocity >= properties.MaxVelocity)
-                rigidBody2D.velocity = properties.MaxVelocity;
-            if (rigidBody2D.velocity <= properties.MaxVelocityReverse)
-                rigidBody2D.velocity = properties.MaxVelocityReverse;
+            if (_rigidBody2D.velocity >= Properties.MaxVelocity)
+            {
+                _rigidBody2D.velocity = Properties.MaxVelocity;
+            }
+            if (_rigidBody2D.velocity <= Properties.MaxVelocityReverse)
+            {
+                _rigidBody2D.velocity = Properties.MaxVelocityReverse;
+            }
 
             // Fixing a STOP-point.
-            if (rigidBody2D.velocity <= velocityConstraint &&
-                rigidBody2D.velocity >= -velocityConstraint)
-                rigidBody2D.velocity = 0;
-
+            if (_rigidBody2D.velocity <= MinCarVelocity && _rigidBody2D.velocity >= -MinCarVelocity)
+            {
+                _rigidBody2D.velocity = 0;
+            }
 
             if (InputController.CurrentKeyboardState.IsKeyDown(gas))
             {
-                rigidBody2D.engineForce = drivingMode * properties.MaxEngineForce;
+                _rigidBody2D.engineForce = (int)_currentDrivingMode * Properties.MaxEngineForce;
             }
             else if (InputController.CurrentKeyboardState.IsKeyDown(brake))
             {
-                if (rigidBody2D.velocity == 0)
-                    rigidBody2D.breakingForce = 0;
-                else if (rigidBody2D.velocity > 0)
-                    rigidBody2D.breakingForce = properties.MaxBreakingForce;
+                if (_rigidBody2D.velocity == 0)
+                {
+                    _rigidBody2D.breakingForce = 0;
+                }
+                else if (_rigidBody2D.velocity > 0)
+                {
+                    _rigidBody2D.breakingForce = Properties.MaxBreakingForce;
+                }
                 else
-                    rigidBody2D.breakingForce = -properties.MaxBreakingForce;
+                {
+                    _rigidBody2D.breakingForce = -Properties.MaxBreakingForce;
+                }
             }
             else
             {
-                rigidBody2D.breakingForce = 0;
-                rigidBody2D.engineForce = 0;
+                _rigidBody2D.breakingForce = 0;
+                _rigidBody2D.engineForce = 0;
             }
-
 
             if (InputController.CurrentKeyboardState.IsKeyDown(left))
             {
-                this.steeringAngle = -properties.MaxSteeringAngle;
+                _steeringAngle = -Properties.MaxSteeringAngle;
             }
             else if (InputController.CurrentKeyboardState.IsKeyDown(right))
             {
-                this.steeringAngle = properties.MaxSteeringAngle;
+                _steeringAngle = Properties.MaxSteeringAngle;
             }
             else
             {
-                this.steeringAngle = 0f;
+                _steeringAngle = 0f;
             }
         }
 
@@ -370,11 +369,11 @@ namespace Racing.Objects
         {
             if (InputController.CurrentKeyboardState.IsKeyDown(drive))
             {
-                drivingMode = (int)DrivingModes.Drive;
+                _currentDrivingMode = DrivingModes.Drive;
             }
             else if (InputController.CurrentKeyboardState.IsKeyDown(reverse))
             {
-                drivingMode = (int)DrivingModes.Reverse;
+                _currentDrivingMode = DrivingModes.Reverse;
             }
         }
 
@@ -386,30 +385,21 @@ namespace Racing.Objects
         /// <param name="startPosition"></param>
         protected virtual void SetStartCarPosition(Vector2 startPosition)
         {
-            base.Position = startPosition;
-            this.frontWheel = base.Position +
-                this.wheelBase / 2 * new Vector2((float)Math.Cos(carDirectionAngle), (float)Math.Sin(carDirectionAngle));
-            this.backWheel = base.Position -
-                this.wheelBase / 2 * new Vector2((float)Math.Cos(carDirectionAngle), (float)Math.Sin(carDirectionAngle));
+            Position = startPosition;
+            _frontWheelPosition = Position + WheelBaseLength / 2 *
+                new Vector2((float)Math.Cos(_currentCarDirectionAngle), (float)Math.Sin(_currentCarDirectionAngle));
+            _backWheelPosition = Position - WheelBaseLength / 2 *
+                new Vector2((float)Math.Cos(_currentCarDirectionAngle), (float)Math.Sin(_currentCarDirectionAngle));
         }
-    }
 
-    /// <summary>
-    /// Defines main driving modes.
-    /// </summary>
-    public enum DrivingModes
-    {
         /// <summary>
-        /// Returns -1 cause all forces are in 'negative' direction.
+        /// Defines main driving modes.
         /// </summary>
-        Reverse = -1,
-        /// <summary>
-        /// Returns 0 cause all forces are in 'neutral' direction.
-        /// </summary>
-        Neutral = 0,
-        /// <summary>
-        /// Returns 1 cause all forces are in 'positive' direction.
-        /// </summary>
-        Drive = 1
+        private enum DrivingModes
+        {
+            Reverse = -1,
+            Neutral = 0,
+            Drive = 1
+        }
     }
 }

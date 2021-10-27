@@ -8,6 +8,8 @@ namespace Racing.Prizes
     /// </summary>
     public class FuelPrize : Prize
     {
+        private const float FuelUpValue = 7f;
+
         /// <summary>
         /// Loading textures.
         /// </summary>
@@ -26,7 +28,7 @@ namespace Racing.Prizes
         /// <param name="car"></param>
         protected override void ApplyPrize(Car car)
         {
-            car.FuelLevel += 7f;
+            car.FuelLevel += FuelUpValue;
         }
     }
 }

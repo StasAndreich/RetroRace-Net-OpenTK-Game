@@ -27,8 +27,8 @@ namespace Racing.Prizes
         protected override void ApplyPrize(Car car)
         {
             // Remove current decorator if there is one.
-            car.properties = new CarProps(car);
-            car.properties = new SlowdownProps(car.properties);
+            car.Properties = new CarProps(car);
+            car.Properties = new SlowdownProps(car.Properties);
         }
     }
 }

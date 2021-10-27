@@ -12,11 +12,12 @@ namespace Racing.Prizes
         /// Loading textures.
         /// </summary>
         public BoostPrize(Vector2 position)
-            : base(position,
-                   @"Contents\Animations\Prizes\Boost\nos1.png",
-                   @"Contents\Animations\Prizes\Boost\nos2.png",
-                   @"Contents\Animations\Prizes\Boost\nos3.png",
-                   @"Contents\Animations\Prizes\Boost\nos4.png")
+            : base(
+                position,
+                @"Contents\Animations\Prizes\Boost\nos1.png",
+                @"Contents\Animations\Prizes\Boost\nos2.png",
+                @"Contents\Animations\Prizes\Boost\nos3.png",
+                @"Contents\Animations\Prizes\Boost\nos4.png")
         {
         }
 
@@ -27,8 +28,8 @@ namespace Racing.Prizes
         protected override void ApplyPrize(Car car)
         {
             // Remove current decorator if there is one.
-            car.properties = new CarProps(car);
-            car.properties = new BoostProps(car.properties);
+            car.Properties = new CarProps(car);
+            car.Properties = new BoostProps(car.Properties);
         }
     }
 }
