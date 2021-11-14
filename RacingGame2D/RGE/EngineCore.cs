@@ -28,6 +28,8 @@ namespace RGEngine
         public static double deltaTimeFixedUpdate;
         private bool EnableColliderDrawing { get; }
 
+        public static bool IsHost { get; private set; }
+
         /// <summary>
         /// Default ctor for EngineCore class.
         /// </summary>
@@ -40,10 +42,12 @@ namespace RGEngine
         /// Ctor that gives ability to enable collider drawing on the scene.
         /// </summary>
         /// <param name="enableCollidersDrawing"></param>
-        public EngineCore(bool enableCollidersDrawing)
+        /// <param name="isHost"></param>
+        public EngineCore(bool enableCollidersDrawing, bool isHost)
             : this()
         {
             this.EnableColliderDrawing = enableCollidersDrawing;
+            IsHost = isHost;
         }
 
         /// <summary>

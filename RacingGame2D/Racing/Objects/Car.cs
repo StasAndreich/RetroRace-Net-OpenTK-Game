@@ -8,6 +8,7 @@ using RGEngine.Physics;
 using RGEngine;
 using System.Linq;
 using Racing.Prizes;
+using RGEngine.Multiplayer;
 
 namespace Racing.Objects
 {
@@ -54,6 +55,7 @@ namespace Racing.Objects
         private readonly RigidBody2D _rigidBody2D;
         protected SpriteRenderer spriteRenderer;
 
+        public Client client;
         /// <summary>
         /// Ctor that set a basic car object settings properly.
         /// </summary>
@@ -76,6 +78,11 @@ namespace Racing.Objects
 
             // Difine finished laps array.
             _laps = new bool[5 + 1];
+
+            if (EngineCore.IsHost)
+            {
+                client = new Client("127.0.0.1", 8888);
+            }
         }
 
         /// <summary>
@@ -142,6 +149,15 @@ namespace Racing.Objects
         /// <param name="fixedDeltaTime"></param>
         public override void FixedUpdate(double fixedDeltaTime)
         {
+            // if host else
+            // var message = server.Rcv
+            // steer = message.CurrentSteer;
+            if (EngineCore.IsHost)
+            {
+                var s = client.ReceiveDataFromServer();
+                client.SendDataToServer("CAR");
+            }
+
             var steer = MathHelper.DegreesToRadians(_steeringAngle);
 
             var deltaBackWheel = Vector2.Zero;

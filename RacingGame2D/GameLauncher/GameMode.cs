@@ -6,6 +6,7 @@ using Racing.Objects;
 using Racing.Objects.UserInterface;
 using Racing.Prizes;
 using RGEngine;
+using RGEngine.Multiplayer;
 
 namespace GameLauncher
 {
@@ -24,6 +25,13 @@ namespace GameLauncher
 
             var gameThread = new Thread(new ThreadStart(HostGame));
             gameThread.Start();
+            
+            var t = new Thread(new ThreadStart(() =>
+            {
+                Server.Start(Port, 1);
+                Server.ServerLoop();
+            }));
+            t.Start();
 
             Application.Exit();
         }
@@ -32,7 +40,7 @@ namespace GameLauncher
         {
             Hide();
 
-            using var racingGame = new EngineCore(false);
+            using var racingGame = new EngineCore(false, false);
             EngineCore.AddGameObject(new Racing.Objects.Environment(@"Contents\Environment\bg_ui_v2.png"));
             EngineCore.AddGameObject(new FinishLine());
             EngineCore.AddGameObject(new OuterFinishLine());
@@ -51,7 +59,7 @@ namespace GameLauncher
         {
             Hide();
 
-            using var racingGame = new EngineCore(false);
+            using var racingGame = new EngineCore(false, false);
             EngineCore.AddGameObject(new Racing.Objects.Environment(@"Contents\Environment\bg_ui_v2.png"));
             EngineCore.AddGameObject(new FinishLine());
             EngineCore.AddGameObject(new OuterFinishLine());
@@ -68,7 +76,7 @@ namespace GameLauncher
 
         private void HostGame()
         {
-            using var racingGame = new EngineCore(false);
+            using var racingGame = new EngineCore(false, true);
             EngineCore.AddGameObject(new Racing.Objects.Environment(@"Contents\Environment\bg_ui_v2.png"));
             EngineCore.AddGameObject(new FinishLine());
             EngineCore.AddGameObject(new OuterFinishLine());

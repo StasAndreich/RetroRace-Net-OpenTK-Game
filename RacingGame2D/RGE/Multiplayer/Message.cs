@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RGEngine.Multiplayer
 {
-    public class GameP2P
+    public class Message
     {
     }
 }
