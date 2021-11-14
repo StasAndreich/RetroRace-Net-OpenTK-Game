@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OpenTK;
+using System;
 
 namespace RGEngine.Multiplayer
 {
+    [Serializable]
     public class Message
     {
+        public Vector2 Position { get; set; }
+
+        public float Rotation { get; set; }
     }
 }

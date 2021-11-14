@@ -12,7 +12,7 @@ namespace GameLauncher
 {
     public partial class GameMode : Form
     {
-        private const int Port = 8888;
+        private const int ServerPort = 34500;
 
         public GameMode()
         {
@@ -23,15 +23,15 @@ namespace GameLauncher
         {
             Hide();
 
-            var gameThread = new Thread(new ThreadStart(HostGame));
-            gameThread.Start();
-            
-            var t = new Thread(new ThreadStart(() =>
+            var serverThread = new Thread(new ThreadStart(() =>
             {
-                Server.Start(Port, 1);
+                Server.Start(ServerPort, 1);
                 Server.ServerLoop();
             }));
-            t.Start();
+            serverThread.Start();
+
+            var gameThread = new Thread(new ThreadStart(HostGame));
+            gameThread.Start();
 
             Application.Exit();
         }
@@ -40,12 +40,12 @@ namespace GameLauncher
         {
             Hide();
 
-            using var racingGame = new EngineCore(false, false);
+            using var racingGame = new EngineCore(false, isMultiplayerEnabled: true);
             EngineCore.AddGameObject(new Racing.Objects.Environment(@"Contents\Environment\bg_ui_v2.png"));
             EngineCore.AddGameObject(new FinishLine());
             EngineCore.AddGameObject(new OuterFinishLine());
-            EngineCore.AddGameObject(new PurpleCar());
-            //EngineCore.AddGameObject(new BlackCar());
+            EngineCore.AddGameObject(new PurpleCar(isHost: true));
+            EngineCore.AddGameObject(new BlackCar(isHost: false));
             EngineCore.AddGameObject(new PrizeGenerator());
             EngineCore.AddGameObject(new UserInterfaceHandler());
 
@@ -59,12 +59,12 @@ namespace GameLauncher
         {
             Hide();
 
-            using var racingGame = new EngineCore(false, false);
+            using var racingGame = new EngineCore(false, isMultiplayerEnabled: false);
             EngineCore.AddGameObject(new Racing.Objects.Environment(@"Contents\Environment\bg_ui_v2.png"));
             EngineCore.AddGameObject(new FinishLine());
             EngineCore.AddGameObject(new OuterFinishLine());
-            EngineCore.AddGameObject(new PurpleCar());
-            EngineCore.AddGameObject(new BlackCar());
+            EngineCore.AddGameObject(new PurpleCar(isHost: true));
+            EngineCore.AddGameObject(new BlackCar(isHost: true));
             EngineCore.AddGameObject(new PrizeGenerator());
             EngineCore.AddGameObject(new UserInterfaceHandler());
 
@@ -76,12 +76,12 @@ namespace GameLauncher
 
         private void HostGame()
         {
-            using var racingGame = new EngineCore(false, true);
+            using var racingGame = new EngineCore(false, isMultiplayerEnabled: true);
             EngineCore.AddGameObject(new Racing.Objects.Environment(@"Contents\Environment\bg_ui_v2.png"));
             EngineCore.AddGameObject(new FinishLine());
             EngineCore.AddGameObject(new OuterFinishLine());
-            //EngineCore.AddGameObject(new PurpleCar());
-            EngineCore.AddGameObject(new BlackCar());
+            //EngineCore.AddGameObject(new PurpleCar(isHost: false));
+            EngineCore.AddGameObject(new BlackCar(isHost: true));
             EngineCore.AddGameObject(new PrizeGenerator());
             EngineCore.AddGameObject(new UserInterfaceHandler());
 

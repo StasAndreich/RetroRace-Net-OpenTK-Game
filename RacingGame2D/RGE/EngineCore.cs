@@ -28,7 +28,7 @@ namespace RGEngine
         public static double deltaTimeFixedUpdate;
         private bool EnableColliderDrawing { get; }
 
-        public static bool IsHost { get; private set; }
+        public static bool IsMultiplayerEnabled { get; private set; }
 
         /// <summary>
         /// Default ctor for EngineCore class.
@@ -43,11 +43,11 @@ namespace RGEngine
         /// </summary>
         /// <param name="enableCollidersDrawing"></param>
         /// <param name="isHost"></param>
-        public EngineCore(bool enableCollidersDrawing, bool isHost)
+        public EngineCore(bool enableCollidersDrawing, bool isMultiplayerEnabled)
             : this()
         {
-            this.EnableColliderDrawing = enableCollidersDrawing;
-            IsHost = isHost;
+            EnableColliderDrawing = enableCollidersDrawing;
+            IsMultiplayerEnabled = isMultiplayerEnabled;
         }
 
         /// <summary>

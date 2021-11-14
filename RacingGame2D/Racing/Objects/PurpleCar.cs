@@ -11,7 +11,8 @@ namespace Racing.Objects
     /// </summary>
     public class PurpleCar : Car
     {
-        public PurpleCar()
+        public PurpleCar(bool isHost)
+            : base(isHost)
         {
             id = CarConstants.PurpleCarName;
             SetStartCarPosition(new Vector2(85f, 435f));
@@ -33,8 +34,11 @@ namespace Racing.Objects
         /// <param name="fixedDeltaTime"></param>
         public override void FixedUpdate(double fixedDeltaTime)
         {
-            UpdateGearboxState(Key.Keypad7, Key.Keypad9);
-            GetUserInput(Key.Keypad8, Key.Keypad5, Key.Keypad4, Key.Keypad6);
+            if (IsPlayable)
+            {
+                UpdateGearboxState(Key.Keypad7, Key.Keypad9);
+                GetUserInput(Key.Keypad8, Key.Keypad5, Key.Keypad4, Key.Keypad6);
+            }
 
             base.FixedUpdate(fixedDeltaTime);
         }

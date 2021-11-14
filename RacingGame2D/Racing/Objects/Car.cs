@@ -56,11 +56,18 @@ namespace Racing.Objects
         protected SpriteRenderer spriteRenderer;
 
         public Client client;
+        public bool IsPlayable { get; private set; }
         /// <summary>
         /// Ctor that set a basic car object settings properly.
         /// </summary>
-        public Car()
+        public Car(bool isPlayable)
         {
+            IsPlayable = isPlayable;
+            if (EngineCore.IsMultiplayerEnabled)
+            {
+                client = new Client("127.0.0.1", 34500);
+            }
+
             spriteRenderer = (SpriteRenderer)AddComponent("SpriteRenderer");
             _rigidBody2D = (RigidBody2D)AddComponent("RigidBody2D");
             _rigidBody2D.mass = BaseCarMass;
@@ -78,11 +85,6 @@ namespace Racing.Objects
 
             // Difine finished laps array.
             _laps = new bool[5 + 1];
-
-            if (EngineCore.IsHost)
-            {
-                client = new Client("127.0.0.1", 8888);
-            }
         }
 
         /// <summary>
@@ -149,66 +151,69 @@ namespace Racing.Objects
         /// <param name="fixedDeltaTime"></param>
         public override void FixedUpdate(double fixedDeltaTime)
         {
-            // if host else
-            // var message = server.Rcv
-            // steer = message.CurrentSteer;
-            if (EngineCore.IsHost)
+            if (IsPlayable)
             {
-                var s = client.ReceiveDataFromServer();
-                client.SendDataToServer("CAR");
-            }
+                var steer = MathHelper.DegreesToRadians(_steeringAngle);
 
-            var steer = MathHelper.DegreesToRadians(_steeringAngle);
+                var deltaBackWheel = Vector2.Zero;
+                var deltaFrontWheel = Vector2.Zero;
 
-            var deltaBackWheel = Vector2.Zero;
-            var deltaFrontWheel = Vector2.Zero;
+                deltaBackWheel.X = _rigidBody2D.velocity * (float)fixedDeltaTime *
+                    (float)Math.Cos(_currentCarDirectionAngle);
+                deltaBackWheel.Y = _rigidBody2D.velocity * (float)fixedDeltaTime *
+                    (float)Math.Sin(_currentCarDirectionAngle);
 
-            deltaBackWheel.X = _rigidBody2D.velocity * (float)fixedDeltaTime *
-                (float)Math.Cos(_currentCarDirectionAngle);
-            deltaBackWheel.Y = _rigidBody2D.velocity * (float)fixedDeltaTime *
-                (float)Math.Sin(_currentCarDirectionAngle);
+                // Calculations that push the front wheel forward and conserve the wheelBase distance.
+                var distance = _rigidBody2D.velocity * (float)fixedDeltaTime;
+                var B = (WheelBaseLength - distance) * Math.Cos(steer);
+                var C = distance * (2 * WheelBaseLength - distance);
+                var calc = Math.Sqrt(B * B + C) - B;
 
-            // Calculations that push the front wheel forward and conserve the wheelBase distance.
-            var distance = _rigidBody2D.velocity * (float)fixedDeltaTime;
-            var B = (WheelBaseLength - distance) * Math.Cos(steer);
-            var C = distance * (2 * WheelBaseLength - distance);
-            var calc = Math.Sqrt(B * B + C) - B;
+                deltaFrontWheel.X = (float)(calc * Math.Cos(_currentCarDirectionAngle + steer));
+                deltaFrontWheel.Y = (float)(calc * Math.Sin(_currentCarDirectionAngle + steer));
 
-            deltaFrontWheel.X = (float)(calc * Math.Cos(_currentCarDirectionAngle + steer));
-            deltaFrontWheel.Y = (float)(calc * Math.Sin(_currentCarDirectionAngle + steer));
+                _backWheelPosition += deltaBackWheel;
+                _frontWheelPosition += deltaFrontWheel;
+                Position = (_frontWheelPosition + _backWheelPosition) / 2;
 
-            _backWheelPosition += deltaBackWheel;
-            _frontWheelPosition += deltaFrontWheel;
-            Position = (_frontWheelPosition + _backWheelPosition) / 2;
-
-            // Detect and resolve collisions.
-            foreach (var @object in EngineCore.gameObjects.ToList())
-            {
-                // Car DOES NOT collide with other car.
-                if (@object is ICollidable && !(@object is Car))
+                // Detect and resolve collisions.
+                foreach (var @object in EngineCore.gameObjects.ToList())
                 {
-                    if (!ReferenceEquals(this, @object))
+                    // Car DOES NOT collide with other car.
+                    if (@object is ICollidable && !(@object is Car))
                     {
-                        if (collider.DetectCollision(@object))
+                        if (!ReferenceEquals(this, @object))
                         {
-                            if (!(@object is INonResolveable))
+                            if (collider.DetectCollision(@object))
                             {
-                                _backWheelPosition -= 1.5f * deltaBackWheel;
-                                _frontWheelPosition -= 1.5f * deltaFrontWheel;
-                                _rigidBody2D.velocity /= -2.75f;
+                                if (!(@object is INonResolveable))
+                                {
+                                    _backWheelPosition -= 1.5f * deltaBackWheel;
+                                    _frontWheelPosition -= 1.5f * deltaFrontWheel;
+                                    _rigidBody2D.velocity /= -2.75f;
+                                }
                             }
                         }
                     }
                 }
+
+                Position = (_frontWheelPosition + _backWheelPosition) / 2;
+                _currentCarDirectionAngle = (float)Math.Atan2(
+                    _frontWheelPosition.Y - _backWheelPosition.Y,
+                    _frontWheelPosition.X - _backWheelPosition.X);
+                Rotation = MathHelper.RadiansToDegrees(_currentCarDirectionAngle);
+
+                ApplyFuelConsumprion(fixedDeltaTime);
+
+                if (EngineCore.IsMultiplayerEnabled)
+                {
+                    client.SendDataToServer("CAR");
+                }
             }
-
-            Position = (_frontWheelPosition + _backWheelPosition) / 2;
-            _currentCarDirectionAngle = (float)Math.Atan2(
-                _frontWheelPosition.Y - _backWheelPosition.Y,
-                _frontWheelPosition.X - _backWheelPosition.X);
-            Rotation = MathHelper.RadiansToDegrees(_currentCarDirectionAngle);
-
-            ApplyFuelConsumprion(fixedDeltaTime);
+            else
+            {
+                var s = client.ReceiveDataFromServer();
+            }
         }
 
         #region ColliderTriggered handlers
