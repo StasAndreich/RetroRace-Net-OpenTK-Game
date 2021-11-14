@@ -1,7 +1,8 @@
 ﻿using System.Diagnostics;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace RGEngine.Multiplayer
 {
@@ -23,22 +24,47 @@ namespace RGEngine.Multiplayer
             //_udpClient.Connect(_remoteEndPoint);
         }
 
-        // Change to Message
-        public string ReceiveDataFromServer()
+        /// <summary>
+        /// Receives data from server and parses to Message object.
+        /// </summary>
+        /// <returns>Message</returns>
+        /// <remarks>Can return null if nothing to receive.</remarks>
+        public Message ReceiveDataFromServer()
         {
             if (_udpClient.Available > 0)
             {
                 var data = _udpClient.Receive(ref _remoteEndPoint);
-                return Encoding.UTF8.GetString(data, 0, data.Length);
+
+                var formatter = new BinaryFormatter();
+                using var memoryStream = new MemoryStream();
+                memoryStream.Write(data, 0, data.Length);
+                memoryStream.Seek(0, SeekOrigin.Begin);
+
+                Message message = (Message) formatter.Deserialize(memoryStream);
+                Debug.WriteLine($"Client Receive {message}");
+
+                return message;
             }
 
-            Debug.WriteLine($"Client Receive");
-            return string.Empty;
+            return null;
         }
 
-        public void SendDataToServer(string message)
+        /// <summary>
+        /// Send Message object to Server.
+        /// </summary>
+        /// <param name="message"></param>
+        public void SendDataToServer(Message message)
         {
-            var data = Encoding.UTF8.GetBytes(message);
+            if (message == null)
+            {
+                return;
+            }
+
+            var formatter = new BinaryFormatter();
+            using var memoryStream = new MemoryStream();
+            formatter.Serialize(memoryStream, message);
+            var data = memoryStream.ToArray();
+
             _udpClient.Send(data, data.Length, _remoteEndPoint);
             Debug.WriteLine($"Client Send {message}");
         }

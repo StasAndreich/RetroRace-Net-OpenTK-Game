@@ -207,12 +207,19 @@ namespace Racing.Objects
 
                 if (EngineCore.IsMultiplayerEnabled)
                 {
-                    client.SendDataToServer("CAR");
+                    var message = new Message
+                    {
+                        CarPosition = Position,
+                        CarRotation = Rotation,
+                    };
+                    client.SendDataToServer(message);
                 }
             }
             else
             {
-                var s = client.ReceiveDataFromServer();
+                var message = client.ReceiveDataFromServer();
+                Position = message.CarPosition;
+                Rotation = message.CarRotation;
             }
         }
 

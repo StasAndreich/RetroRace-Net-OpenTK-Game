@@ -11,6 +11,8 @@ namespace RGEngine.Multiplayer
     /// </summary>
     public static class Server
     {
+        private const string WelcomeMessage = "Welcome. You're connected to the Server.";
+        
         private static int _port;
         private static int _maxPlayers;
         private static UdpClient _udpClient;
@@ -35,41 +37,63 @@ namespace RGEngine.Multiplayer
 
             tcpListener.Stop();
 
-            foreach (var client in _clients)
-            {
-                SendClientData("check", client);
-            }
-
+            //foreach (var client in _clients)
+            //{
+            //    SendToClient(Encoding.UTF8.GetBytes(WelcomeMessage), client);
+            //}
         }
 
         public static void ServerLoop()
         {
             while (true)
             {
-                ReceiveClientData(_clients[0]);
+                ReceiveFromClient(_clients[0]);
+
+                // Retranslate messages to another client.
                 //SendClientData(ReceiveClientData(_clients[0]), _clients[1]);
                 //SendClientData(ReceiveClientData(_clients[1]), _clients[0]);
             }
         }
 
-        private static void SendClientData(string message, IPEndPoint endPoint)
+        private static void SendToClient(byte[] data, IPEndPoint endPoint)
         {
-            var data = Encoding.UTF8.GetBytes(message);
-            _udpClient.Send(data, data.Length, endPoint);
-            Debug.WriteLine($"Server Send {message}");
+            if (data != null)
+            {
+                _udpClient.Send(data, data.Length, endPoint);
+                Debug.WriteLine("Server Send");
+            }
         }
 
-        private static string ReceiveClientData(IPEndPoint endPoint)
+        private static byte[] ReceiveFromClient(IPEndPoint endPoint)
         {
             if (_udpClient.Available > 0)
             {
                 var data = _udpClient.Receive(ref endPoint);
-                var s= Encoding.UTF8.GetString(data, 0, data.Length);
-                Debug.WriteLine($"Server Receive: {s}");
-                return s;
+                Debug.WriteLine("Server Receive");
+                return data;
             }
 
-            return string.Empty;
+            return null;
         }
+
+        ////private static void SendToClient(string message, IPEndPoint endPoint)
+        ////{
+        ////    var data = Encoding.UTF8.GetBytes(message);
+        ////    _udpClient.Send(data, data.Length, endPoint);
+        ////    Debug.WriteLine($"Server Send {message}");
+        ////}
+
+        ////private static string ReceiveFromClient(IPEndPoint endPoint)
+        ////{
+        ////    if (_udpClient.Available > 0)
+        ////    {
+        ////        var data = _udpClient.Receive(ref endPoint);
+        ////        var s= Encoding.UTF8.GetString(data, 0, data.Length);
+        ////        Debug.WriteLine($"Server Receive: {s}");
+        ////        return s;
+        ////    }
+
+        ////    return string.Empty;
+        ////}
     }
 }
