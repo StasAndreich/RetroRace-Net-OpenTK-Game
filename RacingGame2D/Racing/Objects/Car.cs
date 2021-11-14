@@ -55,17 +55,19 @@ namespace Racing.Objects
         private readonly RigidBody2D _rigidBody2D;
         protected SpriteRenderer spriteRenderer;
 
-        public Client client;
+        private static Client _client;
+
         public bool IsPlayable { get; private set; }
+
         /// <summary>
         /// Ctor that set a basic car object settings properly.
         /// </summary>
         public Car(bool isPlayable)
         {
             IsPlayable = isPlayable;
-            if (EngineCore.IsMultiplayerEnabled)
+            if (EngineCore.IsMultiplayerEnabled && _client == null)
             {
-                client = new Client("127.0.0.1", 34500);
+                _client = new Client("127.0.0.1", 34500);
             }
 
             spriteRenderer = (SpriteRenderer)AddComponent("SpriteRenderer");
@@ -212,14 +214,17 @@ namespace Racing.Objects
                         CarPosition = Position,
                         CarRotation = Rotation,
                     };
-                    client.SendDataToServer(message);
+                    _client.SendDataToServer(message);
                 }
             }
             else
             {
-                var message = client.ReceiveDataFromServer();
-                Position = message.CarPosition;
-                Rotation = message.CarRotation;
+                var message = _client.ReceiveDataFromServer();
+                if (message != null)
+                {
+                    Position = message.CarPosition;
+                    Rotation = message.CarRotation;
+                }
             }
         }
 

@@ -30,6 +30,8 @@ namespace RGEngine
 
         public static bool IsMultiplayerEnabled { get; private set; }
 
+        public static bool IsReadyToStart { get; set; }
+
         /// <summary>
         /// Default ctor for EngineCore class.
         /// </summary>

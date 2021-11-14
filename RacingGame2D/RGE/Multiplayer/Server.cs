@@ -32,7 +32,13 @@ namespace RGEngine.Multiplayer
 
             while (_clients.Count < _maxPlayers)
             {
+                Debug.WriteLine("++++");
                 _clients.Add((IPEndPoint)tcpListener.AcceptTcpClient().Client.RemoteEndPoint);
+            }
+
+            lock (tcpListener)
+            {
+                EngineCore.IsReadyToStart = true;
             }
 
             tcpListener.Stop();

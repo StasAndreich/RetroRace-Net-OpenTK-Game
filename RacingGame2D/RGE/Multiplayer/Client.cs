@@ -14,6 +14,11 @@ namespace RGEngine.Multiplayer
         private readonly UdpClient _udpClient;
         private IPEndPoint _remoteEndPoint;
 
+        /// <summary>
+        /// Creates a client to send and receive game props.
+        /// </summary>
+        /// <param name="connectToIp"></param>
+        /// <param name="connectToPort"></param>
         public Client(string connectToIp, int connectToPort)
         {
             _remoteEndPoint = new IPEndPoint(IPAddress.Parse(connectToIp), connectToPort);

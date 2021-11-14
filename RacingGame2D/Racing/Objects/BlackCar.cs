@@ -11,8 +11,8 @@ namespace Racing.Objects
     /// </summary>
     public class BlackCar : Car
     {
-        public BlackCar(bool isHost)
-            : base(isHost)
+        public BlackCar(bool isPlayable)
+            : base(isPlayable)
         {
             id = CarConstants.BlackCarName;
             SetStartCarPosition(new Vector2(85f, 325f));
