@@ -32,8 +32,8 @@ namespace GameLauncher
             var serverThread = new Thread(new ThreadStart(() =>
             {
                 //Server.Start(ServerPort, 1);
-                Server.Start(ServerPort);
-                Server.ServerLoop();
+                Server.Start(ServerPort, 1);
+                //Server.ServerLoop();
             }))
             {
                 Name = "Server"

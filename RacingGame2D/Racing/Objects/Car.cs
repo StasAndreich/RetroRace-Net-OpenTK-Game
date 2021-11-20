@@ -67,7 +67,7 @@ namespace Racing.Objects
             IsPlayable = isPlayable;
             if (EngineCore.IsMultiplayerEnabled && _client == null)
             {
-                _client = new Client("127.0.0.1", 34500);
+                _client = new Client(7788, "127.0.0.1", 34500);
             }
 
             spriteRenderer = (SpriteRenderer)AddComponent("SpriteRenderer");

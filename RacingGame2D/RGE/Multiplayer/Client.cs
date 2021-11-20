@@ -17,16 +17,17 @@ namespace RGEngine.Multiplayer
         /// <summary>
         /// Creates a client to send and receive game props.
         /// </summary>
-        /// <param name="connectToIp"></param>
-        /// <param name="connectToPort"></param>
-        public Client(string connectToIp, int connectToPort)
+        /// <param name="localPort"></param>
+        /// <param name="remoteIp"></param>
+        /// <param name="remotePort"></param>
+        public Client(int localPort, string remoteIp, int remotePort)
         {
-            _remoteEndPoint = new IPEndPoint(IPAddress.Parse(connectToIp), connectToPort);
-            var tcpClient = new TcpClient();
-            tcpClient.Connect(_remoteEndPoint);
+            _remoteEndPoint = new IPEndPoint(IPAddress.Parse(remoteIp), remotePort);
 
-            _udpClient = new UdpClient((IPEndPoint)tcpClient.Client.LocalEndPoint);
-            //_udpClient.Connect(_remoteEndPoint);
+            var localEndPoint = new IPEndPoint(IPAddress.Any, localPort);
+            _udpClient = new UdpClient(localEndPoint);
+
+            SendDataToServer(new Message());
         }
 
         /// <summary>

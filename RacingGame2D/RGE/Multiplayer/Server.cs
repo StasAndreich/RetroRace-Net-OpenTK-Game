@@ -15,9 +15,11 @@ namespace RGEngine.Multiplayer
         
         private static int _port;
         private static int _maxPlayers;
-        private static UdpClient _udpClient;
-        private static List<IPEndPoint> _clients = new List<IPEndPoint>();
-
+        private static UdpClient _serverUdp;
+        private static IPEndPoint _serverEndpoint;
+        private static List<IPEndPoint> _remoteClients = new List<IPEndPoint>();
+        private static object _lock = new object();
+        
         /// <summary>Starts the server.</summary>
         /// <param name="maxPlayers">The maximum players that can be connected simultaneously.</param>
         /// <param name="port">The port to start the server on.</param>
@@ -25,35 +27,35 @@ namespace RGEngine.Multiplayer
         {
             _port = port;
             _maxPlayers = maxPlayers;
+            _serverEndpoint = new IPEndPoint(IPAddress.Any, port);
+            _serverUdp = new UdpClient(_serverEndpoint);
 
-            var tcpListener = new TcpListener(IPAddress.Any, _port);
-            _udpClient = new UdpClient((IPEndPoint)tcpListener.LocalEndpoint);
-            tcpListener.Start();
-
-            while (_clients.Count < _maxPlayers)
+            while (_remoteClients.Count < _maxPlayers)
             {
                 Debug.WriteLine("++++");
-                _clients.Add((IPEndPoint)tcpListener.AcceptTcpClient().Client.RemoteEndPoint);
+                var remoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
+                _ = _serverUdp.Receive(ref remoteIpEndPoint);
+                _remoteClients.Add(remoteIpEndPoint);
             }
 
-            lock (tcpListener)
+            lock (_lock)
             {
                 EngineCore.IsReadyToStart = true;
             }
-
-            tcpListener.Stop();
 
             //foreach (var client in _clients)
             //{
             //    SendToClient(Encoding.UTF8.GetBytes(WelcomeMessage), client);
             //}
+
+            ServerLoop();
         }
 
-        public static void ServerLoop()
+        private static void ServerLoop()
         {
             while (true)
             {
-                ReceiveFromClient(_clients[0]);
+                ReceiveFromClient(_remoteClients[0]);
 
                 // Retranslate messages to another client.
                 //SendClientData(ReceiveClientData(_clients[0]), _clients[1]);
@@ -65,41 +67,21 @@ namespace RGEngine.Multiplayer
         {
             if (data != null)
             {
-                _udpClient.Send(data, data.Length, endPoint);
+                _serverUdp.Send(data, data.Length, endPoint);
                 Debug.WriteLine("Server Send");
             }
         }
 
         private static byte[] ReceiveFromClient(IPEndPoint endPoint)
         {
-            if (_udpClient.Available > 0)
+            if (_serverUdp.Available > 0)
             {
-                var data = _udpClient.Receive(ref endPoint);
+                var data = _serverUdp.Receive(ref endPoint);
                 Debug.WriteLine("Server Receive");
                 return data;
             }
 
             return null;
         }
-
-        ////private static void SendToClient(string message, IPEndPoint endPoint)
-        ////{
-        ////    var data = Encoding.UTF8.GetBytes(message);
-        ////    _udpClient.Send(data, data.Length, endPoint);
-        ////    Debug.WriteLine($"Server Send {message}");
-        ////}
-
-        ////private static string ReceiveFromClient(IPEndPoint endPoint)
-        ////{
-        ////    if (_udpClient.Available > 0)
-        ////    {
-        ////        var data = _udpClient.Receive(ref endPoint);
-        ////        var s= Encoding.UTF8.GetString(data, 0, data.Length);
-        ////        Debug.WriteLine($"Server Receive: {s}");
-        ////        return s;
-        ////    }
-
-        ////    return string.Empty;
-        ////}
     }
 }
