@@ -44,11 +44,11 @@ namespace Racing.Objects.UserInterface
         public override void FixedUpdate(double fixedDeltaTime)
         {
             // Check cars' states.
-            foreach (var gameObject in EngineCore.gameObjects)
+            foreach (var gameObject in EngineCore.GameObjects)
             {
                 if (gameObject is Car car)
                 {
-                    if (car.id == CarConstants.BlackCarName)
+                    if (car.Id == CarConstants.BlackCarName)
                     {
                         // Check for changes.
                         if (Math.Abs(_lastLapsBlack - car.LapsPassed) > 0)
@@ -63,7 +63,7 @@ namespace Racing.Objects.UserInterface
                             DisplayTextUIElement("fuelBlack", _lastFuelBlack.ToString());
                         }
                     }
-                    else if (car.id == CarConstants.PurpleCarName)
+                    else if (car.Id == CarConstants.PurpleCarName)
                     {
                         // Check for changes.
                         if (Math.Abs(_lastLapsPurple - car.LapsPassed) > 0)
@@ -86,7 +86,7 @@ namespace Racing.Objects.UserInterface
 
         private void SubscribeOnPlayers()
         {
-            foreach (var gameObject in EngineCore.gameObjects)
+            foreach (var gameObject in EngineCore.GameObjects)
             {
                 if (gameObject is Car car)
                 {
@@ -99,7 +99,7 @@ namespace Racing.Objects.UserInterface
         {
             if (winner is Car car)
             {
-                switch (car.id)
+                switch (car.Id)
                 {
                     case CarConstants.BlackCarName:
                         EngineCore.AddGameObject(new UserInterfaceElement(BlackCarWinnerTexture, CenterScreenPosition));
@@ -117,7 +117,7 @@ namespace Racing.Objects.UserInterface
 
         private void EndGame()
         {
-            foreach (var gameObject in EngineCore.gameObjects.ToList())
+            foreach (var gameObject in EngineCore.GameObjects.ToList())
             {
                 if (gameObject is Car ||
                     gameObject is Prize ||
@@ -130,7 +130,7 @@ namespace Racing.Objects.UserInterface
 
         private void DisplayTextUIElement(string elementName, string text)
         {
-            foreach (var element in EngineCore.gameObjects)
+            foreach (var element in EngineCore.GameObjects)
             {
                 if (element is TextElement textElement)
                 {

@@ -11,6 +11,8 @@ namespace RGEngine.Multiplayer
     [Serializable]
     public class Message
     {
+        public string Id { get; set; }
+
         public Vector2 CarPosition { get; set; }
 
         public float CarRotation { get; set; }

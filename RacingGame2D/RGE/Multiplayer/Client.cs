@@ -3,6 +3,7 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
 
 namespace RGEngine.Multiplayer
 {
@@ -13,6 +14,7 @@ namespace RGEngine.Multiplayer
     {
         private readonly UdpClient _udpClient;
         private IPEndPoint _remoteEndPoint;
+        private bool _isPingPongInProcess = true;
 
         /// <summary>
         /// Creates a client to send and receive game props.
@@ -20,14 +22,18 @@ namespace RGEngine.Multiplayer
         /// <param name="localPort"></param>
         /// <param name="remoteIp"></param>
         /// <param name="remotePort"></param>
-        public Client(int localPort, string remoteIp, int remotePort)
+        public Client(int localPort, IPAddress remoteIp, int remotePort)
         {
-            _remoteEndPoint = new IPEndPoint(IPAddress.Parse(remoteIp), remotePort);
+            _remoteEndPoint = new IPEndPoint(remoteIp, remotePort);
 
             var localEndPoint = new IPEndPoint(IPAddress.Any, localPort);
             _udpClient = new UdpClient(localEndPoint);
 
-            SendDataToServer(new Message());
+            PongServer();
+            //Thread.Sleep(5000);
+            //_udpClient.Connect(_remoteEndPoint);
+            //SendDataToServer(new Message());
+            Debug.WriteLine("d");
         }
 
         /// <summary>
@@ -46,8 +52,14 @@ namespace RGEngine.Multiplayer
                 memoryStream.Write(data, 0, data.Length);
                 memoryStream.Seek(0, SeekOrigin.Begin);
 
+                if (memoryStream.Length < 5)
+                {
+                    return null;
+                }
+
                 Message message = (Message) formatter.Deserialize(memoryStream);
                 Debug.WriteLine($"Client Receive {message}");
+                memoryStream.Flush();
 
                 return message;
             }
@@ -72,7 +84,48 @@ namespace RGEngine.Multiplayer
             var data = memoryStream.ToArray();
 
             _udpClient.Send(data, data.Length, _remoteEndPoint);
+            //_udpClient.Send(data, data.Length);
             Debug.WriteLine($"Client Send {message}");
+        }
+
+        private void PongServer()
+        {
+            while(_isPingPongInProcess)
+            {
+                var data = Encoding.ASCII.GetBytes("pong");
+
+                try
+                {
+                    _udpClient.Send(data, data.Length, _remoteEndPoint);
+                }
+                catch (System.Exception e)
+                {
+                    Debug.WriteLine(e.ToString());
+                }
+
+                Debug.WriteLine($"Pong from client");
+
+                if (_udpClient.Available > 0)
+                {
+                    byte[] response;
+                    try
+                    {
+                        response = _udpClient.Receive(ref _remoteEndPoint);
+
+                        var ping = Encoding.ASCII.GetString(response, 0, response.Length);
+                        Debug.WriteLine($"Client Receive {ping}");
+
+                        if (_isPingPongInProcess && ping == "ping")
+                        {
+                            _isPingPongInProcess = false;
+                        }
+                    }
+                    catch (System.Exception e)
+                    {
+                        Debug.WriteLine(e.ToString());
+                    }
+                }
+            }
         }
     }
 }

@@ -11,10 +11,36 @@ namespace Racing.Objects
     /// </summary>
     public class BlackCar : Car
     {
+        public BlackCar()
+            : base()
+        {
+            InitializeCar();
+        }
+
         public BlackCar(bool isPlayable)
             : base(isPlayable)
         {
-            id = CarConstants.BlackCarName;
+            InitializeCar();
+        }
+
+        /// <summary>
+        /// Override of FixedUpdate with new user input.
+        /// </summary>
+        /// <param name="fixedDeltaTime"></param>
+        public override void FixedUpdate(double fixedDeltaTime)
+        {
+            if (IsControlledByLocalUser)
+            {
+                UpdateGearboxState(Key.Q, Key.E);
+                GetUserInput(Key.W, Key.S, Key.A, Key.D);
+            }
+
+            base.FixedUpdate(fixedDeltaTime);
+        }
+
+        private void InitializeCar()
+        {
+            Id = CarConstants.BlackCarName;
             SetStartCarPosition(new Vector2(85f, 325f));
 
             var vehicleTexture = ContentLoader.LoadTexture(@"Contents\Cars\black.png");
@@ -25,21 +51,6 @@ namespace Racing.Objects
                 new Vector2(0f, 0f),
                 2);
             spriteRenderer.RenderQueue = SpriteBatch.CreateSpriteBatch(vehicleSprite);
-        }
-
-        /// <summary>
-        /// Override of FixedUpdate with new user input.
-        /// </summary>
-        /// <param name="fixedDeltaTime"></param>
-        public override void FixedUpdate(double fixedDeltaTime)
-        {
-            if (IsPlayable)
-            {
-                UpdateGearboxState(Key.Q, Key.E);
-                GetUserInput(Key.W, Key.S, Key.A, Key.D);
-            }
-
-            base.FixedUpdate(fixedDeltaTime);
         }
     }
 }

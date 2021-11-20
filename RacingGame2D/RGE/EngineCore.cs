@@ -7,6 +7,7 @@ using OpenTK.Graphics.OpenGL;
 using RGEngine.BaseClasses;
 using System.Collections.Generic;
 using System.Linq;
+using RGEngine.Multiplayer;
 
 namespace RGEngine
 {
@@ -17,40 +18,46 @@ namespace RGEngine
     public class EngineCore : GameWindow
     {
         /// <summary>
-        /// Stores all current objects in the game.
+        /// Delta time.
         /// </summary>
-        public static readonly List<GameObject> gameObjects = new List<GameObject>();
-        private double totalTimeElapsed;
-
+        private const double DeltaTimeFixedUpdate = 0.001f;
         /// <summary>
-        /// Defines a time interval for FixedUpdate().
+        /// All gameObj in game.
         /// </summary>
-        public static double deltaTimeFixedUpdate;
-        private bool EnableColliderDrawing { get; }
+        public static readonly List<GameObject> GameObjects = new List<GameObject>();
+        private double _totalTimeElapsed;
 
-        public static bool IsMultiplayerEnabled { get; private set; }
-
-        public static bool IsReadyToStart { get; set; }
-
-        /// <summary>
-        /// Default ctor for EngineCore class.
-        /// </summary>
-        public EngineCore()
-        {
-            deltaTimeFixedUpdate = 0.001f;
-        }
+        private bool IsEnabledColliderDrawing { get; }
 
         /// <summary>
         /// Ctor that gives ability to enable collider drawing on the scene.
         /// </summary>
         /// <param name="enableCollidersDrawing"></param>
-        /// <param name="isHost"></param>
-        public EngineCore(bool enableCollidersDrawing, bool isMultiplayerEnabled)
-            : this()
+        public EngineCore(bool enableCollidersDrawing)
         {
-            EnableColliderDrawing = enableCollidersDrawing;
-            IsMultiplayerEnabled = isMultiplayerEnabled;
+            IsEnabledColliderDrawing = enableCollidersDrawing;
         }
+
+        /// <summary>
+        /// Ctor for multiplayer.
+        /// </summary>
+        /// <param name="enableCollidersDrawing"></param>
+        /// <param name="multiplayerConfig"></param>
+        public EngineCore(bool enableCollidersDrawing, MultiplayerConfig multiplayerConfig)
+            : this(enableCollidersDrawing)
+        {
+            IsMultiplayerEnabled = true;
+            Client = new Client(
+                multiplayerConfig.LocalPort,
+                multiplayerConfig.RemoteIPAddress,
+                multiplayerConfig.RemotePort);
+        }
+
+        public static Client Client { get; private set; }
+
+        public static bool IsMultiplayerEnabled { get; private set; }
+
+        public static bool IsReadyToStart { get; set; }
 
         /// <summary>
         /// Inits the game on loading.
@@ -69,10 +76,10 @@ namespace RGEngine
         /// <param name="e"></param>
         protected override void OnRenderFrame(FrameEventArgs e)
         {
-            SpriteRenderer.RenderEntireFrame(gameObjects.ToList<GameObject>());
+            SpriteRenderer.RenderEntireFrame(GameObjects.ToList());
 
-            if (EnableColliderDrawing)
-                foreach (var @object in gameObjects.ToList<GameObject>())
+            if (IsEnabledColliderDrawing)
+                foreach (var @object in GameObjects.ToList())
                     @object.collider?.Draw();
 
             SwapBuffers();
@@ -87,22 +94,22 @@ namespace RGEngine
         {
             InputController.Update();
 
-            totalTimeElapsed += e.Time;
+            _totalTimeElapsed += e.Time;
             // Prevents redundant Updating of FixedUpdate() method.
             // *REASON: Rendering is slower than physics fixed updates.*
             //
             // Cheks if the time elapsed is bigger than deltaTimeFixedUpdate
             // than choose elapsed time from the last frame render for a FixedUpdate.
-            if (totalTimeElapsed >= deltaTimeFixedUpdate)
+            if (_totalTimeElapsed >= DeltaTimeFixedUpdate)
             {
-                foreach (var gameObject in gameObjects.ToList<GameObject>())
+                foreach (var gameObject in GameObjects.ToList())
                 {
-                    gameObject.PerformFixedUpdate(totalTimeElapsed);
+                    gameObject.PerformFixedUpdate(_totalTimeElapsed);
                 }
             }
-            totalTimeElapsed = 0f;
+            _totalTimeElapsed = 0f;
 
-            foreach (var gameObject in gameObjects.ToList<GameObject>())
+            foreach (var gameObject in GameObjects.ToList())
             {
                 gameObject.PerformUpdate(e.Time);
             }
@@ -126,7 +133,7 @@ namespace RGEngine
         /// <param name="e"></param>
         protected override void OnUnload(EventArgs e)
         {
-            gameObjects.RemoveRange(0, gameObjects.Count);
+            GameObjects.RemoveRange(0, GameObjects.Count);
             base.OnUnload(e);
         }
 
@@ -136,7 +143,7 @@ namespace RGEngine
         /// <param name="gameObject"></param>
         public static void AddGameObject(GameObject gameObject)
         {
-            gameObjects.Add(gameObject);
+            GameObjects.Add(gameObject);
         }
 
         /// <summary>
@@ -145,7 +152,7 @@ namespace RGEngine
         /// <param name="gameObject"></param>
         public static void RemoveGameObject(GameObject gameObject)
         {
-            gameObjects.Remove(gameObject);
+            GameObjects.Remove(gameObject);
         }
     }
 }

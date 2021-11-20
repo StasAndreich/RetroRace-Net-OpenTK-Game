@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
-using System.Threading;
+using System.Net;
+using System.Diagnostics;
 using System.Windows.Forms;
 using Racing.Objects;
 using Racing.Objects.UserInterface;
@@ -13,6 +14,7 @@ namespace GameLauncher
     public partial class GameMode : Form
     {
         private const int ServerPort = 34500;
+        private static readonly IPAddress LocalServerIp = IPAddress.Parse("127.0.0.1");
 
         public GameMode()
         {
@@ -23,23 +25,25 @@ namespace GameLauncher
         {
             Hide();
 
-            var gameThread = new Thread(new ThreadStart(HostGameCallback))
-            {
-                Name = "Game"
-            };
-            gameThread.Start();
 
-            var serverThread = new Thread(new ThreadStart(() =>
-            {
-                //Server.Start(ServerPort, 1);
-                Server.Start(ServerPort, 1);
-                //Server.ServerLoop();
-            }))
-            {
-                Name = "Server"
-            };
-            serverThread.Start();
+            ////var gameThread = new Thread(new ThreadStart(HostGameCallback))
+            ////{
+            ////    Name = "Game"
+            ////};
+            ////gameThread.Start();
 
+            ////var serverThread = new Thread(new ThreadStart(() =>
+            ////{
+            ////    Server.Start(ServerPort, 2);
+            ////}))
+            ////{
+            ////    Name = "Server"
+            ////};
+            ////serverThread.Start();
+
+            HostGameCallback();
+
+            //serverThread.Abort();
             Application.Exit();
         }
 
@@ -47,12 +51,24 @@ namespace GameLauncher
         {
             Hide();
 
-            using var racingGame = new EngineCore(false, isMultiplayerEnabled: true);
+            if (!IPAddress.TryParse(IpAddressTextBox.Text, out var serverIp))
+            {
+                return;
+            }
+
+            var multiplayerConfig = new MultiplayerConfig
+            {
+                LocalPort = 7777,
+                RemotePort = ServerPort,
+                RemoteIPAddress = serverIp
+            };
+
+            using var racingGame = new EngineCore(false, multiplayerConfig);
             EngineCore.AddGameObject(new Racing.Objects.Environment(@"Contents\Environment\bg_ui_v2.png"));
             EngineCore.AddGameObject(new FinishLine());
             EngineCore.AddGameObject(new OuterFinishLine());
-            EngineCore.AddGameObject(new PurpleCar(isPlayable: true));
-            EngineCore.AddGameObject(new BlackCar(isPlayable: false));
+            EngineCore.AddGameObject(new PurpleCar(true));
+            EngineCore.AddGameObject(new BlackCar(false));
             EngineCore.AddGameObject(new PrizeGenerator());
             EngineCore.AddGameObject(new UserInterfaceHandler());
 
@@ -66,12 +82,12 @@ namespace GameLauncher
         {
             Hide();
 
-            using var racingGame = new EngineCore(false, isMultiplayerEnabled: false);
+            using var racingGame = new EngineCore(false);
             EngineCore.AddGameObject(new Racing.Objects.Environment(@"Contents\Environment\bg_ui_v2.png"));
             EngineCore.AddGameObject(new FinishLine());
             EngineCore.AddGameObject(new OuterFinishLine());
-            EngineCore.AddGameObject(new PurpleCar(isPlayable: true));
-            EngineCore.AddGameObject(new BlackCar(isPlayable: true));
+            EngineCore.AddGameObject(new PurpleCar(true));
+            EngineCore.AddGameObject(new BlackCar(true));
             EngineCore.AddGameObject(new PrizeGenerator());
             EngineCore.AddGameObject(new UserInterfaceHandler());
 
@@ -83,32 +99,40 @@ namespace GameLauncher
 
         private void HostGameCallback()
         {
-            using var racingGame = new EngineCore(false, isMultiplayerEnabled: true);
+            var multiplayerConfig = new MultiplayerConfig
+            {
+                LocalPort = 6666,
+                RemotePort = ServerPort,
+                RemoteIPAddress = LocalServerIp
+            };
+
+            using var racingGame = new EngineCore(false, multiplayerConfig);
             EngineCore.AddGameObject(new Racing.Objects.Environment(@"Contents\Environment\bg_ui_v2.png"));
             EngineCore.AddGameObject(new FinishLine());
             EngineCore.AddGameObject(new OuterFinishLine());
-            EngineCore.AddGameObject(new PurpleCar(isPlayable: false));
-            EngineCore.AddGameObject(new BlackCar(isPlayable: true));
+            EngineCore.AddGameObject(new PurpleCar(false));
+            EngineCore.AddGameObject(new BlackCar(true));
             EngineCore.AddGameObject(new PrizeGenerator());
             EngineCore.AddGameObject(new UserInterfaceHandler());
 
             ConfigureGameWindow(racingGame);
+            racingGame.Run();
 
-            while (true)
-            {
-                if (EngineCore.IsReadyToStart)
-                {
-                    racingGame.Run();
-                    break;
-                }
-            }
+            ////while (true)
+            ////{
+            ////    if (EngineCore.IsReadyToStart)
+            ////    {
+            ////        racingGame.Run();
+            ////        break;
+            ////    }
+            ////}
         }
 
         private void ConfigureGameWindow(EngineCore engineCore)
         {
             engineCore.Title = "Retro Race";
             engineCore.Icon = new Icon(@"Resources\icon32.ico");
-            engineCore.WindowBorder = OpenTK.WindowBorder.Fixed;
+            engineCore.WindowBorder = OpenTK.WindowBorder.Resizable;
             engineCore.WindowState = OpenTK.WindowState.Maximized;
         }
     }

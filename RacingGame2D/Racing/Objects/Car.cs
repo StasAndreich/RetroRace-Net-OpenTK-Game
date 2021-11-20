@@ -43,11 +43,6 @@ namespace Racing.Objects
         private Vector2 _frontWheelPosition;
         private Vector2 _backWheelPosition;
 
-        /// <summary>
-        /// String ID name of a car.
-        /// </summary>
-        public string id;
-
         private bool[] _laps;
         private int _beingLocatedOnFinishLine;
         private int _lapsPassed;
@@ -55,21 +50,15 @@ namespace Racing.Objects
         private readonly RigidBody2D _rigidBody2D;
         protected SpriteRenderer spriteRenderer;
 
-        private static Client _client;
+        public bool IsControlledByLocalUser { get; private set; }
 
-        public bool IsPlayable { get; private set; }
+        public string Id { get; set; }
 
         /// <summary>
         /// Ctor that set a basic car object settings properly.
         /// </summary>
-        public Car(bool isPlayable)
+        public Car()
         {
-            IsPlayable = isPlayable;
-            if (EngineCore.IsMultiplayerEnabled && _client == null)
-            {
-                _client = new Client(7788, "127.0.0.1", 34500);
-            }
-
             spriteRenderer = (SpriteRenderer)AddComponent("SpriteRenderer");
             _rigidBody2D = (RigidBody2D)AddComponent("RigidBody2D");
             _rigidBody2D.mass = BaseCarMass;
@@ -87,6 +76,12 @@ namespace Racing.Objects
 
             // Difine finished laps array.
             _laps = new bool[5 + 1];
+        }
+
+        public Car(bool isPlayable)
+            : this()
+        {
+            IsControlledByLocalUser = isPlayable;
         }
 
         /// <summary>
@@ -153,7 +148,7 @@ namespace Racing.Objects
         /// <param name="fixedDeltaTime"></param>
         public override void FixedUpdate(double fixedDeltaTime)
         {
-            if (IsPlayable)
+            if (IsControlledByLocalUser)
             {
                 var steer = MathHelper.DegreesToRadians(_steeringAngle);
 
@@ -179,7 +174,7 @@ namespace Racing.Objects
                 Position = (_frontWheelPosition + _backWheelPosition) / 2;
 
                 // Detect and resolve collisions.
-                foreach (var @object in EngineCore.gameObjects.ToList())
+                foreach (var @object in EngineCore.GameObjects.ToList())
                 {
                     // Car DOES NOT collide with other car.
                     if (@object is ICollidable && !(@object is Car))
@@ -207,23 +202,27 @@ namespace Racing.Objects
 
                 ApplyFuelConsumprion(fixedDeltaTime);
 
-                if (EngineCore.IsMultiplayerEnabled)
+                if (IsControlledByLocalUser && EngineCore.IsMultiplayerEnabled)
                 {
                     var message = new Message
                     {
+                        Id = Id,
                         CarPosition = Position,
                         CarRotation = Rotation,
                     };
-                    _client.SendDataToServer(message);
+                    EngineCore.Client.SendDataToServer(message);
                 }
             }
             else
             {
-                var message = _client.ReceiveDataFromServer();
-                if (message != null)
+                if (!IsControlledByLocalUser)
                 {
-                    Position = message.CarPosition;
-                    Rotation = message.CarRotation;
+                    var message = EngineCore.Client.ReceiveDataFromServer();
+                    if (message != null && Id == message.Id)
+                    {
+                        Position = message.CarPosition;
+                        Rotation = message.CarRotation;
+                    }
                 }
             }
         }
@@ -279,7 +278,7 @@ namespace Racing.Objects
         /// <param name="e"></param>
         private void Prize_ColliderTriggered(object sender, CollisionEventArgs e)
         {
-            foreach (var gameObject in EngineCore.gameObjects.ToList())
+            foreach (var gameObject in EngineCore.GameObjects.ToList())
             {
                 if (gameObject is Prize prize)
                 {
@@ -304,13 +303,13 @@ namespace Racing.Objects
             if (_fuelLevel <= 0.001)
             {
                 // Choose another car as the winner.
-                if (id == "Black")
+                if (Id == "Black")
                 {
-                    id = "Purple";
+                    Id = "Purple";
                 }
-                else if (id == "Purple")
+                else if (Id == "Purple")
                 {
-                    id = "Black";
+                    Id = "Black";
                 }
                     
                 OnEndedRace(new GameEventArgs(this));

@@ -55,7 +55,7 @@ namespace Racing.Prizes
         {
             PolyCollider.allCollidersAttached.Remove(this);
 
-            var gameObjects = EngineCore.gameObjects.ToList();
+            var gameObjects = EngineCore.GameObjects.ToList();
             foreach (var gameObject in gameObjects)
             {
                 if (ReferenceEquals(gameObject, this))

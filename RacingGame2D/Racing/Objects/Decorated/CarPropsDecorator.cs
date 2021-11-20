@@ -57,7 +57,7 @@ namespace Racing.Objects
 
         private void RemoveDecorator()
         {
-            foreach (var gameObject in EngineCore.gameObjects)
+            foreach (var gameObject in EngineCore.GameObjects)
             {
                 if ((gameObject is Car car) && ReferenceEquals(gameObject, Owner))
                 {

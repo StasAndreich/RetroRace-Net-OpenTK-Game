@@ -55,7 +55,7 @@ namespace Racing.Prizes
             // Limit the number of prizes located
             // on scene at the same time.
             var prizesOnScene = 0;
-            foreach (var gameObject in EngineCore.gameObjects)
+            foreach (var gameObject in EngineCore.GameObjects)
             {
                 if (gameObject is Prize)
                 {

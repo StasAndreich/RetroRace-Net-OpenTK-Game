@@ -34,7 +34,7 @@ namespace GameLauncher
             this.SingleButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.ipAddress = new System.Windows.Forms.TextBox();
+            this.IpAddressTextBox = new System.Windows.Forms.MaskedTextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -70,8 +70,8 @@ namespace GameLauncher
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.IpAddressTextBox);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.ipAddress);
             this.groupBox1.Controls.Add(this.HostButton);
             this.groupBox1.Controls.Add(this.ConnectButton);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
@@ -91,12 +91,13 @@ namespace GameLauncher
             this.label1.TabIndex = 3;
             this.label1.Text = "IP:";
             // 
-            // ipAddress
+            // IpAddressTextBox
             // 
-            this.ipAddress.Location = new System.Drawing.Point(28, 81);
-            this.ipAddress.Name = "ipAddress";
-            this.ipAddress.Size = new System.Drawing.Size(109, 20);
-            this.ipAddress.TabIndex = 2;
+            this.IpAddressTextBox.Location = new System.Drawing.Point(28, 81);
+            this.IpAddressTextBox.Name = "IpAddressTextBox";
+            this.IpAddressTextBox.Size = new System.Drawing.Size(109, 20);
+            this.IpAddressTextBox.TabIndex = 4;
+            this.IpAddressTextBox.Text = "127.0.0.1";
             // 
             // GameMode
             // 
@@ -123,7 +124,7 @@ namespace GameLauncher
         private System.Windows.Forms.Button ConnectButton;
         private System.Windows.Forms.Button SingleButton;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.TextBox ipAddress;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.MaskedTextBox IpAddressTextBox;
     }
 }
