@@ -25,15 +25,9 @@ namespace RGEngine.Multiplayer
         public Client(int localPort, IPAddress remoteIp, int remotePort)
         {
             _remoteEndPoint = new IPEndPoint(remoteIp, remotePort);
-
-            var localEndPoint = new IPEndPoint(IPAddress.Any, localPort);
-            _udpClient = new UdpClient(localEndPoint);
+            _udpClient = new UdpClient(new IPEndPoint(IPAddress.Any, localPort));
 
             PongServer();
-            //Thread.Sleep(5000);
-            //_udpClient.Connect(_remoteEndPoint);
-            //SendDataToServer(new Message());
-            Debug.WriteLine("d");
         }
 
         /// <summary>
@@ -45,6 +39,7 @@ namespace RGEngine.Multiplayer
         {
             if (_udpClient.Available > 0)
             {
+                var s = Stopwatch.StartNew();
                 var data = _udpClient.Receive(ref _remoteEndPoint);
 
                 var formatter = new BinaryFormatter();
@@ -58,8 +53,9 @@ namespace RGEngine.Multiplayer
                 }
 
                 Message message = (Message) formatter.Deserialize(memoryStream);
-                Debug.WriteLine($"Client Receive {message}");
-                memoryStream.Flush();
+                s.Stop();
+                Debug.WriteLine($"Client Receive {message} {s.ElapsedMilliseconds} ms");
+                //memoryStream.Flush();
 
                 return message;
             }

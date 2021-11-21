@@ -9,6 +9,7 @@ using RGEngine;
 using System.Linq;
 using Racing.Prizes;
 using RGEngine.Multiplayer;
+using System.Diagnostics;
 
 namespace Racing.Objects
 {
@@ -202,7 +203,7 @@ namespace Racing.Objects
 
                 ApplyFuelConsumprion(fixedDeltaTime);
 
-                if (IsControlledByLocalUser && EngineCore.IsMultiplayerEnabled)
+                if (EngineCore.IsMultiplayerEnabled)
                 {
                     var message = new Message
                     {
@@ -215,14 +216,11 @@ namespace Racing.Objects
             }
             else
             {
-                if (!IsControlledByLocalUser)
+                var message = EngineCore.Client.ReceiveDataFromServer();
+                if (message != null && Id == message.Id)
                 {
-                    var message = EngineCore.Client.ReceiveDataFromServer();
-                    if (message != null && Id == message.Id)
-                    {
-                        Position = message.CarPosition;
-                        Rotation = message.CarRotation;
-                    }
+                    Position = message.CarPosition;
+                    Rotation = message.CarRotation;
                 }
             }
         }

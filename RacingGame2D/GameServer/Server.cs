@@ -1,4 +1,7 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -22,7 +25,7 @@ public static class Server
 
         while (_remoteClients.Count < maxPlayers)
         {
-            Console.WriteLine($"Waiting for a client...");
+            //Console.WriteLine($"Waiting for a client...");
             var remoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
             var s = _serverUdp.Receive(ref remoteIpEndPoint);
             var data = Encoding.ASCII.GetString(s, 0, s.Length);
@@ -30,7 +33,7 @@ public static class Server
             if (data == "pong" && !_remoteClients.Any(x => x.Port == remoteIpEndPoint.Port))
             {
                 _remoteClients.Add(remoteIpEndPoint);
-                Console.WriteLine($"++ [Client {remoteIpEndPoint.Port} Connected]");
+                //Console.WriteLine($"++ [Client {remoteIpEndPoint.Port} Connected]");
 
                 var ping = Encoding.ASCII.GetBytes("ping");
                 _serverUdp.Send(ping, ping.Length, remoteIpEndPoint);
@@ -55,10 +58,26 @@ public static class Server
             //ReceiveFromClient(_remoteClients[0]);
 
             // Retranslate messages to another client.
-            SendToClient(ReceiveFromClient(_remoteClients[0]), _remoteClients[1]);
-            SendToClient(ReceiveFromClient(_remoteClients[1]), _remoteClients[0]);
+            ////SendToClient(ReceiveFromClient(_remoteClients[0]), _remoteClients[1]);
+            ////SendToClient(ReceiveFromClient(_remoteClients[1]), _remoteClients[0]);
+            ///
 
-            //Thread.Sleep(16);
+            var d1 = ReceiveFromClient(_remoteClients[0]);
+            var d2 = ReceiveFromClient(_remoteClients[1]);
+            SendToClient(d1, _remoteClients[1]);
+            SendToClient(d2, _remoteClients[0]);
+        }
+    }
+
+    private static void ProcessClient(object fromEndPoint, object toEndPoint)
+    {
+        var from = fromEndPoint as IPEndPoint;
+        var to = toEndPoint as IPEndPoint;
+
+        while (true)
+        {
+            var data = ReceiveFromClient(from);
+            SendToClient(data, to);
         }
     }
 
