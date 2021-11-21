@@ -35,12 +35,14 @@ public class Server : IDisposable
 
     public void StartMessagingLoop()
     {
+        var buffer = new byte[1024];
         while (true)
         {
-            var d1 = ReceiveFromClient(_remoteClients[0]);
-            var d2 = ReceiveFromClient(_remoteClients[1]);
-            SendToClient(d2, _remoteClients[0]);
-            SendToClient(d1, _remoteClients[1]);
+            ReceiveFromClient(_remoteClients[0], ref buffer);
+            SendToClient(buffer, _remoteClients[1]);
+
+            ReceiveFromClient(_remoteClients[1], ref buffer);
+            SendToClient(buffer, _remoteClients[0]);
 
             //Thread.Sleep(10);
         }
@@ -62,7 +64,7 @@ public class Server : IDisposable
             if (_remoteClients.Any(x => x.Port == endPoint.Port))
             {
                 var anotherClient = _remoteClients.Where(x => x.Port != endPoint.Port).First();
-                SendUdpData(anotherClient, data);
+                //SendUdpData(anotherClient, data);
             }
         }
         catch (SocketException e)
@@ -96,7 +98,7 @@ public class Server : IDisposable
         //}
     }
 
-    private void SendUdpData(IPEndPoint clientEndPoint, byte[] data)
+    private void SendUdpData(IPEndPoint clientEndPoint, ref byte[] data)
     {
         try
         {
@@ -120,7 +122,7 @@ public class Server : IDisposable
         }
     }
 
-    private byte[] ReceiveFromClient(IPEndPoint endPoint)
+    private void ReceiveFromClient(IPEndPoint endPoint, ref byte[] buf)
     {
         //if (_serverUdp.Available > 0)
         //{
@@ -138,16 +140,16 @@ public class Server : IDisposable
 
         try
         {
-            var data = _udp.Receive(ref endPoint);
+            buf = _udp.Receive(ref endPoint);
             //Console.WriteLine($"Server Receive from {endPoint.Port}");
-            return data;
+            //return data;
         }
         catch (System.Exception e)
         {
             //Console.WriteLine(e.ToString());
         }
 
-        return null;
+        //return null;
     }
 
     private void TryHandshakeAndAddClient(List<IPEndPoint> endPoints)

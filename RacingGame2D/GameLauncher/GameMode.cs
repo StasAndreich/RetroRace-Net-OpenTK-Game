@@ -59,7 +59,7 @@ namespace GameLauncher
             var multiplayerConfig = new MultiplayerConfig
             {
                 LocalPort = 7777,
-                RemotePort = ServerPort,
+                RemotePort = 9999,
                 RemoteIPAddress = serverIp
             };
 
@@ -106,8 +106,8 @@ namespace GameLauncher
         {
             var multiplayerConfig = new MultiplayerConfig
             {
-                LocalPort = 6666,
-                RemotePort = ServerPort,
+                LocalPort = 9999,
+                RemotePort = 7777,
                 RemoteIPAddress = LocalServerIp
             };
 

@@ -47,14 +47,18 @@ namespace RGEngine
             : this(enableCollidersDrawing)
         {
             IsMultiplayerEnabled = true;
-            Client = new Client(
-                multiplayerConfig.LocalPort,
-                multiplayerConfig.RemoteIPAddress,
-                multiplayerConfig.RemotePort);
+            Port = multiplayerConfig.LocalPort;
+            RemotePort = multiplayerConfig.RemotePort;
+            //Client = new Client(
+            //    multiplayerConfig.LocalPort,
+            //    multiplayerConfig.RemoteIPAddress,
+            //    multiplayerConfig.RemotePort);
         }
 
-        public static Client Client { get; private set; }
+        //public static Client Client { get; private set; }
+        public static int Port { get; private set; }
 
+        public static int RemotePort { get; private set; }
         public static bool IsMultiplayerEnabled { get; private set; }
 
         public static bool IsReadyToStart { get; set; }
@@ -65,10 +69,10 @@ namespace RGEngine
         /// <param name="e"></param>
         protected override void OnLoad(EventArgs e)
         {
-            if (IsMultiplayerEnabled)
-            {
-                Client.PongServer();
-            }
+            //if (IsMultiplayerEnabled)
+            //{
+            //    Client.PongServer();
+            //}
             GL.ClearColor(Color.White);
             Camera.SetView(Width, Height);
             base.OnLoad(e);
