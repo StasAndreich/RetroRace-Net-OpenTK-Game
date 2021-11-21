@@ -26,8 +26,8 @@ namespace RGEngine.Multiplayer
         {
             _remoteEndPoint = new IPEndPoint(remoteIp, remotePort);
             _udpClient = new UdpClient(new IPEndPoint(IPAddress.Any, localPort));
-
-            PongServer();
+            _udpClient.Client.SendTimeout = 16;
+            _udpClient.Client.ReceiveTimeout = 16;
         }
 
         /// <summary>
@@ -37,9 +37,34 @@ namespace RGEngine.Multiplayer
         /// <remarks>Can return null if nothing to receive.</remarks>
         public Message ReceiveDataFromServer()
         {
-            if (_udpClient.Available > 0)
+            ////if (_udpClient.Available > 0)
+            ////{
+            ////    var s = Stopwatch.StartNew();
+            ////    var data = _udpClient.Receive(ref _remoteEndPoint);
+
+            ////    var formatter = new BinaryFormatter();
+            ////    using var memoryStream = new MemoryStream();
+            ////    memoryStream.Write(data, 0, data.Length);
+            ////    memoryStream.Seek(0, SeekOrigin.Begin);
+
+            ////    if (memoryStream.Length < 5)
+            ////    {
+            ////        return null;
+            ////    }
+
+            ////    Message message = (Message) formatter.Deserialize(memoryStream);
+            ////    s.Stop();
+            ////    Debug.WriteLine($"Client Receive {message} {s.ElapsedMilliseconds} ms");
+            ////    //memoryStream.Flush();
+
+            ////    return message;
+            ////}
+
+            ////return null;
+            ///
+
+            try
             {
-                var s = Stopwatch.StartNew();
                 var data = _udpClient.Receive(ref _remoteEndPoint);
 
                 var formatter = new BinaryFormatter();
@@ -52,15 +77,16 @@ namespace RGEngine.Multiplayer
                     return null;
                 }
 
-                Message message = (Message) formatter.Deserialize(memoryStream);
-                s.Stop();
-                Debug.WriteLine($"Client Receive {message} {s.ElapsedMilliseconds} ms");
-                //memoryStream.Flush();
+                Message message = (Message)formatter.Deserialize(memoryStream);
+                Debug.WriteLine($"Client Receive {message}");
 
                 return message;
             }
-
-            return null;
+            catch (System.Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                return null;
+            }
         }
 
         /// <summary>
@@ -80,11 +106,10 @@ namespace RGEngine.Multiplayer
             var data = memoryStream.ToArray();
 
             _udpClient.Send(data, data.Length, _remoteEndPoint);
-            //_udpClient.Send(data, data.Length);
             Debug.WriteLine($"Client Send {message}");
         }
 
-        private void PongServer()
+        public void PongServer()
         {
             while(_isPingPongInProcess)
             {

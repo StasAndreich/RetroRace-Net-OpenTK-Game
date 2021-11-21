@@ -64,7 +64,11 @@ namespace RGEngine
         /// </summary>
         /// <param name="e"></param>
         protected override void OnLoad(EventArgs e)
-        {            
+        {
+            if (IsMultiplayerEnabled)
+            {
+                Client.PongServer();
+            }
             GL.ClearColor(Color.White);
             Camera.SetView(Width, Height);
             base.OnLoad(e);

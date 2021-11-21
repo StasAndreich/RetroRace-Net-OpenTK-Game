@@ -64,6 +64,9 @@ namespace GameLauncher
             };
 
             using var racingGame = new EngineCore(false, multiplayerConfig);
+            ConfigureGameWindow(racingGame);
+            racingGame.Title = "Retro Race - Client";
+
             EngineCore.AddGameObject(new Racing.Objects.Environment(@"Contents\Environment\bg_ui_v2.png"));
             EngineCore.AddGameObject(new FinishLine());
             EngineCore.AddGameObject(new OuterFinishLine());
@@ -72,7 +75,6 @@ namespace GameLauncher
             EngineCore.AddGameObject(new PrizeGenerator());
             EngineCore.AddGameObject(new UserInterfaceHandler());
 
-            ConfigureGameWindow(racingGame);
             racingGame.Run();
 
             Application.Exit();
@@ -83,6 +85,9 @@ namespace GameLauncher
             Hide();
 
             using var racingGame = new EngineCore(false);
+            ConfigureGameWindow(racingGame);
+            racingGame.Title = "Retro Race - Single mode";
+
             EngineCore.AddGameObject(new Racing.Objects.Environment(@"Contents\Environment\bg_ui_v2.png"));
             EngineCore.AddGameObject(new FinishLine());
             EngineCore.AddGameObject(new OuterFinishLine());
@@ -107,6 +112,9 @@ namespace GameLauncher
             };
 
             using var racingGame = new EngineCore(false, multiplayerConfig);
+            ConfigureGameWindow(racingGame);
+            racingGame.Title = "Retro Race - Host";
+
             EngineCore.AddGameObject(new Racing.Objects.Environment(@"Contents\Environment\bg_ui_v2.png"));
             EngineCore.AddGameObject(new FinishLine());
             EngineCore.AddGameObject(new OuterFinishLine());
@@ -115,7 +123,6 @@ namespace GameLauncher
             EngineCore.AddGameObject(new PrizeGenerator());
             EngineCore.AddGameObject(new UserInterfaceHandler());
 
-            ConfigureGameWindow(racingGame);
             racingGame.Run();
 
             ////while (true)
@@ -130,7 +137,7 @@ namespace GameLauncher
 
         private void ConfigureGameWindow(EngineCore engineCore)
         {
-            engineCore.Title = "Retro Race";
+            //engineCore.Title = "Retro Race";
             engineCore.Icon = new Icon(@"Resources\icon32.ico");
             engineCore.WindowBorder = OpenTK.WindowBorder.Resizable;
             engineCore.WindowState = OpenTK.WindowState.Maximized;
