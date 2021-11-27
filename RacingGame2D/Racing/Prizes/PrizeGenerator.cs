@@ -4,6 +4,7 @@ using RGEngine.Graphics;
 using RGEngine.BaseClasses;
 using RGEngine.Support;
 using System;
+using RGEngine.Multiplayer;
 
 namespace Racing.Prizes
 {
@@ -12,6 +13,7 @@ namespace Racing.Prizes
     /// </summary>
     public class PrizeGenerator : GameObject, IPrizeFactory, INonRenderable
     {
+
         private const int PrizesCount = 3;
 
         // Rect1 is outer bound.
@@ -22,21 +24,26 @@ namespace Racing.Prizes
         private Vector2 _rect2max;
 
         private GameTimer _spawnTimer;
+        private bool _isHost;
 
         /// <summary>
         /// Sets the geteration interval and generation area bounds.
         /// </summary>
-        public PrizeGenerator()
+        public PrizeGenerator(bool isHost)
         {
+            _isHost = isHost;
             // is host
             // prize type in message
-            _spawnTimer = new GameTimer(5f);
-            _spawnTimer.Elapsed += (sender, e) => AddPrizeOnScene();
+            if (isHost)
+            {
+                _spawnTimer = new GameTimer(5f);
+                _spawnTimer.Elapsed += (sender, e) => AddPrizeOnScene();
 
-            _rect1min = new Vector2(-870, 450);
-            _rect1max = new Vector2(870, -450);
-            _rect2min = new Vector2(-730, 310);
-            _rect2max = new Vector2(730, -310);
+                _rect1min = new Vector2(-870, 450);
+                _rect1max = new Vector2(870, -450);
+                _rect2min = new Vector2(-730, 310);
+                _rect2max = new Vector2(730, -310);
+            }
         }
 
         private void AddPrizeOnScene()
@@ -71,6 +78,8 @@ namespace Racing.Prizes
             }
 
             var randPrize = random.Next(1, PrizesCount + 1);
+            UdpHandlerObject.MessageToSend.PrizeType = randPrize;
+            UdpHandlerObject.MessageToSend.PrizePosition = position;
 
             return randPrize switch
             {
@@ -87,7 +96,33 @@ namespace Racing.Prizes
         /// <param name="fixedDeltaTime"></param>
         public override void FixedUpdate(double fixedDeltaTime)
         {
-            _spawnTimer?.Update(fixedDeltaTime);
+            if (_isHost)
+            {
+                _spawnTimer?.Update(fixedDeltaTime);
+            }
+            else
+            {
+                if (UdpHandlerObject.ReceivedMessage.PrizeType != 0)
+                {
+                    Prize prize = (PrizesTypes)UdpHandlerObject.ReceivedMessage.PrizeType switch
+                    {
+                        PrizesTypes.Fuel => new FuelPrize(UdpHandlerObject.ReceivedMessage.PrizePosition),
+                        PrizesTypes.Boost => new BoostPrize(UdpHandlerObject.ReceivedMessage.PrizePosition),
+                        _ => new SlowdownPrize(UdpHandlerObject.ReceivedMessage.PrizePosition),
+                    };
+
+                    if (prize != null)
+                    {
+                        EngineCore.AddGameObject(prize);
+                    }
+
+                    //UdpHandlerObject.ReceivedMessage.PrizeType = 0;
+                    //UdpHandlerObject.ReceivedMessage.PrizePosition = Vector2.Zero;
+                }
+                UdpHandlerObject.ReceivedMessage.PrizeType = 0;
+                UdpHandlerObject.ReceivedMessage.PrizePosition = Vector2.Zero;
+            }
+
             base.FixedUpdate(fixedDeltaTime);
         }
 

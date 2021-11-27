@@ -29,8 +29,10 @@ namespace GameLauncher
         private void start_Click(object sender, EventArgs e)
         {
             this.Hide();
-            var popupInstruction = new Instruction();
-            popupInstruction.ShowDialog();
+            //var popupInstruction = new Instruction();
+            //popupInstruction.ShowDialog();
+            var gameMode = new GameMode();
+            gameMode.ShowDialog();
         }
     }
 }

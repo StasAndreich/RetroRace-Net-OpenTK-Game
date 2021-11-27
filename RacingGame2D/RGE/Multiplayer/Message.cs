@@ -21,6 +21,10 @@ namespace RGEngine.Multiplayer
 
         public int Laps { get; set; }
 
+        public int PrizeType { get; set; }
+
+        public Vector2 PrizePosition { get; set; }
+
         public bool IsGameEnded { get; set; }
 
         public override string ToString()

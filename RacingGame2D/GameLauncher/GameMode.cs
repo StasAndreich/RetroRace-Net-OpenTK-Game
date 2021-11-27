@@ -56,7 +56,7 @@ namespace GameLauncher
             EngineCore.AddGameObject(new OuterFinishLine());
             EngineCore.AddGameObject(new PurpleCar(true));
             EngineCore.AddGameObject(new BlackCar(false));
-            EngineCore.AddGameObject(new PrizeGenerator());
+            EngineCore.AddGameObject(new PrizeGenerator(false));
             EngineCore.AddGameObject(new UserInterfaceHandler());
 
             racingGame.Run();
@@ -77,7 +77,7 @@ namespace GameLauncher
             EngineCore.AddGameObject(new OuterFinishLine());
             EngineCore.AddGameObject(new PurpleCar(true));
             EngineCore.AddGameObject(new BlackCar(true));
-            EngineCore.AddGameObject(new PrizeGenerator());
+            //EngineCore.AddGameObject(new PrizeGenerator());
             EngineCore.AddGameObject(new UserInterfaceHandler());
 
             ConfigureGameWindow(racingGame);
@@ -105,7 +105,7 @@ namespace GameLauncher
             EngineCore.AddGameObject(new OuterFinishLine());
             EngineCore.AddGameObject(new PurpleCar(false));
             EngineCore.AddGameObject(new BlackCar(true));
-            EngineCore.AddGameObject(new PrizeGenerator());
+            EngineCore.AddGameObject(new PrizeGenerator(true));
             EngineCore.AddGameObject(new UserInterfaceHandler());
 
             racingGame.Run();

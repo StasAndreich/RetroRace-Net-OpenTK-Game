@@ -296,13 +296,12 @@ namespace Racing.Objects
                 //    Debug.WriteLine(e.Message);
                 //}
 
-                var message = UdpHandlerObject.ReceivedMessage;
-                if (message != null && Id == message.Id)
+                if (Id == UdpHandlerObject.ReceivedMessage.Id)
                 {
-                    Position = message.CarPosition;
-                    Rotation = message.CarRotation;
-                    _fuelLevel = message.Fuel;
-                    _lapsPassed = message.Laps;
+                    Position = UdpHandlerObject.ReceivedMessage.CarPosition;
+                    Rotation = UdpHandlerObject.ReceivedMessage.CarRotation;
+                    _fuelLevel = UdpHandlerObject.ReceivedMessage.Fuel;
+                    _lapsPassed = UdpHandlerObject.ReceivedMessage.Laps;
 
                     //if (UdpHandlerObject.ReceivedMessage.IsGameEnded)
                     //{

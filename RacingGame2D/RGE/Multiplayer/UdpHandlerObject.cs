@@ -29,6 +29,7 @@ namespace RGEngine.Multiplayer
         public override void FixedUpdate(double fixedDeltaTime)
         {
             SendMessage();
+            SetDefaultBufferState();
             ReceiveMessage();
         }
 
@@ -64,6 +65,11 @@ namespace RGEngine.Multiplayer
             {
                 Debug.WriteLine(e.Message);
             }
+        }
+
+        private void SetDefaultBufferState()
+        {
+            MessageToSend.PrizeType = 0;
         }
     }
 }
