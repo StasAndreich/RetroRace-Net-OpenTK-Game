@@ -78,16 +78,23 @@ namespace Racing.Prizes
             }
 
             var randPrize = random.Next(1, PrizesCount + 1);
-            UdpHandlerObject.MessageToSend.PrizeType = randPrize;
-            UdpHandlerObject.MessageToSend.PrizePosition = position;
+            //var guid = Guid.NewGuid();
 
-            return randPrize switch
+            Prize prize = randPrize switch
             {
                 (int)PrizesTypes.Fuel => new FuelPrize(position),
                 (int)PrizesTypes.Boost => new BoostPrize(position),
                 (int)PrizesTypes.Slowdown => new SlowdownPrize(position),
                 _ => throw new Exception("There is no such a prize number."),
             };
+            var id = random.Next();
+            prize.Id = id;
+
+            UdpHandlerObject.MessageToSend.PrizeType = randPrize;
+            UdpHandlerObject.MessageToSend.PrizePosition = position;
+            UdpHandlerObject.MessageToSend.PrizeId = id;
+
+            return prize;
         }
 
         /// <summary>
@@ -110,6 +117,7 @@ namespace Racing.Prizes
                         PrizesTypes.Boost => new BoostPrize(UdpHandlerObject.ReceivedMessage.PrizePosition),
                         _ => new SlowdownPrize(UdpHandlerObject.ReceivedMessage.PrizePosition),
                     };
+                    prize.Id = UdpHandlerObject.ReceivedMessage.PrizeId;
 
                     if (prize != null)
                     {
@@ -122,6 +130,20 @@ namespace Racing.Prizes
                 UdpHandlerObject.ReceivedMessage.PrizeType = 0;
                 UdpHandlerObject.ReceivedMessage.PrizePosition = Vector2.Zero;
             }
+
+            //if (UdpHandlerObject.ReceivedMessage.PrizeId != 0)
+            //{
+            //    for (int i = 0; i < EngineCore.GameObjects.Count; i++)
+            //    {
+            //        if (ReferenceEquals(EngineCore.GameObjects[i], this))
+            //        {
+            //            if (EngineCore.GameObjects[i] is Prize prize && prize.Id == UdpHandlerObject.ReceivedMessage.PrizeId)
+            //            {
+            //                EngineCore.RemoveGameObject(prize);
+            //            }
+            //        }
+            //    }
+            //}
 
             base.FixedUpdate(fixedDeltaTime);
         }

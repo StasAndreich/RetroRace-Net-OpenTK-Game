@@ -25,6 +25,8 @@ namespace RGEngine.Multiplayer
 
         public Vector2 PrizePosition { get; set; }
 
+        public int PrizeId { get; set; }
+
         public bool IsGameEnded { get; set; }
 
         public override string ToString()

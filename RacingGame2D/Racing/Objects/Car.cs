@@ -171,6 +171,25 @@ namespace Racing.Objects
                 OnEndedRace(new GameEventArgs(UdpHandlerObject.ReceivedMessage.Id));
             }
 
+            if (UdpHandlerObject.ReceivedMessage.PrizeId != 0)
+            {
+                for (int i = 0; i < EngineCore.GameObjects.Count; i++)
+                {
+                    //if (ReferenceEquals(EngineCore.GameObjects[i], this))
+                    //{
+                    //    if (EngineCore.GameObjects[i] is Prize prize && prize.Id == UdpHandlerObject.ReceivedMessage.PrizeId)
+                    //    {
+                    //        EngineCore.RemoveGameObject(prize);
+                    //    }
+                    //}
+                    if (EngineCore.GameObjects[i] is Prize prize && prize.Id == UdpHandlerObject.ReceivedMessage.PrizeId)
+                    {
+                        PolyCollider.allCollidersAttached.Remove(prize);
+                        EngineCore.RemoveGameObject(prize);
+                    }
+                }
+            }
+
             if (IsControlledByLocalUser)
             {
                 var steer = MathHelper.DegreesToRadians(_steeringAngle);
@@ -368,6 +387,8 @@ namespace Racing.Objects
                 {
                     if (ReferenceEquals(gameObject, e.another))
                     {
+                        object obj = prize.Id;
+                        UdpHandlerObject.MessageToSend.PrizeId = (int)obj;
                         prize.PickUp(this);
                     }
                 }

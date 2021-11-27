@@ -70,6 +70,7 @@ namespace RGEngine.Multiplayer
         private void SetDefaultBufferState()
         {
             MessageToSend.PrizeType = 0;
+            MessageToSend.PrizeId = 0;
         }
     }
 }

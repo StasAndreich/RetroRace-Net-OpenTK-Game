@@ -33,8 +33,8 @@ namespace GameLauncher
             this.ConnectButton = new System.Windows.Forms.Button();
             this.SingleButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.IpAddressTextBox = new System.Windows.Forms.MaskedTextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -60,6 +60,7 @@ namespace GameLauncher
             // 
             // SingleButton
             // 
+            this.SingleButton.Enabled = false;
             this.SingleButton.Location = new System.Drawing.Point(279, 46);
             this.SingleButton.Name = "SingleButton";
             this.SingleButton.Size = new System.Drawing.Size(94, 69);
@@ -81,6 +82,14 @@ namespace GameLauncher
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Multiplayer";
             // 
+            // IpAddressTextBox
+            // 
+            this.IpAddressTextBox.Location = new System.Drawing.Point(28, 81);
+            this.IpAddressTextBox.Name = "IpAddressTextBox";
+            this.IpAddressTextBox.Size = new System.Drawing.Size(109, 20);
+            this.IpAddressTextBox.TabIndex = 4;
+            this.IpAddressTextBox.Text = "127.0.0.1";
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -90,14 +99,6 @@ namespace GameLauncher
             this.label1.Size = new System.Drawing.Size(23, 13);
             this.label1.TabIndex = 3;
             this.label1.Text = "IP:";
-            // 
-            // IpAddressTextBox
-            // 
-            this.IpAddressTextBox.Location = new System.Drawing.Point(28, 81);
-            this.IpAddressTextBox.Name = "IpAddressTextBox";
-            this.IpAddressTextBox.Size = new System.Drawing.Size(109, 20);
-            this.IpAddressTextBox.TabIndex = 4;
-            this.IpAddressTextBox.Text = "127.0.0.1";
             // 
             // GameMode
             // 

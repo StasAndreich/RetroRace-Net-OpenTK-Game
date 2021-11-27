@@ -6,6 +6,7 @@ using OpenTK;
 using RGEngine;
 using Racing.Objects;
 using System.Linq;
+using System;
 
 namespace Racing.Prizes
 {
@@ -41,6 +42,8 @@ namespace Racing.Prizes
 
             collider = new PolyCollider(this, new Vector2(40f, 40f));
         }
+
+        public int Id { get; set; }
 
         internal void PickUp(Car car)
         {
