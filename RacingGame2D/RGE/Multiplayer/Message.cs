@@ -17,6 +17,10 @@ namespace RGEngine.Multiplayer
 
         public float CarRotation { get; set; }
 
+        public float Fuel { get; set; }
+
+        public int Laps { get; set; }
+
         public override string ToString()
         {
             return $"{CarPosition} -- {CarRotation}";

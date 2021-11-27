@@ -88,16 +88,16 @@ namespace Racing.Objects
         {
             IsControlledByLocalUser = isPlayable;
 
-            if (Client == null)
-            {
-                Client = new UdpClient(new IPEndPoint(IPAddress.Loopback, EngineCore.Port));
-                Remote = new IPEndPoint(IPAddress.Loopback, EngineCore.RemotePort);
-            }
+            //if (Client == null)
+            //{
+            //    Client = new UdpClient(new IPEndPoint(IPAddress.Loopback, EngineCore.Port));
+            //    Remote = new IPEndPoint(IPAddress.Loopback, EngineCore.RemotePort);
+            //}
         }
 
-        public static UdpClient Client { get; set; }
+        //public static UdpClient Client { get; set; }
 
-        public static IPEndPoint Remote { get; set; }
+        //public static IPEndPoint Remote { get; set; }
 
         /// <summary>
         /// Keeps all car properties.
@@ -219,52 +219,76 @@ namespace Racing.Objects
 
                 if (EngineCore.IsMultiplayerEnabled)
                 {
+                    //var message = new Message
+                    //{
+                    //    Id = Id,
+                    //    CarPosition = Position,
+                    //    CarRotation = Rotation,
+                    //    Fuel = FuelLevel,
+                    //    Laps = LapsPassed,
+                    //};
+                    //EngineCore.Client.SendDataToServer(message);
+
+                    //var formatter = new BinaryFormatter();
+                    //using var memoryStream = new MemoryStream();
+                    //formatter.Serialize(memoryStream, message);
+                    //var data = memoryStream.ToArray();
+
+                    //Client.Send(data, data.Length, Remote);
+
                     var message = new Message
                     {
                         Id = Id,
                         CarPosition = Position,
                         CarRotation = Rotation,
+                        Fuel = FuelLevel,
+                        Laps = LapsPassed,
                     };
-                    //EngineCore.Client.SendDataToServer(message);
 
-                    var formatter = new BinaryFormatter();
-                    using var memoryStream = new MemoryStream();
-                    formatter.Serialize(memoryStream, message);
-                    var data = memoryStream.ToArray();
-
-                    Client.Send(data, data.Length, Remote);
+                    UdpHandlerObject.MessageToSend = message;
                 }
             }
             else
             {
                 //var message = EngineCore.Client.ReceiveDataFromServer();
-                try
+                //try
+                //{
+                //    var rem = Remote;
+                //    var data = Client.Receive(ref rem);
+
+                //    var formatter = new BinaryFormatter();
+                //    using var memoryStream = new MemoryStream();
+                //    memoryStream.Write(data, 0, data.Length);
+                //    memoryStream.Seek(0, SeekOrigin.Begin);
+
+                //    if (memoryStream.Length < 5)
+                //    {
+                //        return;
+                //    }
+
+                //    Message message = (Message)formatter.Deserialize(memoryStream);
+                //    Debug.WriteLine($"Client Receive {message}");
+
+                //    if (message != null && Id == message.Id)
+                //    {
+                //        Position = message.CarPosition;
+                //        Rotation = message.CarRotation;
+                //        _fuelLevel = message.Fuel;
+                //        _lapsPassed = message.Laps;
+                //    }
+                //}
+                //catch (System.Exception e)
+                //{
+                //    Debug.WriteLine(e.Message);
+                //}
+
+                var message = UdpHandlerObject.ReceivedMessage;
+                if (message != null && Id == message.Id)
                 {
-                    var rem = Remote;
-                    var data = Client.Receive(ref rem);
-
-                    var formatter = new BinaryFormatter();
-                    using var memoryStream = new MemoryStream();
-                    memoryStream.Write(data, 0, data.Length);
-                    memoryStream.Seek(0, SeekOrigin.Begin);
-
-                    if (memoryStream.Length < 5)
-                    {
-                        return;
-                    }
-
-                    Message message = (Message)formatter.Deserialize(memoryStream);
-                    Debug.WriteLine($"Client Receive {message}");
-
-                    if (message != null && Id == message.Id)
-                    {
-                        Position = message.CarPosition;
-                        Rotation = message.CarRotation;
-                    }
-                }
-                catch (System.Exception e)
-                {
-                    Debug.WriteLine(e.Message);
+                    Position = message.CarPosition;
+                    Rotation = message.CarRotation;
+                    _fuelLevel = message.Fuel;
+                    _lapsPassed = message.Laps;
                 }
             }
         }
