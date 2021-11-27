@@ -4,6 +4,7 @@ using Racing.Prizes;
 using RGEngine;
 using RGEngine.BaseClasses;
 using RGEngine.Graphics;
+using RGEngine.Multiplayer;
 using RGEngine.Physics;
 using System;
 using System.Linq;
@@ -90,7 +91,27 @@ namespace Racing.Objects.UserInterface
             {
                 if (gameObject is Car car)
                 {
-                    car.EndedRace += (sender, e) => DisplayWinner(e.@object);
+                    car.EndedRace += (sender, e) => DisplayWinner(e.Id);
+                }
+            }
+        }
+
+        private void DisplayWinner(string winnerId)
+        {
+            if (!string.IsNullOrEmpty(winnerId))
+            {
+                switch (winnerId)
+                {
+                    case CarConstants.BlackCarName:
+                        EngineCore.AddGameObject(new UserInterfaceElement(BlackCarWinnerTexture, CenterScreenPosition));
+                        EndGame();
+                        break;
+                    case CarConstants.PurpleCarName:
+                        EngineCore.AddGameObject(new UserInterfaceElement(PurpleCarWinnerTexture, CenterScreenPosition));
+                        EndGame();
+                        break;
+                    default:
+                        throw new ApplicationException("There is nothing to display.");
                 }
             }
         }
@@ -126,6 +147,7 @@ namespace Racing.Objects.UserInterface
                     EngineCore.RemoveGameObject(gameObject);
                 }
             }
+            UdpHandlerObject.MessageToSend.IsGameEnded = true;
         }
 
         private void DisplayTextUIElement(string elementName, string text)

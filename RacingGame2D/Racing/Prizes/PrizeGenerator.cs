@@ -28,6 +28,8 @@ namespace Racing.Prizes
         /// </summary>
         public PrizeGenerator()
         {
+            // is host
+            // prize type in message
             _spawnTimer = new GameTimer(5f);
             _spawnTimer.Elapsed += (sender, e) => AddPrizeOnScene();
 

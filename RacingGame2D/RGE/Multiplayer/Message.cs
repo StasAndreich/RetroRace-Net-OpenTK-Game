@@ -21,6 +21,8 @@ namespace RGEngine.Multiplayer
 
         public int Laps { get; set; }
 
+        public bool IsGameEnded { get; set; }
+
         public override string ToString()
         {
             return $"{CarPosition} -- {CarRotation}";

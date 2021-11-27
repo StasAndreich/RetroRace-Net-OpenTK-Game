@@ -14,6 +14,7 @@ using System.Net.Sockets;
 using System.Net;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using Racing.Constants;
 
 namespace Racing.Objects
 {
@@ -55,10 +56,6 @@ namespace Racing.Objects
         private readonly RigidBody2D _rigidBody2D;
         protected SpriteRenderer spriteRenderer;
 
-        public bool IsControlledByLocalUser { get; private set; }
-
-        public string Id { get; set; }
-
         /// <summary>
         /// Ctor that set a basic car object settings properly.
         /// </summary>
@@ -95,15 +92,15 @@ namespace Racing.Objects
             //}
         }
 
-        //public static UdpClient Client { get; set; }
-
-        //public static IPEndPoint Remote { get; set; }
-
         /// <summary>
         /// Keeps all car properties.
         /// </summary>
         public CarProps Properties { get; set; }
-        
+
+        public bool IsControlledByLocalUser { get; private set; }
+
+        public string Id { get; set; }
+
         /// <summary>
         /// Responsible for getting and setting current fuel level.
         /// </summary>
@@ -159,8 +156,7 @@ namespace Racing.Objects
         /// <param name="e"></param>
         protected virtual void OnEndedRace(GameEventArgs e)
         {
-            var handler = EndedRace;
-            handler?.Invoke(this, e);
+            EndedRace?.Invoke(this, e);
         }
 
 
@@ -170,6 +166,11 @@ namespace Racing.Objects
         /// <param name="fixedDeltaTime"></param>
         public override void FixedUpdate(double fixedDeltaTime)
         {
+            if (UdpHandlerObject.ReceivedMessage.IsGameEnded)
+            {
+                OnEndedRace(new GameEventArgs(UdpHandlerObject.ReceivedMessage.Id));
+            }
+
             if (IsControlledByLocalUser)
             {
                 var steer = MathHelper.DegreesToRadians(_steeringAngle);
@@ -243,16 +244,22 @@ namespace Racing.Objects
 
                     //Client.Send(data, data.Length, Remote);
 
-                    var message = new Message
-                    {
-                        Id = Id,
-                        CarPosition = Position,
-                        CarRotation = Rotation,
-                        Fuel = FuelLevel,
-                        Laps = LapsPassed,
-                    };
+                    //var message = new Message
+                    //{
+                    //    Id = Id,
+                    //    CarPosition = Position,
+                    //    CarRotation = Rotation,
+                    //    Fuel = FuelLevel,
+                    //    Laps = LapsPassed,
+                    //};
 
-                    UdpHandlerObject.MessageToSend = message;
+                    //UdpHandlerObject.MessageToSend = message;
+
+                    UdpHandlerObject.MessageToSend.Id = Id;
+                    UdpHandlerObject.MessageToSend.CarPosition = Position;
+                    UdpHandlerObject.MessageToSend.CarRotation = Rotation;
+                    UdpHandlerObject.MessageToSend.Fuel = FuelLevel;
+                    UdpHandlerObject.MessageToSend.Laps = LapsPassed;
                 }
             }
             else
@@ -296,6 +303,11 @@ namespace Racing.Objects
                     Rotation = message.CarRotation;
                     _fuelLevel = message.Fuel;
                     _lapsPassed = message.Laps;
+
+                    //if (UdpHandlerObject.ReceivedMessage.IsGameEnded)
+                    //{
+                    //    OnEndedRace(new GameEventArgs(CarConstants.PurpleCarName));
+                    //}
                 }
             }
         }
@@ -327,7 +339,7 @@ namespace Racing.Objects
 
                     if (LapsPassed == 5 + 1)
                     {
-                        OnEndedRace(new GameEventArgs(this));
+                        OnEndedRace(new GameEventArgs(Id));
                     }
                 }
                 else
@@ -385,7 +397,7 @@ namespace Racing.Objects
                     Id = "Black";
                 }
                     
-                OnEndedRace(new GameEventArgs(this));
+                OnEndedRace(new GameEventArgs(Id));
                 return;
             }
 
