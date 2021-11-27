@@ -130,15 +130,22 @@ namespace Racing.Objects
         {
             get
             {
-                var result = 0;
-                for (int i = 0; i < _laps.Length; i++)
+                if (IsControlledByLocalUser)
                 {
-                    if (_laps[i])
+                    var result = 0;
+                    for (int i = 0; i < _laps.Length; i++)
                     {
-                        result++;
+                        if (_laps[i])
+                        {
+                            result++;
+                        }
                     }
+                    return result;
                 }
-                return result;
+                else
+                {
+                    return _lapsPassed;
+                }
             }
         }
 

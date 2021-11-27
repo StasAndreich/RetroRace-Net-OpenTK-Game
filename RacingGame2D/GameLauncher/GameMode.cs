@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Drawing;
 using System.Net;
-using System.Diagnostics;
 using System.Windows.Forms;
 using Racing.Objects;
 using Racing.Objects.UserInterface;
 using Racing.Prizes;
 using RGEngine;
 using RGEngine.Multiplayer;
+using Environment = Racing.Objects.Environment;
 
 namespace GameLauncher
 {
@@ -25,25 +25,8 @@ namespace GameLauncher
         {
             Hide();
 
-
-            ////var gameThread = new Thread(new ThreadStart(HostGameCallback))
-            ////{
-            ////    Name = "Game"
-            ////};
-            ////gameThread.Start();
-
-            ////var serverThread = new Thread(new ThreadStart(() =>
-            ////{
-            ////    Server.Start(ServerPort, 2);
-            ////}))
-            ////{
-            ////    Name = "Server"
-            ////};
-            ////serverThread.Start();
-
             HostGameCallback();
 
-            //serverThread.Abort();
             Application.Exit();
         }
 
@@ -68,7 +51,7 @@ namespace GameLauncher
             racingGame.Title = "Retro Race - Client";
 
             EngineCore.AddGameObject(new UdpHandlerObject(7777));
-            EngineCore.AddGameObject(new Racing.Objects.Environment(@"Contents\Environment\bg_ui_v2.png"));
+            EngineCore.AddGameObject(new Environment(@"Contents\Environment\bg_ui_v2.png"));
             EngineCore.AddGameObject(new FinishLine());
             EngineCore.AddGameObject(new OuterFinishLine());
             EngineCore.AddGameObject(new PurpleCar(true));
@@ -117,7 +100,7 @@ namespace GameLauncher
             racingGame.Title = "Retro Race - Host";
 
             EngineCore.AddGameObject(new UdpHandlerObject(9999));
-            EngineCore.AddGameObject(new Racing.Objects.Environment(@"Contents\Environment\bg_ui_v2.png"));
+            EngineCore.AddGameObject(new Environment(@"Contents\Environment\bg_ui_v2.png"));
             EngineCore.AddGameObject(new FinishLine());
             EngineCore.AddGameObject(new OuterFinishLine());
             EngineCore.AddGameObject(new PurpleCar(false));
@@ -126,20 +109,10 @@ namespace GameLauncher
             EngineCore.AddGameObject(new UserInterfaceHandler());
 
             racingGame.Run();
-
-            ////while (true)
-            ////{
-            ////    if (EngineCore.IsReadyToStart)
-            ////    {
-            ////        racingGame.Run();
-            ////        break;
-            ////    }
-            ////}
         }
 
         private void ConfigureGameWindow(EngineCore engineCore)
         {
-            //engineCore.Title = "Retro Race";
             engineCore.Icon = new Icon(@"Resources\icon32.ico");
             engineCore.WindowBorder = OpenTK.WindowBorder.Resizable;
             engineCore.WindowState = OpenTK.WindowState.Maximized;
