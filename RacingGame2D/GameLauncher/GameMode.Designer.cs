@@ -88,7 +88,7 @@ namespace GameLauncher
             this.IpAddressTextBox.Name = "IpAddressTextBox";
             this.IpAddressTextBox.Size = new System.Drawing.Size(109, 20);
             this.IpAddressTextBox.TabIndex = 4;
-            this.IpAddressTextBox.Text = "127.0.0.1";
+            this.IpAddressTextBox.Text = "192.168.0.109";
             // 
             // label1
             // 
@@ -113,6 +113,7 @@ namespace GameLauncher
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Game mode";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GameMode_FormClosing);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

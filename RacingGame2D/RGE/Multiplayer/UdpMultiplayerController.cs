@@ -7,6 +7,7 @@ using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading;
+using System.Timers;
 
 namespace RGEngine.Multiplayer
 {
@@ -19,9 +20,8 @@ namespace RGEngine.Multiplayer
         private bool _isWaitingForClient;
 
         // Client.
-        private const int MaxReconnectCount = 10;
-        private const int ReconnectPeriod = 1000;
         private bool _isHandshaking;
+        private static bool _isReconnecting;
 
         // Shared.
         private UdpClient _udpClient;
@@ -38,7 +38,7 @@ namespace RGEngine.Multiplayer
         /// </exception>
         public UdpMultiplayerController(int localPort, IPAddress remoteIp, int remotePort)
         {
-            _udpClient = new UdpClient(new IPEndPoint(IPAddress.Loopback, localPort));
+            _udpClient = new UdpClient(localPort);
             //temp
             _remoteEndPoint = new IPEndPoint(remoteIp, remotePort);
         }
@@ -50,11 +50,14 @@ namespace RGEngine.Multiplayer
         public bool TryConnectByHandshake()
         {
             _isHandshaking = true;
-            var reconnectAttempts = 0;
+            _isReconnecting = true;
+            var reconnectTimer = new System.Timers.Timer(3000);
+            reconnectTimer.Elapsed += OnTimedEvent;
+            reconnectTimer.Enabled = true;
 
-            while (_isHandshaking && reconnectAttempts < MaxReconnectCount)
+            while (_isHandshaking && _isReconnecting)
             {
-                reconnectAttempts++;
+                //reconnectAttempts++;
 
                 var data = Encoding.ASCII.GetBytes("PING");
                 try
@@ -86,11 +89,11 @@ namespace RGEngine.Multiplayer
                         Debug.WriteLine(e.ToString());
                     }
                 }
+            }
 
-                if (_isHandshaking)
-                {
-                    Thread.Sleep(ReconnectPeriod);
-                }
+            if (_isHandshaking)
+            {
+                _udpClient.Close();
             }
 
             return !_isHandshaking;
@@ -99,6 +102,7 @@ namespace RGEngine.Multiplayer
         public bool TryAcceptHandshake()
         {
             _isWaitingForClient = true;
+
             while (_isWaitingForClient)
             {
                 var clientRequest = _udpClient.Receive(ref _remoteEndPoint);
@@ -125,12 +129,20 @@ namespace RGEngine.Multiplayer
 
         private void SendMessage()
         {
-            var formatter = new BinaryFormatter();
-            using var memoryStream = new MemoryStream();
-            formatter.Serialize(memoryStream, MessageToSend);
-            var data = memoryStream.ToArray();
+            try
+            {
+                var formatter = new BinaryFormatter();
+                using var memoryStream = new MemoryStream();
+                formatter.Serialize(memoryStream, MessageToSend);
+                var data = memoryStream.ToArray();
 
-            _udpClient.Send(data, data.Length, _remoteEndPoint);
+                _udpClient.Send(data, data.Length, _remoteEndPoint);
+            }
+            catch (System.Exception)
+            {
+                Debug.WriteLine("sd");
+            }
+            
         }
 
         private void ReceiveMessage()
@@ -154,6 +166,11 @@ namespace RGEngine.Multiplayer
             catch (System.Exception e)
             {
                 Debug.WriteLine(e.Message);
+                if (e.Message.Contains("An existing connection was forcibly closed by the remote host"))
+                {
+                    _udpClient.Close();
+                    Process.GetCurrentProcess().Close();
+                }
             }
         }
 
@@ -161,6 +178,11 @@ namespace RGEngine.Multiplayer
         {
             MessageToSend.PrizeType = 0;
             MessageToSend.PrizeId = 0;
+        }
+
+        private static void OnTimedEvent(object source, ElapsedEventArgs e)
+        {
+            _isReconnecting = false;
         }
     }
 }

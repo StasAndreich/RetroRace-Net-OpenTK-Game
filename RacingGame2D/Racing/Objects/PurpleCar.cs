@@ -31,8 +31,8 @@ namespace Racing.Objects
         {
             if (IsControlledByLocalUser)
             {
-                UpdateGearboxState(Key.Keypad7, Key.Keypad9);
-                GetUserInput(Key.Keypad8, Key.Keypad5, Key.Keypad4, Key.Keypad6);
+                UpdateGearboxState(Key.U, Key.O);
+                GetUserInput(Key.I, Key.K, Key.J, Key.L);
             }
 
             base.FixedUpdate(fixedDeltaTime);

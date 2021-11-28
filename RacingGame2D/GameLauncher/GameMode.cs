@@ -14,8 +14,8 @@ namespace GameLauncher
 {
     public partial class GameMode : Form
     {
-        private const int HostPort = 9999;
-        private const int ClientPort = 7777;
+        private const int HostPort = 7777;
+        private const int ClientPort = 9999;
 
         public GameMode()
         {
@@ -27,7 +27,8 @@ namespace GameLauncher
             UdpMultiplayerController udpController = null;
             try
             {
-                udpController = new UdpMultiplayerController(HostPort, IPAddress.Loopback, ClientPort);
+                //IPAddress.Parse("192.168.0.109")
+                udpController = new UdpMultiplayerController(HostPort, IPAddress.Any, ClientPort);
             }
             catch (SocketException)
             {
@@ -118,6 +119,11 @@ namespace GameLauncher
             engineCore.Icon = new Icon(@"Resources\icon32.ico");
             engineCore.WindowBorder = OpenTK.WindowBorder.Resizable;
             engineCore.WindowState = OpenTK.WindowState.Maximized;
+        }
+
+        private void GameMode_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }
