@@ -116,26 +116,6 @@ namespace Racing.Objects.UserInterface
             }
         }
 
-        private void DisplayWinner(GameObject winner)
-        {
-            if (winner is Car car)
-            {
-                switch (car.Id)
-                {
-                    case CarConstants.BlackCarName:
-                        EngineCore.AddGameObject(new UserInterfaceElement(BlackCarWinnerTexture, CenterScreenPosition));
-                        EndGame();
-                        break;
-                    case CarConstants.PurpleCarName:
-                        EngineCore.AddGameObject(new UserInterfaceElement(PurpleCarWinnerTexture, CenterScreenPosition));
-                        EndGame();
-                        break;
-                    default:
-                        throw new ApplicationException("There is nothing to display.");
-                }
-            }
-        }
-
         private void EndGame()
         {
             foreach (var gameObject in EngineCore.GameObjects.ToList())

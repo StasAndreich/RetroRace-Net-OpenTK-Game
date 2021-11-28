@@ -9,12 +9,6 @@ using RGEngine;
 using System.Linq;
 using Racing.Prizes;
 using RGEngine.Multiplayer;
-using System.Diagnostics;
-using System.Net.Sockets;
-using System.Net;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.IO;
-using Racing.Constants;
 
 namespace Racing.Objects
 {
@@ -84,12 +78,6 @@ namespace Racing.Objects
             : this()
         {
             IsControlledByLocalUser = isPlayable;
-
-            //if (Client == null)
-            //{
-            //    Client = new UdpClient(new IPEndPoint(IPAddress.Loopback, EngineCore.Port));
-            //    Remote = new IPEndPoint(IPAddress.Loopback, EngineCore.RemotePort);
-            //}
         }
 
         /// <summary>
@@ -175,13 +163,6 @@ namespace Racing.Objects
             {
                 for (int i = 0; i < EngineCore.GameObjects.Count; i++)
                 {
-                    //if (ReferenceEquals(EngineCore.GameObjects[i], this))
-                    //{
-                    //    if (EngineCore.GameObjects[i] is Prize prize && prize.Id == UdpHandlerObject.ReceivedMessage.PrizeId)
-                    //    {
-                    //        EngineCore.RemoveGameObject(prize);
-                    //    }
-                    //}
                     if (EngineCore.GameObjects[i] is Prize prize && prize.Id == UdpHandlerObject.ReceivedMessage.PrizeId)
                     {
                         PolyCollider.allCollidersAttached.Remove(prize);
@@ -246,34 +227,6 @@ namespace Racing.Objects
 
                 if (EngineCore.IsMultiplayerEnabled)
                 {
-                    //var message = new Message
-                    //{
-                    //    Id = Id,
-                    //    CarPosition = Position,
-                    //    CarRotation = Rotation,
-                    //    Fuel = FuelLevel,
-                    //    Laps = LapsPassed,
-                    //};
-                    //EngineCore.Client.SendDataToServer(message);
-
-                    //var formatter = new BinaryFormatter();
-                    //using var memoryStream = new MemoryStream();
-                    //formatter.Serialize(memoryStream, message);
-                    //var data = memoryStream.ToArray();
-
-                    //Client.Send(data, data.Length, Remote);
-
-                    //var message = new Message
-                    //{
-                    //    Id = Id,
-                    //    CarPosition = Position,
-                    //    CarRotation = Rotation,
-                    //    Fuel = FuelLevel,
-                    //    Laps = LapsPassed,
-                    //};
-
-                    //UdpHandlerObject.MessageToSend = message;
-
                     UdpHandlerObject.MessageToSend.Id = Id;
                     UdpHandlerObject.MessageToSend.CarPosition = Position;
                     UdpHandlerObject.MessageToSend.CarRotation = Rotation;
@@ -283,49 +236,12 @@ namespace Racing.Objects
             }
             else
             {
-                //var message = EngineCore.Client.ReceiveDataFromServer();
-                //try
-                //{
-                //    var rem = Remote;
-                //    var data = Client.Receive(ref rem);
-
-                //    var formatter = new BinaryFormatter();
-                //    using var memoryStream = new MemoryStream();
-                //    memoryStream.Write(data, 0, data.Length);
-                //    memoryStream.Seek(0, SeekOrigin.Begin);
-
-                //    if (memoryStream.Length < 5)
-                //    {
-                //        return;
-                //    }
-
-                //    Message message = (Message)formatter.Deserialize(memoryStream);
-                //    Debug.WriteLine($"Client Receive {message}");
-
-                //    if (message != null && Id == message.Id)
-                //    {
-                //        Position = message.CarPosition;
-                //        Rotation = message.CarRotation;
-                //        _fuelLevel = message.Fuel;
-                //        _lapsPassed = message.Laps;
-                //    }
-                //}
-                //catch (System.Exception e)
-                //{
-                //    Debug.WriteLine(e.Message);
-                //}
-
                 if (Id == UdpHandlerObject.ReceivedMessage.Id)
                 {
                     Position = UdpHandlerObject.ReceivedMessage.CarPosition;
                     Rotation = UdpHandlerObject.ReceivedMessage.CarRotation;
                     _fuelLevel = UdpHandlerObject.ReceivedMessage.Fuel;
                     _lapsPassed = UdpHandlerObject.ReceivedMessage.Laps;
-
-                    //if (UdpHandlerObject.ReceivedMessage.IsGameEnded)
-                    //{
-                    //    OnEndedRace(new GameEventArgs(CarConstants.PurpleCarName));
-                    //}
                 }
             }
         }

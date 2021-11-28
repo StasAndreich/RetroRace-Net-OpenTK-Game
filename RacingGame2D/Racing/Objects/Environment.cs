@@ -54,26 +54,6 @@ namespace Racing.Objects
         private SpriteRenderer spriteRenderer;
     }
 
-    ///// <summary>
-    ///// Defines game event args.
-    ///// </summary>
-    //public class GameEventArgs : EventArgs
-    //{
-    //    /// <summary>
-    //    /// GameObject member.
-    //    /// </summary>
-    //    public readonly GameObject @object;
-
-    //    /// <summary>
-    //    /// Default ctor.
-    //    /// </summary>
-    //    /// <param name="object"></param>
-    //    public GameEventArgs(GameObject @object)
-    //    {
-    //        this.@object = @object;
-    //    }
-    //}
-
     /// <summary>
     /// Defines game event args.
     /// </summary>

@@ -78,7 +78,6 @@ namespace Racing.Prizes
             }
 
             var randPrize = random.Next(1, PrizesCount + 1);
-            //var guid = Guid.NewGuid();
 
             Prize prize = randPrize switch
             {
@@ -123,27 +122,10 @@ namespace Racing.Prizes
                     {
                         EngineCore.AddGameObject(prize);
                     }
-
-                    //UdpHandlerObject.ReceivedMessage.PrizeType = 0;
-                    //UdpHandlerObject.ReceivedMessage.PrizePosition = Vector2.Zero;
                 }
                 UdpHandlerObject.ReceivedMessage.PrizeType = 0;
                 UdpHandlerObject.ReceivedMessage.PrizePosition = Vector2.Zero;
             }
-
-            //if (UdpHandlerObject.ReceivedMessage.PrizeId != 0)
-            //{
-            //    for (int i = 0; i < EngineCore.GameObjects.Count; i++)
-            //    {
-            //        if (ReferenceEquals(EngineCore.GameObjects[i], this))
-            //        {
-            //            if (EngineCore.GameObjects[i] is Prize prize && prize.Id == UdpHandlerObject.ReceivedMessage.PrizeId)
-            //            {
-            //                EngineCore.RemoveGameObject(prize);
-            //            }
-            //        }
-            //    }
-            //}
 
             base.FixedUpdate(fixedDeltaTime);
         }
