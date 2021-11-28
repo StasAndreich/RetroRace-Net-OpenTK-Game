@@ -50,7 +50,7 @@ namespace GameLauncher
             ConfigureGameWindow(racingGame);
             racingGame.Title = "Retro Race - Client";
 
-            EngineCore.AddGameObject(new UdpHandlerObject(7777));
+            EngineCore.AddGameObject(new UdpMultiplayerController(7777));
             EngineCore.AddGameObject(new Environment(@"Contents\Environment\bg_ui_v2.png"));
             EngineCore.AddGameObject(new FinishLine());
             EngineCore.AddGameObject(new OuterFinishLine());
@@ -99,7 +99,7 @@ namespace GameLauncher
             ConfigureGameWindow(racingGame);
             racingGame.Title = "Retro Race - Host";
 
-            EngineCore.AddGameObject(new UdpHandlerObject(9999));
+            EngineCore.AddGameObject(new UdpMultiplayerController(9999));
             EngineCore.AddGameObject(new Environment(@"Contents\Environment\bg_ui_v2.png"));
             EngineCore.AddGameObject(new FinishLine());
             EngineCore.AddGameObject(new OuterFinishLine());

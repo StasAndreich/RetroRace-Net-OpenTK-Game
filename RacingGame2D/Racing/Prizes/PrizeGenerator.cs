@@ -89,9 +89,9 @@ namespace Racing.Prizes
             var id = random.Next();
             prize.Id = id;
 
-            UdpHandlerObject.MessageToSend.PrizeType = randPrize;
-            UdpHandlerObject.MessageToSend.PrizePosition = position;
-            UdpHandlerObject.MessageToSend.PrizeId = id;
+            UdpMultiplayerController.MessageToSend.PrizeType = randPrize;
+            UdpMultiplayerController.MessageToSend.PrizePosition = position;
+            UdpMultiplayerController.MessageToSend.PrizeId = id;
 
             return prize;
         }
@@ -108,23 +108,23 @@ namespace Racing.Prizes
             }
             else
             {
-                if (UdpHandlerObject.ReceivedMessage.PrizeType != 0)
+                if (UdpMultiplayerController.ReceivedMessage.PrizeType != 0)
                 {
-                    Prize prize = (PrizesTypes)UdpHandlerObject.ReceivedMessage.PrizeType switch
+                    Prize prize = (PrizesTypes)UdpMultiplayerController.ReceivedMessage.PrizeType switch
                     {
-                        PrizesTypes.Fuel => new FuelPrize(UdpHandlerObject.ReceivedMessage.PrizePosition),
-                        PrizesTypes.Boost => new BoostPrize(UdpHandlerObject.ReceivedMessage.PrizePosition),
-                        _ => new SlowdownPrize(UdpHandlerObject.ReceivedMessage.PrizePosition),
+                        PrizesTypes.Fuel => new FuelPrize(UdpMultiplayerController.ReceivedMessage.PrizePosition),
+                        PrizesTypes.Boost => new BoostPrize(UdpMultiplayerController.ReceivedMessage.PrizePosition),
+                        _ => new SlowdownPrize(UdpMultiplayerController.ReceivedMessage.PrizePosition),
                     };
-                    prize.Id = UdpHandlerObject.ReceivedMessage.PrizeId;
+                    prize.Id = UdpMultiplayerController.ReceivedMessage.PrizeId;
 
                     if (prize != null)
                     {
                         EngineCore.AddGameObject(prize);
                     }
                 }
-                UdpHandlerObject.ReceivedMessage.PrizeType = 0;
-                UdpHandlerObject.ReceivedMessage.PrizePosition = Vector2.Zero;
+                UdpMultiplayerController.ReceivedMessage.PrizeType = 0;
+                UdpMultiplayerController.ReceivedMessage.PrizePosition = Vector2.Zero;
             }
 
             base.FixedUpdate(fixedDeltaTime);

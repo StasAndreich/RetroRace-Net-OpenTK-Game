@@ -154,16 +154,16 @@ namespace Racing.Objects
         /// <param name="fixedDeltaTime"></param>
         public override void FixedUpdate(double fixedDeltaTime)
         {
-            if (UdpHandlerObject.ReceivedMessage.IsGameEnded)
+            if (UdpMultiplayerController.ReceivedMessage.IsGameEnded)
             {
-                OnEndedRace(new GameEventArgs(UdpHandlerObject.ReceivedMessage.Id));
+                OnEndedRace(new GameEventArgs(UdpMultiplayerController.ReceivedMessage.Id));
             }
 
-            if (UdpHandlerObject.ReceivedMessage.PrizeId != 0)
+            if (UdpMultiplayerController.ReceivedMessage.PrizeId != 0)
             {
                 for (int i = 0; i < EngineCore.GameObjects.Count; i++)
                 {
-                    if (EngineCore.GameObjects[i] is Prize prize && prize.Id == UdpHandlerObject.ReceivedMessage.PrizeId)
+                    if (EngineCore.GameObjects[i] is Prize prize && prize.Id == UdpMultiplayerController.ReceivedMessage.PrizeId)
                     {
                         PolyCollider.allCollidersAttached.Remove(prize);
                         EngineCore.RemoveGameObject(prize);
@@ -227,21 +227,21 @@ namespace Racing.Objects
 
                 if (EngineCore.IsMultiplayerEnabled)
                 {
-                    UdpHandlerObject.MessageToSend.Id = Id;
-                    UdpHandlerObject.MessageToSend.CarPosition = Position;
-                    UdpHandlerObject.MessageToSend.CarRotation = Rotation;
-                    UdpHandlerObject.MessageToSend.Fuel = FuelLevel;
-                    UdpHandlerObject.MessageToSend.Laps = LapsPassed;
+                    UdpMultiplayerController.MessageToSend.Id = Id;
+                    UdpMultiplayerController.MessageToSend.CarPosition = Position;
+                    UdpMultiplayerController.MessageToSend.CarRotation = Rotation;
+                    UdpMultiplayerController.MessageToSend.Fuel = FuelLevel;
+                    UdpMultiplayerController.MessageToSend.Laps = LapsPassed;
                 }
             }
             else
             {
-                if (Id == UdpHandlerObject.ReceivedMessage.Id)
+                if (Id == UdpMultiplayerController.ReceivedMessage.Id)
                 {
-                    Position = UdpHandlerObject.ReceivedMessage.CarPosition;
-                    Rotation = UdpHandlerObject.ReceivedMessage.CarRotation;
-                    _fuelLevel = UdpHandlerObject.ReceivedMessage.Fuel;
-                    _lapsPassed = UdpHandlerObject.ReceivedMessage.Laps;
+                    Position = UdpMultiplayerController.ReceivedMessage.CarPosition;
+                    Rotation = UdpMultiplayerController.ReceivedMessage.CarRotation;
+                    _fuelLevel = UdpMultiplayerController.ReceivedMessage.Fuel;
+                    _lapsPassed = UdpMultiplayerController.ReceivedMessage.Laps;
                 }
             }
         }
@@ -304,7 +304,7 @@ namespace Racing.Objects
                     if (ReferenceEquals(gameObject, e.another))
                     {
                         object obj = prize.Id;
-                        UdpHandlerObject.MessageToSend.PrizeId = (int)obj;
+                        UdpMultiplayerController.MessageToSend.PrizeId = (int)obj;
                         prize.PickUp(this);
                     }
                 }

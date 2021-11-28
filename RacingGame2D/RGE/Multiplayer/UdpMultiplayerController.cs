@@ -8,14 +8,14 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace RGEngine.Multiplayer
 {
-    public class UdpHandlerObject : GameObject, INonRenderable
+    public class UdpMultiplayerController : GameObject, INonRenderable
     {
         private UdpClient _udpClient;
         private IPEndPoint _remoteEndPoint;
 
-        public UdpHandlerObject(int port)
+        public UdpMultiplayerController(int localPort)
         {
-            _udpClient = new UdpClient(new IPEndPoint(IPAddress.Loopback, port));
+            _udpClient = new UdpClient(new IPEndPoint(IPAddress.Loopback, localPort));
             //temp
             _remoteEndPoint = new IPEndPoint(IPAddress.Loopback, EngineCore.RemotePort);
         }

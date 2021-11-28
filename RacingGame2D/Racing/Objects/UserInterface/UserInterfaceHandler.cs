@@ -127,7 +127,7 @@ namespace Racing.Objects.UserInterface
                     EngineCore.RemoveGameObject(gameObject);
                 }
             }
-            UdpHandlerObject.MessageToSend.IsGameEnded = true;
+            UdpMultiplayerController.MessageToSend.IsGameEnded = true;
         }
 
         private void DisplayTextUIElement(string elementName, string text)
