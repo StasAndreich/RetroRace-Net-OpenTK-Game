@@ -67,6 +67,7 @@ namespace GameLauncher
             this.SingleButton.TabIndex = 2;
             this.SingleButton.Text = "Single Player";
             this.SingleButton.UseVisualStyleBackColor = true;
+            this.SingleButton.Visible = false;
             this.SingleButton.Click += new System.EventHandler(this.SingleButton_Click);
             // 
             // groupBox1
