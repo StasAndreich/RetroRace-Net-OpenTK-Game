@@ -57,9 +57,7 @@
     <Compile Include="Graphics\SpriteRenderer.cs" />
     <Compile Include="Graphics\Texture2D.cs" />
     <Compile Include="Input\InputController.cs" />
-    <Compile Include="Multiplayer\Client.cs" />
     <Compile Include="Multiplayer\Message.cs" />
-    <Compile Include="Multiplayer\MultiplayerConfig.cs" />
     <Compile Include="Multiplayer\UdpMultiplayerController.cs" />
     <Compile Include="Physics\PolyCollider.cs" />
     <Compile Include="Physics\RigidBody2D.cs" />

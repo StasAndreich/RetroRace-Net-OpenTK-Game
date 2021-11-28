@@ -42,23 +42,13 @@ namespace RGEngine
         /// Ctor for multiplayer.
         /// </summary>
         /// <param name="enableCollidersDrawing"></param>
-        /// <param name="multiplayerConfig"></param>
-        public EngineCore(bool enableCollidersDrawing, MultiplayerConfig multiplayerConfig)
+        /// <param name="isMultiplayer"></param>
+        public EngineCore(bool enableCollidersDrawing, bool isMultiplayer)
             : this(enableCollidersDrawing)
         {
-            IsMultiplayerEnabled = true;
-            Port = multiplayerConfig.LocalPort;
-            RemotePort = multiplayerConfig.RemotePort;
-            //Client = new Client(
-            //    multiplayerConfig.LocalPort,
-            //    multiplayerConfig.RemoteIPAddress,
-            //    multiplayerConfig.RemotePort);
+            IsMultiplayerEnabled = isMultiplayer;
         }
 
-        //public static Client Client { get; private set; }
-        public static int Port { get; private set; }
-
-        public static int RemotePort { get; private set; }
         public static bool IsMultiplayerEnabled { get; private set; }
 
         public static bool IsReadyToStart { get; set; }

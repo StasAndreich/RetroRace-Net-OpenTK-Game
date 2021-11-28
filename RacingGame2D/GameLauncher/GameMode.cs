@@ -24,12 +24,6 @@ namespace GameLauncher
 
         private void Host_Click(object sender, EventArgs e)
         {
-            var multiplayerConfig = new MultiplayerConfig
-            {
-                LocalPort = 9999,
-                RemotePort = 7777,
-            };
-
             UdpMultiplayerController udpController = null;
             try
             {
@@ -42,13 +36,9 @@ namespace GameLauncher
             }
 
             var isAcceptSuccessful = udpController.TryAcceptHandshake();
-            if (isAcceptSuccessful)
-            {
-
-            }
 
             Hide();
-            using var racingGame = new EngineCore(false, multiplayerConfig);
+            using var racingGame = new EngineCore(false, isMultiplayer: true);
             ConfigureGameWindow(racingGame);
             racingGame.Title = "Retro Race - Host";
 
@@ -74,13 +64,6 @@ namespace GameLauncher
                 return;
             }
 
-            var multiplayerConfig = new MultiplayerConfig
-            {
-                LocalPort = 7777,
-                RemotePort = 9999,
-                RemoteIPAddress = remoteIp
-            };
-
             var udpController = new UdpMultiplayerController(ClientPort, remoteIp, HostPort);
             var isConnectionSuccessful = udpController.TryConnectByHandshake();
             if (!isConnectionSuccessful)
@@ -90,7 +73,7 @@ namespace GameLauncher
             }
 
             Hide();
-            using var racingGame = new EngineCore(false, multiplayerConfig);
+            using var racingGame = new EngineCore(false, isMultiplayer: true);
             ConfigureGameWindow(racingGame);
             racingGame.Title = "Retro Race - Client";
 

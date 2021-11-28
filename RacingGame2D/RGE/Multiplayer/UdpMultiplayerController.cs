@@ -20,7 +20,7 @@ namespace RGEngine.Multiplayer
 
         // Client.
         private const int MaxReconnectCount = 10;
-        private const int ReconnectPeriod = 1200;
+        private const int ReconnectPeriod = 1000;
         private bool _isHandshaking;
 
         // Shared.
@@ -87,7 +87,10 @@ namespace RGEngine.Multiplayer
                     }
                 }
 
-                Thread.Sleep(ReconnectPeriod);
+                if (_isHandshaking)
+                {
+                    Thread.Sleep(ReconnectPeriod);
+                }
             }
 
             return !_isHandshaking;
